@@ -3,17 +3,21 @@
   height: 85vh;
   width: 100vw;
   border: 2px dashed red;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(12, 1fr);
   grid-template-areas:
-    "player2 player3 player4"
-    "player2 player3 player4"
-    "x x x"
-    "center center center"
-    "center center center"
-    "player1 player1 player1"
-    "player1 player1 player1"
-    "player1 player1 player1";
+    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
+    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
+    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
+    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
+    "message message message message message message message message message"
+    "deck deck stack stack stack stack stack actions actions"
+    "deck deck stack stack stack stack stack actions actions"
+    "deck deck stack stack stack stack stack actions actions"
+    "player1 player1 player1 player1 player1 player1 player1 player1 player1"
+    "player1 player1 player1 player1 player1 player1 player1 player1 player1"
+    "player1 player1 player1 player1 player1 player1 player1 player1 player1"
+    "player1 player1 player1 player1 player1 player1 player1 player1 player1";
 }
 
 .player1 {
@@ -35,7 +39,23 @@
   border: 2px dashed lightblue;
 }
 
-.center {
-  grid-area: center;
-  background-color: purple;
+.deck {
+  grid-area: deck;
+  border: 2px dashed purple;
+  flex: 6;
+}
+.stack {
+  grid-area: stack;
+  border: 2px dashed burlywood;
+  /* width: 150%; */
+  flex: 3;
+}
+.actions {
+  grid-area: actions;
+  border: 2px dashed hotpink;
+}
+
+.message {
+  grid-area: message;
+  border: 2px dashed pink;
 }

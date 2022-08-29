@@ -9,7 +9,10 @@ const Game = ({ className }) => {
       <div className={classes.player2}></div>
       <div className={classes.player3}></div>
       <div className={classes.player4}></div>
-      <div className={classes.center}></div>
+      <div className={classes.actions}></div>
+      <div className={classes.stack}></div>
+      <div className={classes.deck}></div>
+      <div className={classes.message}></div>
     </div>
   );
 };
