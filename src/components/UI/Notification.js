@@ -7,12 +7,14 @@ import {
   faWarning,
   faBell,
   faCircleInfo,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 const notificationIcons = {
   warning: faWarning,
   alert: faBell,
   info: faCircleInfo,
+  success: faCheck,
 };
 
 const Notification = ({ className, notification, onClose }) => {
@@ -34,8 +36,8 @@ const Notification = ({ className, notification, onClose }) => {
         <FontAwesomeIcon icon={notificationIcon} />
       </div>
       <div className={classes.text}>
-        <h5>Notification</h5>
-        <p>You must first enter a valid name</p>
+        <h5>{notification.type}</h5>
+        <p>{notification.text}</p>
       </div>
       <div className={classes.closeIcon} onClick={onClose}>
         <FontAwesomeIcon icon={faClose} />

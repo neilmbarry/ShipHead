@@ -6,7 +6,7 @@ const Switch = ({ className }) => {
   return (
     <>
       <input type="checkbox" id="switch" className={classes.switch} />
-      <label for="switch" className={classes.label}>
+      <label htmlFor="switch" className={classes.label}>
         Toggle
       </label>
     </>

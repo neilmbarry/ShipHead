@@ -1,14 +1,14 @@
 .main {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 380px;
   gap: 1rem;
   align-items: stretch;
 }
 
-.main h3 {
+.title {
   text-align: center;
-  border-bottom: 2px solid grey;
+  border-bottom: 2px solid gold;
   align-self: center;
   padding-bottom: 0.5rem;
 }
@@ -20,6 +20,7 @@
 }
 
 .buttonsContainer {
+  margin-top: 2rem;
   display: flex;
   justify-content: space-between;
 }
@@ -29,4 +30,9 @@
   height: 30px;
   background-color: rgb(55, 138, 55);
   border-radius: 500px;
+}
+
+.input {
+  padding: 0.2rem 0.5rem;
+  font-size: 1rem;
 }

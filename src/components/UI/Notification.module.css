@@ -41,3 +41,7 @@
 .info {
   background-color: white;
 }
+
+.success {
+  background-color: rgb(59, 139, 39);
+}

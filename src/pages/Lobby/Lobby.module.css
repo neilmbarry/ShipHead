@@ -1,0 +1,47 @@
+.main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.playersContainer {
+  display: grid;
+  padding-top: 1rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2rem;
+}
+
+.largerTile {
+  padding: 1rem 2rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  /* gap: 1rem; */
+  align-items: center;
+}
+
+.codeBox {
+  display: flex;
+  padding: 0.2rem 1rem;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  align-self: center;
+  border: 1px solid rgb(155, 182, 149);
+  cursor: pointer;
+}
+
+.firstTile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

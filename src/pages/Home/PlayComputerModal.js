@@ -40,7 +40,7 @@ const PlayComputerModal = ({ className, onClose }) => {
 
       <div className={classes.buttonsContainer}>
         <Button text="Cancel" type="secondary" onClick={onClose} />
-        <Button text="Play now!" />
+        <Button text="Play!" />
       </div>
     </div>
   );

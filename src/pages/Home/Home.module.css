@@ -36,3 +36,6 @@
   align-self: stretch;
   gap: 0rem;
 }
+.codeInput {
+  border-bottom: 0;
+}

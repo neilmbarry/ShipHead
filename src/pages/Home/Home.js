@@ -17,14 +17,20 @@ const Home = ({ className }) => {
 
   const createNewGameHandler = () => {
     if (!name.current.value) {
-      return setNotification({ type: "alert" });
+      return setNotification({
+        type: "warning",
+        text: "Please enter a valid name",
+      });
     }
     setModal({ createGame: true });
   };
 
   const playComputerHandler = () => {
     if (!name.current.value) {
-      return setNotification({ type: "alert" });
+      return setNotification({
+        type: "alert",
+        text: "Please enter a valid name",
+      });
     }
     setModal({ playComputer: true });
   };
@@ -68,10 +74,10 @@ const Home = ({ className }) => {
         <Button text={"Play against computer"} onClick={playComputerHandler} />
       </div>
       <div className={classes.codeBox}>
-        <Input type="text" placeholder="Enter code e.g GE4I8S" />
+        <Input className={classes.codeInput} type="text" placeholder="Enter code e.g GE4I8S" />
         <Button
           text={"Join using code"}
-          onClick={() => setNotification({ type: "info" })}
+          onClick={() => setNotification({ type: "info", text: "Some info" })}
         />
       </div>
       <div className={classes.footerBtns}>

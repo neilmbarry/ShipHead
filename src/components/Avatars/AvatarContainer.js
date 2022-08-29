@@ -10,7 +10,7 @@ const AvatarContainer = ({
   selectedAvatar,
 }) => {
   const classesList = `${classes.main} ${className}`;
-  const avatarsListJSX = Object.values(AvatarImages).map((image) => {
+  const avatarsListJSX = Object.keys(AvatarImages).map((image) => {
     return (
       <Avatar
         key={image}
