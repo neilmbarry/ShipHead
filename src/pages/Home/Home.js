@@ -57,7 +57,7 @@ const Home = ({ className }) => {
 
   return (
     <div className={classesList}>
-      <h1>SHiP-HEAD!</h1>
+      <h1 className={classes.title}>SHiP-HEAD!</h1>
       <div className={classes.nameBox}>
         <h4>Player Name</h4>
         <Input type="text" placeholder="e.g tom hanks" inputRef={name} />
@@ -74,7 +74,11 @@ const Home = ({ className }) => {
         <Button text={"Play against computer"} onClick={playComputerHandler} />
       </div>
       <div className={classes.codeBox}>
-        <Input className={classes.codeInput} type="text" placeholder="Enter code e.g GE4I8S" />
+        <Input
+          className={classes.codeInput}
+          type="text"
+          placeholder="Enter code e.g GE4I8S"
+        />
         <Button
           text={"Join using code"}
           onClick={() => setNotification({ type: "info", text: "Some info" })}
