@@ -56,17 +56,18 @@ const Lobby = ({ className }) => {
           <Link to="/">
             <Button type="back" beforeIcon={faAnglesLeft} />
           </Link>
-
-          <Button
-            text="Start game"
-            onClick={() =>
-              setNotification({
-                few: true,
-                type: "alert",
-                text: "Not enough people to start game!",
-              })
-            }
-          />
+          <Link to="/game">
+            <Button
+              text="Start game"
+              // onClick={() =>
+              //   setNotification({
+              //     few: true,
+              //     type: "alert",
+              //     text: "Not enough people to start game!",
+              //   })
+              // }
+            />
+          </Link>
 
           <Spinner />
         </div>
