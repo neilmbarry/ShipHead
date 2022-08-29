@@ -1,0 +1,32 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.main h3 {
+  text-align: center;
+  border-bottom: 2px solid grey;
+  align-self: center;
+  padding-bottom: 0.5rem;
+}
+
+.passwordBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.switch {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(55, 138, 55);
+  border-radius: 500px;
+}

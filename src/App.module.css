@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: rgb(24, 24, 24);
+  background-color: rgb(41, 41, 41);
 }
 
 button {
@@ -19,6 +19,11 @@ img {
 
 h1 {
   font-size: 4.5rem;
+  text-shadow: 4px 4px gold;
+}
+
+h3 {
+  font-size: 1.5rem;
 }
 
 h4 {

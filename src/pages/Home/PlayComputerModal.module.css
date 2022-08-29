@@ -1,0 +1,39 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.main h3 {
+  text-align: center;
+  border-bottom: 3px solid grey;
+  align-self: center;
+  padding-bottom: 0.5rem;
+}
+
+.opponentsBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.opponent {
+  border: 2px solid rgb(93, 93, 93);
+  /* padding: 2rem; */
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.selected {
+  border: 3px solid gold;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+}
