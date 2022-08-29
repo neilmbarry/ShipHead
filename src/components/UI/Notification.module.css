@@ -1,0 +1,39 @@
+.main {
+  position: fixed;
+  bottom: 20px;
+  padding: 1rem;
+  border-radius: 5px;
+  /* background-color: rgb(139, 39, 39); */
+  font-size: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "silkscreen";
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.notificationIcon {
+  /* position: absolute;
+  top: 5px;
+  left: 10px; */
+  font-size: 1.5rem;
+  align-self: flex-start;
+  margin-top: 0.2rem;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 0px;
+  font-size: 1.5rem;
+  right: 10px;
+  cursor: pointer;
+}
+
+.warning {
+  background-color: rgb(139, 39, 39);
+}
+
+.alert {
+  background-color: rgb(139, 101, 39);
+}

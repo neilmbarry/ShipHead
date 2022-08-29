@@ -1,0 +1,19 @@
+.main {
+  width: 80px;
+  height: 80px;
+  border-radius: 500px;
+  overflow: hidden;
+  border: 5px solid rgb(102, 102, 102);
+  background-color: lightblue;
+  cursor: pointer;
+  transition: all ease 0.2s;
+  /* justify-self: center; */
+}
+
+.main img {
+  transform: scale(1.05);
+}
+
+.selected {
+  border: 5px solid gold;
+}
