@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Game.module.css";
 import Button from "../../components/UI/Button";
-import Opponent from "./Opponent";
+import Opponent from "./Opponent/Opponent";
 import card from "../../assets/8BitDeckAssets 2.png";
 import card2 from "../../assets/2Hearts.jpg";
 

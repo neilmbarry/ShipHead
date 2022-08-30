@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+  /* justify-content: center; */
+  /* border: 2px solid black; */
+  padding: 10px 22px 10px 10px;
+  overflow: hidden;
+}
+
+.card {
+  margin: 0 -2.9rem 0 0;
+  width: 60%;
+  /* transform: translateY(20px); */
+}

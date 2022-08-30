@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(180deg);
+}
+
+.avatar {
+  width: 20px;
+  height: 20px;
+  border: 1px solid white;
+}

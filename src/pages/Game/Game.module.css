@@ -75,10 +75,6 @@
   display: flex;
   width: 50%;
   justify-content: center;
-  /* align-self: flex-start; */
-  /* justify-self: flex-start;
-  align-self: flex-start; */
-  /* border: 1px dashed pink; */
   animation: spin 3s linear infinite;
 }
 

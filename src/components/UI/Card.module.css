@@ -1,0 +1,8 @@
+.main {
+  overflow: hidden;
+  border-radius: 5px;
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  width: 80px;
+}

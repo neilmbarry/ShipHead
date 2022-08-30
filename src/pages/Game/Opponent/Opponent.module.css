@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  /* transform: rotate(180deg); */
+  transform: rotate(180deg);
   grid-template-areas:
     "face face face"
     "face face face"
@@ -15,12 +15,12 @@
 
 .face {
   grid-area: face;
-  background-color: cadetblue;
+  /* background-color: cadetblue; */
 }
 
 .hand {
   grid-area: hand;
-  background-color: rgb(95, 129, 160);
+  /* background-color: rgb(95, 129, 160); */
 }
 
 .info {

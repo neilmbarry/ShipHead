@@ -45,7 +45,7 @@ const Lobby = ({ className }) => {
       </Tile>
       <Tile className={classes.largerTile}>
         <div className={classes.playersContainer}>
-          <LobbyPlayer image="avatar1.png" name="Neil" />
+          <LobbyPlayer image="avatar1" name="Neil" />
           {/* <LobbyPlayer image="avatar3.png" name="Steph" />
           <LobbyPlayer image="avatar8.png" name="Amar" /> */}
           <LobbyPlayer />
