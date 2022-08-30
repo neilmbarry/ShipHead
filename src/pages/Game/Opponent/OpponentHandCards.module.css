@@ -1,13 +1,31 @@
 .main {
-  display: flex;
-  /* justify-content: center; */
-  /* border: 2px solid black; */
-  padding: 10px 22px 10px 10px;
-  overflow: hidden;
+  position: relative;
+  background-color: #396148;
+  /* border: 2px solid green; */
+}
+
+.cardContainer {
+  position: absolute;
+  top: -7px;
+  width: 100%;
+  height: 100%;
+  padding: 0 1rem;
+  padding-top: 2.3rem;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7px, max-content));
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .card {
-  margin: 0 -2.9rem 0 0;
-  width: 60%;
+  margin: -4rem -0.68rem -4rem -0.68rem;
+  max-width: 50px;
+  /* max-height: 90%; */
+  /* flex: 1 0 auto; */
+  /* width: 30%; */
+  /* flex: 1 0 auto; */
   /* transform: translateY(20px); */
+  /* transform: rotate(90deg); */
+  /* display: inline-block; */
 }

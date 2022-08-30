@@ -2,7 +2,7 @@
   display: grid;
   height: 85vh;
   width: 100vw;
-  border: 2px dashed red;
+  /* border: 2px dashed red; */
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(12, 1fr);
   grid-template-areas:
@@ -22,31 +22,32 @@
 
 .player1 {
   grid-area: player1;
-  border: 2px dashed orange;
+  border: 2px solid grey;
+  /* border: 2px dashed orange; */
 }
 .player2 {
   grid-area: player2;
-  border: 2px dashed yellow;
+  /* border: 2px dashed yellow; */
 }
 
 .player3 {
   grid-area: player3;
-  border: 2px dashed yellowgreen;
+  /* border: 2px dashed yellowgreen; */
 }
 
 .player4 {
   grid-area: player4;
-  border: 2px dashed lightblue;
+  /* border: 2px dashed lightblue; */
 }
 
 .deck {
   grid-area: deck;
-  border: 2px dashed purple;
+  border: 2px solid grey;
   flex: 6;
 }
 .stack {
   grid-area: stack;
-  border: 2px dashed burlywood;
+  border: 2px solid grey;
   /* width: 150%; */
   display: flex;
   justify-content: center;
@@ -55,7 +56,7 @@
 }
 .actions {
   grid-area: actions;
-  border: 2px dashed hotpink;
+  border: 2px solid grey;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -64,7 +65,7 @@
 
 .message {
   grid-area: message;
-  border: 2px dashed pink;
+  border: 2px solid grey;
   overflow: hidden;
   text-align: center;
 }

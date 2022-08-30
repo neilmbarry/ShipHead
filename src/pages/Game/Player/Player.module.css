@@ -1,0 +1,20 @@
+.main {
+  display: grid;
+  grid-template-areas:
+    "null face face empty"
+    "hand hand hand hand"
+    "hand hand hand hand";
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100%;
+}
+
+.face {
+  grid-area: face;
+  background-color: pink;
+}
+
+.hand {
+  grid-area: hand;
+  /* background-color: rosybrown; */
+}

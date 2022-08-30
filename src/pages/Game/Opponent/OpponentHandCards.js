@@ -6,31 +6,64 @@ const OpponentHandCards = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <div className={classesList}>
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      {/* <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" /> */}
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
-      <Card className={classes.card} name="back" />
+      <div className={classes.cardContainer}>
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        {/* <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" /> */}
+
+        {/* <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" /> */}
+      </div>
     </div>
   );
 };

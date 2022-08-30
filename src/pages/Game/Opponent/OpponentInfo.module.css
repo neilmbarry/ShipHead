@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: center;
   transform: rotate(180deg);
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 10px 10px 0 0;
 }
 
 .avatar {
