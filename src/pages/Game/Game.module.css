@@ -48,14 +48,45 @@
   grid-area: stack;
   border: 2px dashed burlywood;
   /* width: 150%; */
-  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex: 3; */
 }
 .actions {
   grid-area: actions;
   border: 2px dashed hotpink;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .message {
   grid-area: message;
   border: 2px dashed pink;
+  overflow: hidden;
+  text-align: center;
+}
+
+.cardContainer {
+  overflow: hidden;
+  border-radius: 5px;
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  /* align-self: flex-start; */
+  /* justify-self: flex-start;
+  align-self: flex-start; */
+  /* border: 1px dashed pink; */
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

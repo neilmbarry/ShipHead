@@ -1,0 +1,29 @@
+.main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  /* transform: rotate(180deg); */
+  grid-template-areas:
+    "face face face"
+    "face face face"
+    "hand hand hand"
+    "hand hand hand"
+    "info info info"
+    "info info info";
+  height: 100%;
+}
+
+.face {
+  grid-area: face;
+  background-color: cadetblue;
+}
+
+.hand {
+  grid-area: hand;
+  background-color: rgb(95, 129, 160);
+}
+
+.info {
+  grid-area: info;
+  background-color: rgb(95, 160, 120);
+}
