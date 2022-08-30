@@ -73,7 +73,7 @@ const Home = ({ className }) => {
         <Button text={"Create a game"} onClick={createNewGameHandler} />
         <Button text={"Play against computer"} onClick={playComputerHandler} />
       </div>
-      <div className={classes.codeBox}>
+      {/* <div className={classes.codeBox}>
         <Input
           className={classes.codeInput}
           type="text"
@@ -83,15 +83,20 @@ const Home = ({ className }) => {
           text={"Join using code"}
           onClick={() => setNotification({ type: "info", text: "Some info" })}
         />
-      </div>
+      </div> */}
       <div className={classes.footerBtns}>
         <Button
           text={"How to play"}
+          type="small"
           onClick={() => setNotification({ type: "alert" })}
         />
-        <Button text={"Contact"} onClick={() => setModal({ contact: true })} />
-        <Button text={"Changelog"} />
-        <Button text={"English"} />
+        <Button
+          text={"Contact"}
+          type="small"
+          onClick={() => setModal({ contact: true })}
+        />
+        <Button text={"Changelog"} type="small" />
+        {/* <Button text={"English"} type="small" /> */}
       </div>
       {showNotification}
       {showCreateGameModal}

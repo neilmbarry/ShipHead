@@ -6,7 +6,10 @@ import CardImages from "../../../utils/CardImages";
 const PlayerHand = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const fullDeck = Object.keys(CardImages).map((name, i) => {
-    if (i > 8) return null;
+    if (i > 2) return null;
+    // if (i > 8) return null;
+    // if (i > 16) return null;
+    // if (i > 33) return null;
     return <Card name={name} className={classes.card} key={name} />;
   });
   return <div className={classesList}>{fullDeck}</div>;

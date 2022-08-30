@@ -9,9 +9,9 @@ const CreateGameModal = ({ className, onClose }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <div className={classesList}>
-      <h2 className={classes.title}>Create Game Room</h2>
+      <h3 className={classes.title}>Create Game Room</h3>
       <div className={classes.passwordBox}>
-        <h3>Enable Password</h3>
+        <h4>Enable Password</h4>
         <Switch />
 
         {/* <div className={classes.switch}></div> */}
@@ -24,7 +24,7 @@ const CreateGameModal = ({ className, onClose }) => {
       <div className={classes.buttonsContainer}>
         <Button text="cancel" type="secondary" onClick={onClose} />
         <Link to="/lobby/testID">
-          <Button text="Create now!" />
+          <Button text="Create!" />
         </Link>
       </div>
     </div>

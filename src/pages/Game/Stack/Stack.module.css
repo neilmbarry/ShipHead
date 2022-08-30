@@ -1,0 +1,22 @@
+.main {
+  /* border: 2px solid gold; */
+  /* width: 150%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  max-width: 90px;
+  animation: spin 3s linear infinite;
+  border-radius: 6px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

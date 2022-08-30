@@ -1,6 +1,7 @@
 .main {
   display: grid;
   height: 85vh;
+
   width: 100vw;
   /* border: 2px dashed red; */
   grid-template-columns: repeat(9, 1fr);
@@ -22,7 +23,7 @@
 
 .player1 {
   grid-area: player1;
-  border: 2px solid grey;
+  /* border: 2px solid grey; */
   /* border: 2px dashed orange; */
 }
 .player2 {
@@ -42,32 +43,33 @@
 
 .deck {
   grid-area: deck;
-  border: 2px solid grey;
+  /* border: 2px solid grey; */
   flex: 6;
 }
 .stack {
   grid-area: stack;
-  border: 2px solid grey;
-  /* width: 150%; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   /* flex: 3; */
 }
 .actions {
   grid-area: actions;
-  border: 2px solid grey;
+  /* border: 2px solid grey; */
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-content: center;
 }
 
 .message {
   grid-area: message;
-  border: 2px solid grey;
+  /* border: 2px solid grey; */
   overflow: hidden;
   text-align: center;
+}
+
+.message h4 {
+  color: white;
 }
 
 .cardContainer {
@@ -86,4 +88,9 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.main button {
+  font-size: 1rem;
+  color: white;
 }

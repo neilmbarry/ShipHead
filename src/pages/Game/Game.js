@@ -3,40 +3,32 @@ import classes from "./Game.module.css";
 import Button from "../../components/UI/Button";
 import Opponent from "./Opponent/Opponent";
 import Player from "./Player/Player";
-import card from "../../assets/8BitDeckAssets 2.png";
-import card2 from "../../assets/2Hearts.jpg";
+import Deck from "./Deck/Deck";
+import Stack from "./Stack/Stack";
+import { Link } from "react-router-dom";
 
 const Game = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <div className={classesList}>
-      <div className={classes.player1}>
-        <Player />
-      </div>
-      <div className={classes.player2}>
-        <Opponent />
-      </div>
-      <div className={classes.player3}>
-        <Opponent />
-      </div>
-      <div className={classes.player4}>
-        <Opponent />
-      </div>
+      <Player className={classes.player1} />
+      <Opponent className={classes.player2} />
+      <Opponent className={classes.player3} />
+      <Opponent className={classes.player4} />
       <div className={classes.actions}>
         <Button text="Play" />
         <Button text="take" />
         <Button text="sort" />
+        <Link to="/">
+          <Button text="exit" />
+        </Link>
       </div>
-      <div className={classes.stack}>
-        {/* <div className={classes.cardContainer}> */}
-        {/* <img src={card} alt="" /> */}
-        {/* <img src={card2} alt="" /> */}
-        {/* </div> */}
-      </div>
-      <div className={classes.deck}></div>
+      <Stack className={classes.stack} />
+      <Deck className={classes.deck} />
+
       <div className={classes.message}>
-        <h4>Neil has played a 3!</h4>
-        <h4>Pick it Up!!</h4>
+        <h4>Neil has played an ace!</h4>
+        <h4>suck it!!</h4>
       </div>
     </div>
   );

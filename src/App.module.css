@@ -23,6 +23,7 @@ img {
 h1 {
   font-size: 4.5rem;
   text-shadow: 4px 4px gold;
+  line-height: 4rem;
 }
 
 h2 {
