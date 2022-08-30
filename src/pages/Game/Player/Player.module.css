@@ -11,7 +11,7 @@
 
 .face {
   grid-area: face;
-  background-color: pink;
+  /* background-color: pink; */
 }
 
 .hand {

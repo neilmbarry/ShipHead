@@ -1,0 +1,40 @@
+.main {
+  /* border: 2px solid red; */
+  /* padding: 0 10px; */
+  /* overflow: hidden; */
+  position: relative;
+  /* background-color: #396148; */
+  z-index: -2;
+  height: 100%;
+  opacity: 0.5;
+}
+
+.faceUp {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform: translateY(15px);
+  /* z-index: 4; */
+}
+
+.faceDown {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  z-index: -1;
+}
+
+.card {
+  /* margin: 0 -1.9rem 0 0; */
+  width: 30%;
+  /* border-radius: 22px; */
+  /* transform: translateY(20px); */
+}

@@ -13,13 +13,13 @@ const OpponentHandCards = ({ className }) => {
         <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
-        <Card className={classes.card} name="back" />
+        {/* <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
 
         <Card className={classes.card} name="back" />
-        <Card className={classes.card} name="back" />
+        <Card className={classes.card} name="back" /> */}
         {/* <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
         <Card className={classes.card} name="back" />
