@@ -1,13 +1,35 @@
 .main {
-  display: flex;
-  /* justify-content: center; */
   /* border: 2px solid black; */
-  padding: 0 10px;
-  overflow: hidden;
+  /* padding: 0 10px; */
+  /* overflow: hidden; */
+  position: relative;
+}
+
+.faceUp {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  /* z-index: 4; */
+}
+
+.faceDown {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform: translateY(-10px);
+  z-index: -1;
 }
 
 .card {
-  margin: 0 -2.9rem 0 0;
-  width: 60%;
-  transform: translateY(20px);
+  /* margin: 0 -1.9rem 0 0; */
+  width: 30%;
+  /* border-radius: 22px; */
+  /* transform: translateY(20px); */
 }
