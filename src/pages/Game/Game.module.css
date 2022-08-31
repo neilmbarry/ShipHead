@@ -23,6 +23,7 @@
 
 .player1 {
   grid-area: player1;
+
   /* border: 2px solid grey; */
   /* border: 2px dashed orange; */
 }
@@ -53,19 +54,10 @@
 }
 .actions {
   grid-area: actions;
-  /* border: 2px solid grey; */
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-content: center;
 }
 
 .message {
   grid-area: message;
-  /* border: 2px solid grey; */
-  overflow: hidden;
-  text-align: center;
 }
 
 .message h4 {

@@ -8,3 +8,7 @@
   /* height: 50px; */
   box-shadow: -0px -0px 4px black;
 }
+
+.selected {
+  transform: translateY(-28%);
+}

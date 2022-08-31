@@ -2,10 +2,9 @@
   align-items: center;
   justify-content: center;
   display: grid;
-
   padding: 0 1rem;
   padding-top: 0rem;
-  grid-template-columns: repeat(auto-fit, minmax(20px, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(28px, max-content));
   grid-template-rows: 1fr 1fr 1fr;
 }
 
@@ -13,6 +12,7 @@
   margin: -4rem -0.68rem -4rem -0.68rem;
   max-width: 80px;
   border-radius: 4px;
+
   /* max-height: 90%; */
   /* flex: 1 0 auto; */
   /* width: 30%; */
