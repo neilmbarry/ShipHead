@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import classes from "./PlayerHand.module.css";
 import Card from "../../../components/UI/Card";
 import CardImages from "../../../utils/CardImages";
+import { generateDeck } from "../../../gameLogic/gameLogic";
+import {
+  cardValues,
+  suits,
+  powerCards,
+  reverseCards,
+} from "../../../config/initialCardValues";
 
 const PlayerHand = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -34,28 +41,8 @@ const PlayerHand = ({ className }) => {
       />
     );
   });
-  const threeRandoms = (
-    <>
-      <Card
-        name="7Diamonds"
-        className={classes.card}
-        selected={selectedCards.includes("7Diamonds")}
-        onClick={selectCardHandler}
-      />
-      <Card
-        name="KingDiamonds"
-        className={classes.card}
-        selected={selectedCards.includes("KingDiamonds")}
-        onClick={selectCardHandler}
-      />
-      <Card
-        name="JackClubs"
-        className={classes.card}
-        selected={selectedCards.includes("JackClubs")}
-        onClick={selectCardHandler}
-      />
-    </>
-  );
+
+  generateDeck(suits, cardValues, powerCards, reverseCards);
   //-------------------DEVELOPMENT-----------------//
 
   useEffect(() => {
