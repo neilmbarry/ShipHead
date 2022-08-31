@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Input.module.css";
 
-const Input = ({ className, type, placeholder, inputRef }) => {
+const Input = ({ className, type, placeholder, inputRef, defaultVal }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <input
@@ -9,6 +9,7 @@ const Input = ({ className, type, placeholder, inputRef }) => {
       className={classesList}
       placeholder={placeholder}
       ref={inputRef}
+      defaultValue={defaultVal}
     />
   );
 };

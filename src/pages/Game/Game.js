@@ -28,7 +28,7 @@ const Game = ({ className }) => {
 
       <div className={classes.message}>
         <h4>Neil has played an ace!</h4>
-        <h4>suck it!!</h4>
+        <h4>so suck it!!</h4>
       </div>
     </div>
   );

@@ -16,12 +16,12 @@ const Home = ({ className }) => {
   const name = useRef();
 
   const createNewGameHandler = () => {
-    if (!name.current.value) {
-      return setNotification({
-        type: "warning",
-        text: "Please enter a valid name",
-      });
-    }
+    // if (!name.current.value) {
+    //   return setNotification({
+    //     type: "warning",
+    //     text: "Please enter a valid name",
+    //   });
+    // }
     setModal({ createGame: true });
   };
 
@@ -60,7 +60,12 @@ const Home = ({ className }) => {
       <h1 className={classes.title}>SHiP-HEAD!</h1>
       <div className={classes.nameBox}>
         <h4>Player Name</h4>
-        <Input type="text" placeholder="e.g tom hanks" inputRef={name} />
+        <Input
+          type="text"
+          placeholder="e.g tom hanks"
+          defaultVal=""
+          inputRef={name}
+        />
       </div>
       <div className={classes.avatarBox}>
         <h4>Choose your Avatar</h4>
