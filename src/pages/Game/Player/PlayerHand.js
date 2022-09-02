@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import classes from "./PlayerHand.module.css";
 import Card from "../../../components/UI/Card";
 import CardImages from "../../../utils/CardImages";
-import { generateDeck } from "../../../gameLogic/gameLogic";
+import { generateDeck, checkBurnStack } from "../../../gameLogic/gameLogic";
 import {
   cardValues,
   suits,
@@ -28,7 +28,7 @@ const PlayerHand = ({ className }) => {
     if (i > 2) return null;
     // if (i > 8) return null;
     // if (i > 16) return null;
-    if (i > 33) return null;
+    // if (i > 34) return null;
     // if (i > 44) return null;
     return (
       <Card
@@ -42,8 +42,11 @@ const PlayerHand = ({ className }) => {
     );
   });
 
-  generateDeck(suits, cardValues, powerCards, reverseCards);
   //-------------------DEVELOPMENT-----------------//
+
+  useEffect(() => {
+    generateDeck(suits, cardValues, powerCards, reverseCards);
+  }, []);
 
   useEffect(() => {
     console.log("Selected Cards: ", selectedCards);

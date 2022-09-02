@@ -1,23 +1,25 @@
 .main {
   align-items: center;
   justify-content: center;
-  display: grid;
-  padding: 0 1rem;
-  padding-top: 0rem;
+  padding: 0 0.5rem;
+  margin-top: -2rem;
+
+  /* display: grid;
   grid-template-columns: repeat(auto-fit, minmax(28px, max-content));
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr; */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .card {
-  margin: -4rem -0.68rem -4rem -0.68rem;
-  max-width: 80px;
+  margin: -4rem -0.68rem;
+  /* margin: -4rem -1rem; */
   border-radius: 4px;
 
-  /* max-height: 90%; */
-  /* flex: 1 0 auto; */
-  /* width: 30%; */
-  /* flex: 1 0 auto; */
-  /* transform: translateY(20px); */
-  /* transform: rotate(90deg); */
-  /* display: inline-block; */
+  flex: 0 1 80px;
+
+  /* max-width: 80px; */
 }

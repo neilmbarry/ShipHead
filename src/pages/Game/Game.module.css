@@ -1,7 +1,9 @@
 .main {
   display: grid;
-  height: 85vh;
-
+  height: 86vh;
+  /* REMOVE */
+  overflow: hidden;
+  /**/
   width: 100vw;
   /* border: 2px dashed red; */
   grid-template-columns: repeat(9, 1fr);
