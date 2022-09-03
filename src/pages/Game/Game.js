@@ -12,19 +12,12 @@ const Game = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <div className={classesList}>
-      <Player className={classes.player} />
       <Opponents className={classes.opponents} />
-      {/* <Opponent className={classes.opponent1} />
-      <Opponent className={classes.opponent2} />
-      <Opponent className={classes.opponent3} /> */}
-      <Actions className={classes.actions} />
-      <Stack className={classes.stack} />
+      <Message className={classes.message} />
       <Deck className={classes.deck} />
-      <Message
-        gameEvent="Neil has played an ace!"
-        gameAnnouncement={"so suck it!"}
-        className={classes.message}
-      />
+      <Stack className={classes.stack} />
+      <Actions className={classes.actions} />
+      <Player className={classes.player} />
     </div>
   );
 };

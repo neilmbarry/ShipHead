@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import classes from "./PlayerHandCards.module.css";
 import Card from "../../../components/UI/Card";
 import CardImages from "../../../utils/CardImages";
-import { generateDeck, checkBurnStack } from "../../../gameLogic/gameLogic";
+// import { generateDeck, checkBurnStack } from "../../../gameLogic/gameUtils";
 import store from "../../../redux/store";
 import { setSelecteCards } from "../../../redux/userSlice";
 import {
@@ -47,7 +47,7 @@ const PlayerHand = ({ className, handCards }) => {
 
   //-------------------DEVELOPMENT-----------------//
 
-  const handCardsJSX = handCards.map((card, i) => (
+  const handCardsJSX = handCards?.map((card, i) => (
     <Card
       name={card}
       className={classes.card}
@@ -59,7 +59,7 @@ const PlayerHand = ({ className, handCards }) => {
   ));
 
   useEffect(() => {
-    generateDeck(suits, cardValues, powerCards, reverseCards);
+    // generateDeck(suits, cardValues, powerCards, reverseCards);
   }, []);
 
   return <div className={classesList}>{handCardsJSX}</div>;

@@ -9,7 +9,6 @@ const Deck = ({ className }) => {
   const deck = useSelector((state) => state.game.value.deck);
 
   const deckJSX = deck.map((name, i) => {
-    if (i > 24) return null;
     return (
       <Card
         name="back"

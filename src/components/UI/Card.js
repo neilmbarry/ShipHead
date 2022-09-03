@@ -10,7 +10,7 @@ const Card = ({ className, name, style, onClick, selected, z, r }) => {
   return (
     <div
       className={classesList}
-      style={{ ...style, zIndex: z, transform: `rotate(${r * 20}deg)` }}
+      style={{ zIndex: z, transform: `rotate(${r * 20}deg)`, ...style }}
       onClick={onClick}
     >
       <img src={image} alt={name} />

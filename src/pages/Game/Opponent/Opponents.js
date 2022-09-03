@@ -6,15 +6,12 @@ import { useSelector } from "react-redux";
 const Opponents = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const players = [...useSelector((state) => state.game.value.players)];
-  console.log(players);
   const userId = useSelector((state) => state.user.value.id);
   const user = players.find((player) => player.id === userId);
   const userIndex = players.indexOf(user);
-  console.log(userIndex, "ccccc");
   const playersBeforeUser = players.splice(0, userIndex);
   players.push(...playersBeforeUser);
   players.shift();
-  console.log(players);
   const opponentsJSX = players.map((opponent) => (
     <Opponent
       key={opponent.id}
@@ -26,7 +23,12 @@ const Opponents = ({ className }) => {
       avatar={opponent.avatar}
     />
   ));
-  return <div className={classesList}>{opponentsJSX}</div>;
+  const noOpponentsJSX = <div>waiting for opponents...</div>;
+  return (
+    <div className={classesList}>
+      {opponentsJSX.length > 0 ? opponentsJSX : noOpponentsJSX}
+    </div>
+  );
 };
 
 export default Opponents;

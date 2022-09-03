@@ -15,6 +15,7 @@ const initialState = {
   name: null,
   id: null,
   avatar: null,
+  active: false,
   notification: {
     type: "",
     message: "",

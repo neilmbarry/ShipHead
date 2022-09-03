@@ -1,7 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const gameStateTemplate = {
-  deck: ["KingSpades", "QueenHearts", "3Diamonds"],
+  deck: [
+    "1",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "10",
+    "123",
+    "134",
+    "145",
+    "156",
+    "167",
+    "178",
+    "189",
+  ],
   stack: ["KingSpades", "QueenHearts", "3Diamonds"].reverse(),
   activePlayerId: "4mfljfad9",
   gameOver: false,
@@ -14,8 +32,8 @@ const gameStateTemplate = {
   //   id: "djn48dsh80",
   // },
   message: {
-    gameEvent: "Rupert has played an King!",
-    gameAnnouncement: "Unforgiveable!!",
+    gameEvent: "Rupert has played a King!",
+    gameAnnouncement: "such savagery!!",
   },
   players: [
     {
@@ -23,7 +41,7 @@ const gameStateTemplate = {
       name: "Rupert",
       avatar: "avatar3",
       handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["KingSpades", "QueenHearts", "3Diamonds"],
+      faceUpCards: ["8Spades", "8Clubs", "10Clubs"],
       faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
       playing: true,
       hasSetFaceUpCards: true,
@@ -34,7 +52,7 @@ const gameStateTemplate = {
       name: "Sam",
       avatar: "avatar6",
       handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["KingSpades", "QueenHearts", "3Diamonds"],
+      faceUpCards: ["2Hearts", "5Hearts", "5Diamonds"],
       faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
       playing: true,
       hasSetFaceUpCards: true,
@@ -44,8 +62,8 @@ const gameStateTemplate = {
       id: "sfji4jije34i3",
       name: "Neil",
       avatar: "avatar1",
-      handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["KingSpades", "QueenHearts", "3Diamonds"],
+      handCards: ["4Spades", "9Hearts", "2Diamonds"],
+      faceUpCards: ["5Clubs", "10Diamonds", "AceHearts"],
       faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
       playing: true,
       hasSetFaceUpCards: true,
@@ -56,7 +74,7 @@ const gameStateTemplate = {
       name: "Regina",
       avatar: "avatar2",
       handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["KingSpades", "QueenHearts", "3Diamonds"],
+      faceUpCards: ["AceSpades", "KingClubs", "QueenClubs"],
       faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
       playing: true,
       connected: true,
@@ -101,6 +119,7 @@ const setPlayersNewGame = (players) => {
 
 const gameSlice = createSlice({
   name: "gameState",
+  // initialState: { value: initialState },
   initialState: { value: gameStateTemplate },
   reducers: {
     reset: (state, action) => {
@@ -153,14 +172,14 @@ const gameSlice = createSlice({
       state.value.gameOver = false;
       state.value.players.forEach((player) => {
         player.faceDownCards = state.value.deck.splice(0, 3);
-        player.inHandCards = state.value.deck.splice(0, 6);
+        player.handCards = state.value.deck.splice(0, 6);
       });
     },
     selectFaceUpCards: (state, action) => {
       const player = state.value.players.find(
         (player) => player.id === action.payload.id
       );
-      player.inHandCards = player.inHandCards.filter(
+      player.handCards = player.handCards.filter(
         (card) => !action.payload.cards.includes(card)
       );
       player.faceUpCards = action.payload.cards;
@@ -171,7 +190,7 @@ const gameSlice = createSlice({
     },
     playCard: (state, action) => {
       const player = state.value.players.find(
-        (player) => player.id === action.payload.id
+        (player) => player.id === action.payload.playerId
       );
       player[action.payload.hand] = player[action.payload.hand].filter(
         (card) => !action.payload.cards.includes(card)
@@ -184,9 +203,9 @@ const gameSlice = createSlice({
         (player) => player.id === action.payload.id
       );
       // Take card from deck
-      const newCard = state.value.deck.pop();
+      const newCards = state.value.deck.splice(0, action.payload.quantity);
       // Add card to players hand
-      player.inHandCards.unshift(newCard);
+      player.handCards.unshift(...newCards);
     },
     switchActivePlayer: (state, action) => {
       state.value.activePlayerId = action.payload;
@@ -203,7 +222,7 @@ const gameSlice = createSlice({
         (player) => player.id === action.payload.id
       );
       // Add stack to players hand
-      player.inHandCards.unshift(...state.value.stack);
+      player.handCards.unshift(...state.value.stack);
       // LOGIC TO BE MOVED TO GAMELOGIC
       //   if (player.faceUpCards.length === 1) {
       //     console.log("taking 1 faceupcard");
@@ -225,7 +244,7 @@ const gameSlice = createSlice({
       const player = state.value.players.find(
         (player) => player.id === action.payload.id
       );
-      player.inHandCards.unshift(...player.faceUpCards);
+      player.handCards.unshift(...player.faceUpCards);
     },
     hasToPickUp: (state, action) => {
       state.value.players.find(
@@ -239,7 +258,9 @@ const gameSlice = createSlice({
       state.value.direction = action.payload;
     },
     setWinner: (state, action) => {
-      state.value.players[action.payload].playing = false;
+      state.value.players.find(
+        (player) => player.id === action.payload
+      ).playing = false;
     },
     setShipHead: (state, action) => {
       state.value.shipHead = action.payload;
@@ -249,6 +270,12 @@ const gameSlice = createSlice({
     },
     setRoom: (state, action) => {
       state.value.room = action.payload;
+    },
+    setGameEvent: (state, action) => {
+      state.value.message.gameEvent = action.payload;
+    },
+    setGameAnnouncement: (state, action) => {
+      state.value.message.gameAnnouncement = action.payload;
     },
   },
 });

@@ -2,4 +2,6 @@
   overflow: hidden;
   display: flex;
   padding: 0 0.5rem;
+  justify-content: center;
+  align-items: center;
 }
