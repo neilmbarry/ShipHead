@@ -2,12 +2,12 @@ import React from "react";
 import classes from "./OpponentInfo.module.css";
 import Avatar from "../../../components/Avatars/Avatar";
 
-const OpponentInfo = ({ className }) => {
+const OpponentInfo = ({ className, name, avatar }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <div className={classesList}>
-      <Avatar image="avatar1" className={classes.avatar} />
-      <h6>Neil</h6>
+      <Avatar image={avatar} className={classes.avatar} />
+      <h6>{name}</h6>
     </div>
   );
 };

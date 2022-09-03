@@ -1,15 +1,16 @@
 import React from "react";
 import classes from "./Stack.module.css";
 import Card from "../../../components/UI/Card";
-import cards from "../../../utils/CardImages";
+import { useSelector } from "react-redux";
 
 const Stack = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
-  return (
-    <div className={classesList}>
-      <Card name="AceSpades" className={classes.card} />
-    </div>
-  );
+  const stack = useSelector((state) => state.game.value.stack);
+
+  const stackJSX = stack.map((card, r) => (
+    <Card name={card} key={card} r={r} className={classes.card} />
+  ));
+  return <div className={classesList}>{stackJSX}</div>;
 };
 
 export default Stack;

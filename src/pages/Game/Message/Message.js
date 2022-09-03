@@ -1,12 +1,14 @@
 import React from "react";
 import classes from "./Message.module.css";
+import { useSelector } from "react-redux";
 
-const Message = ({ className, gameEvent, gameAnnouncement }) => {
+const Message = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
+  const message = useSelector((state) => state.game.value.message);
   return (
     <div className={classesList}>
-      <h4>{gameEvent}</h4>
-      <h4>{gameAnnouncement}</h4>
+      <h4>{message.gameEvent}</h4>
+      <h4>{message.gameAnnouncement}</h4>
     </div>
   );
 };

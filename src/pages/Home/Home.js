@@ -7,15 +7,25 @@ import Notification from "../../components/UI/Notification";
 import Modal from "../../components/UI/Modal";
 import CreateGameModal from "./CreateGameModal";
 import PlayComputerModal from "./PlayComputerModal";
+import { useSelector } from "react-redux";
+import { setName, setAvatar, setNotification } from "../../redux/userSlice";
+import store from "../../redux/store";
 
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
-  const [avatar, setAvatar] = useState();
+  // const [avatar, setAvatar] = useState();
   const [notification, setNotification] = useState();
   const [modal, setModal] = useState(false);
   const name = useRef();
 
+  const user = useSelector((state) => state.user.value);
+
+  const setAvatarHandler = (avatar) => {
+    store.dispatch(setAvatar(avatar));
+  };
+
   const createNewGameHandler = () => {
+    store.dispatch(setName(name.current.value));
     // if (!name.current.value) {
     //   return setNotification({
     //     type: "warning",
@@ -63,15 +73,15 @@ const Home = ({ className }) => {
         <Input
           type="text"
           placeholder="e.g tom hanks"
-          defaultVal=""
+          defaultVal={user.name}
           inputRef={name}
         />
       </div>
       <div className={classes.avatarBox}>
         <h4>Choose your Avatar</h4>
         <AvatarContainer
-          onAvatarClick={setAvatar}
-          selectedAvatar={avatar}
+          onAvatarClick={setAvatarHandler}
+          selectedAvatar={user.avatar}
         ></AvatarContainer>
       </div>
       <div className={classes.createGameBox}>

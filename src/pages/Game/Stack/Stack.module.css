@@ -8,8 +8,9 @@
 
 .card {
   max-width: 90px;
-  animation: spin 3s linear infinite;
+  /* animation: spin 3s linear infinite; */
   border-radius: 6px;
+  position: absolute;
 }
 
 @keyframes spin {

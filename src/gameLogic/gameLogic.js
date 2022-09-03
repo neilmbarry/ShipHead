@@ -1,11 +1,15 @@
 export function generateDeck(suits, cardValues, powerCards, reverseCards) {
+  // Create a deck to use in state, and deckRef to hold info about values, powers etc.
   const deck = [];
   const deckReference = {};
+
   suits.forEach((suit) => {
     cardValues.forEach((value) => {
+      // Check if card is a power
       const power = Object.entries(powerCards).find(
         (entry) => entry[1] === value[0]
       );
+      // Check if card is a reverse
       const reverse = Object.entries(reverseCards).find(
         (entry) => entry[1] === value[0]
       );
@@ -17,8 +21,8 @@ export function generateDeck(suits, cardValues, powerCards, reverseCards) {
       };
     });
   });
-  console.log("Deck generated.");
-  console.log(deck, deckReference);
+  // console.log("Deck generated.");
+  // console.log(deck, deckReference);
   return [deck, deckReference];
 }
 
@@ -56,21 +60,17 @@ export function checkLegalMove(cards, stack, deckRef) {
   if (allCardsHaveEqualValue(cards, deckRef) && cards.length === 4) {
     return true;
   }
-
   // Set Player and Stack card info for comparison
   const topStackCardInfo = deckRef[getTopStackCard(stack)];
   const playedCardInfo = deckRef[cards[0]];
-
   // Check if playing a power card
   if (playedCardInfo.power) {
     return true;
   }
-
   // Check if played card is of greater or equal value
   if (playedCardInfo.worth >= topStackCardInfo.worth) {
     return true;
   }
-
   // Check different cases for stack power card
   if (topStackCardInfo.power) {
     switch (topStackCardInfo.power) {
@@ -96,12 +96,14 @@ export function checkLegalMove(cards, stack, deckRef) {
         return false;
     }
   }
-
   console.warn("Missing Case");
   return false;
 }
 
+export function playCards(cards, player, stack, deckRef) {}
+
 export function checkBurnStack(stack, deckRef) {
+  // Check for empty stack
   if (stack.length === 0) return false;
 
   const topStackCardInfo = deckRef[getTopStackCard(stack)];
@@ -112,6 +114,7 @@ export function checkBurnStack(stack, deckRef) {
   if (stack.length < 4) return false;
 
   const lastFourCards = stack.filter((card, i) => i >= stack.length - 4);
+
   if (allCardsHaveEqualValue(lastFourCards, deckRef)) {
     return true;
   }

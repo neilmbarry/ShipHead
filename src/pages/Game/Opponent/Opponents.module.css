@@ -1,0 +1,5 @@
+.main {
+  overflow: hidden;
+  display: flex;
+  padding: 0 0.5rem;
+}

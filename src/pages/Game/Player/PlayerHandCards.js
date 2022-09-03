@@ -1,26 +1,29 @@
 import React, { useState, useEffect, useMemo } from "react";
-import classes from "./PlayerHand.module.css";
+import classes from "./PlayerHandCards.module.css";
 import Card from "../../../components/UI/Card";
 import CardImages from "../../../utils/CardImages";
 import { generateDeck, checkBurnStack } from "../../../gameLogic/gameLogic";
+import store from "../../../redux/store";
+import { setSelecteCards } from "../../../redux/userSlice";
 import {
   cardValues,
   suits,
   powerCards,
   reverseCards,
 } from "../../../config/initialCardValues";
+import { useSelector } from "react-redux";
 
-const PlayerHand = ({ className }) => {
+const PlayerHand = ({ className, handCards }) => {
   const classesList = `${classes.main} ${className}`;
-  const [selectedCards, setSelectedCards] = useState([]);
+  const selectedCards = useSelector((state) => state.user.value.selectedCards);
 
   const selectCardHandler = (name) => {
-    setSelectedCards((prev) => {
-      if (prev.includes(name)) {
-        return prev.filter((card) => card !== name);
-      }
-      return [...prev, name];
-    });
+    if (selectedCards.includes(name)) {
+      return store.dispatch(
+        setSelecteCards(selectedCards.filter((card) => card !== name))
+      );
+    }
+    return store.dispatch(setSelecteCards([...selectedCards, name]));
   };
 
   //-------------------DEVELOPMENT-----------------//
@@ -44,14 +47,22 @@ const PlayerHand = ({ className }) => {
 
   //-------------------DEVELOPMENT-----------------//
 
+  const handCardsJSX = handCards.map((card, i) => (
+    <Card
+      name={card}
+      className={classes.card}
+      key={card}
+      z={i}
+      selected={selectedCards.includes(card)}
+      onClick={() => selectCardHandler(card)}
+    />
+  ));
+
   useEffect(() => {
     generateDeck(suits, cardValues, powerCards, reverseCards);
   }, []);
 
-  useEffect(() => {
-    console.log("Selected Cards: ", selectedCards);
-  }, [selectedCards]);
-  return <div className={classesList}>{fullDeck}</div>;
+  return <div className={classesList}>{handCardsJSX}</div>;
 };
 
 export default PlayerHand;

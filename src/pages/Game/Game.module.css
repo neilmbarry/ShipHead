@@ -9,38 +9,52 @@
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(12, 1fr);
   grid-template-areas:
-    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
-    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
-    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
-    "player2 player2 player2 player3 player3 player3 player4 player4 player4"
+    "opponents opponents opponents opponents opponents opponents opponents opponents opponents"
+    "opponents opponents opponents opponents opponents opponents opponents opponents opponents"
+    "opponents opponents opponents opponents opponents opponents opponents opponents opponents"
+    "opponents opponents opponents opponents opponents opponents opponents opponents opponents"
     "message message message message message message message message message"
     "deck deck stack stack stack stack stack actions actions"
     "deck deck stack stack stack stack stack actions actions"
     "deck deck stack stack stack stack stack actions actions"
-    "player1 player1 player1 player1 player1 player1 player1 player1 player1"
-    "player1 player1 player1 player1 player1 player1 player1 player1 player1"
-    "player1 player1 player1 player1 player1 player1 player1 player1 player1"
-    "player1 player1 player1 player1 player1 player1 player1 player1 player1";
+    "player player player player player player player player player"
+    "player player player player player player player player player"
+    "player player player player player player player player player"
+    "player player player player player player player player player";
 }
 
-.player1 {
-  grid-area: player1;
+.threeOpponents {
+}
+
+.twoOpponents {
+}
+
+.oneOpponent {
+}
+
+.player {
+  grid-area: player;
 
   /* border: 2px solid grey; */
   /* border: 2px dashed orange; */
 }
-.player2 {
-  grid-area: player2;
+
+.opponents {
+  grid-area: opponents;
+}
+
+.opponent1 {
+  grid-area: opponent1;
   /* border: 2px dashed yellow; */
 }
 
-.player3 {
-  grid-area: player3;
+.opponent2 {
+  grid-area: opponent2;
   /* border: 2px dashed yellowgreen; */
 }
 
-.player4 {
-  grid-area: player4;
+.opponent3 {
+  grid-area: opponent3;
   /* border: 2px dashed lightblue; */
 }
 
