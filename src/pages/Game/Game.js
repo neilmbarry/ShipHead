@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import { generateDeck, shuffleDeck } from "../../gameLogic/gameUtils";
+
 import classes from "./Game.module.css";
-import Opponent from "./Opponent/Opponent";
+
 import Player from "./Player/Player";
 import Deck from "./Deck/Deck";
 import Stack from "./Stack/Stack";
@@ -10,6 +14,18 @@ import Opponents from "./Opponent/Opponents";
 
 const Game = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
+  const userState = useSelector((state) => state.user.value);
+  const gameState = useSelector((state) => state.game.value);
+  const host = userState.id === gameState.hostId;
+
+  useEffect(() => {
+    if (!host) return;
+    const toBeEmitted = [];
+    const newDeck = shuffleDeck(generateDeck()[0]);
+    toBeEmitted.push("setDeck", newDeck);
+    toBeEmitted.push("dealCards");
+  }, [host]);
+
   return (
     <div className={classesList}>
       <Opponents className={classes.opponents} />

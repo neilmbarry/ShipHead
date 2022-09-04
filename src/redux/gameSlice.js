@@ -25,12 +25,8 @@ const gameStateTemplate = {
   gameOver: false,
   shipHead: null,
   directionClockwise: true,
+  hostId: "sfji4jije34i3",
   room: "xxuehfidfjdfk",
-  // playerInfo: {
-  //   name: "Neil",
-  //   avatar: "avatar1",
-  //   id: "djn48dsh80",
-  // },
   message: {
     gameEvent: "Rupert has played a King!",
     gameAnnouncement: "such savagery!!",
@@ -92,11 +88,7 @@ const initialState = {
   shipHead: null,
   directionClockwise: true,
   room: null,
-  playerInfo: {
-    name: null,
-    avatar: null,
-    id: null,
-  },
+  hostId: null,
   message: {
     gameEvent: "",
     gameAnnouncement: "",
@@ -107,31 +99,45 @@ const initialState = {
 // ADD CONNECTION STATUS
 
 const setPlayersNewGame = (players) => {
-  return players.map((player) => ({
-    name: player.name,
-    id: player.id,
-    avatar: player.avatar,
-    playing: true,
-    hasSetFaceUpCards: false,
-    hasToPickUp: false,
-  }));
+  return players
+    .filter((player) => player.playing)
+    .map((player) => ({
+      name: player.name,
+      id: player.id,
+      avatar: player.avatar,
+      playing: true,
+      hasSetFaceUpCards: false,
+      hasToPickUp: false,
+    }));
 };
 
 const gameSlice = createSlice({
   name: "gameState",
   // initialState: { value: initialState },
-  initialState: { value: gameStateTemplate },
+  initialState: { value: initialState },
   reducers: {
-    reset: (state, action) => {
+    resetGame: (state, action) => {
       state.value = initialState;
+    },
+    createRoom: (state, action) => {
+      state.value.room = action.payload.room;
+      state.value.hostId = action.payload.hostId;
+      state.value.players = [
+        {
+          ...action.payload.playerInfo,
+          playing: true,
+          hasSetFaceUpCards: false,
+          hasToPickUp: false,
+        },
+      ];
     },
     newGame: (state, action) => {
       state.value = {
         ...state.value,
-        deck: [],
+        deck: action.payload.deck,
         stack: [],
         activePlayerId: null,
-        gameOver: true,
+        gameOver: false,
         shipHead: null,
         directionClockwise: true,
         message: {
@@ -145,6 +151,7 @@ const gameSlice = createSlice({
       state.value = action.payload;
     },
     //---PROBABLY REMOVE---//
+    //===SET HOST INSTEAD==//
     setPlayerInfo: (state, action) => {
       state.value.playerInfo = action.payload;
     },
@@ -165,11 +172,10 @@ const gameSlice = createSlice({
         (player) => player.id !== action.payload
       );
     },
-    setDeck: (state, action) => {
-      state.value.deck = action.payload;
-    },
+    // setDeck: (state, action) => {
+    //   state.value.deck = action.payload;
+    // },
     dealCards: (state, action) => {
-      state.value.gameOver = false;
       state.value.players.forEach((player) => {
         player.faceDownCards = state.value.deck.splice(0, 3);
         player.handCards = state.value.deck.splice(0, 6);
@@ -236,7 +242,7 @@ const gameSlice = createSlice({
       //     player.inHandCards.unshift(...player.faceUpCards);
       //     player.faceUpCards = [];
       //   }
-      // Reset stack
+      // ResetGame stack
       player.hasToPickUp = false;
       state.value.stack = [];
     },
@@ -281,7 +287,7 @@ const gameSlice = createSlice({
 });
 
 export const {
-  reset,
+  resetGame,
   newGame,
   drawCard,
   playCard,
@@ -304,6 +310,7 @@ export const {
   setRoom,
   setPlayerInfo,
   takeFaceUpCards,
+  createRoom,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

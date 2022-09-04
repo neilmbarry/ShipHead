@@ -1,4 +1,11 @@
-export function generateDeck(suits, cardValues, powerCards, reverseCards) {
+import {
+  suits,
+  cardValues,
+  powerCards,
+  reverseCards,
+} from "../config/initialCardValues";
+
+export function generateDeck() {
   // Create a deck to use in state, and deckRef to hold info about values, powers etc.
   const deck = [];
   const deckReference = {};
@@ -21,8 +28,6 @@ export function generateDeck(suits, cardValues, powerCards, reverseCards) {
       };
     });
   });
-  // console.log("Deck generated.");
-  // console.log(deck, deckReference);
   return [deck, deckReference];
 }
 
@@ -44,4 +49,10 @@ export function shuffleDeck(deck) {
 
 const allCardsHaveEqualValue = (cards, deckRef) => {
   return cards.every((card) => deckRef[card].value === deckRef[cards[0]].value);
+};
+
+const cardsWillReverseDirection = (cards, deckRef) => {
+  if (!deckRef(cards[0]).reverse) return false;
+  if (cards.length % 2 === 1) return true;
+  return false;
 };

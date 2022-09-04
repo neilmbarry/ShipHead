@@ -9,10 +9,34 @@ import Spinner from "../../components/UI/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import Notification from "../../components/UI/Notification";
+import { useSelector } from "react-redux";
 
 const Lobby = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const [notification, setNotification] = useState(false);
+
+  const gamePlayers = useSelector((state) => state.game.value.players);
+
+  const emptyJSX = [
+    <LobbyPlayer />,
+    <LobbyPlayer />,
+    <LobbyPlayer />,
+    <LobbyPlayer />,
+  ];
+
+  const playerJSXXX = emptyJSX.map((player, i) => {
+    if (gamePlayers[i]) {
+      return (
+        <LobbyPlayer
+          key={i}
+          name={gamePlayers[i].name}
+          image={gamePlayers[i].avatar}
+        />
+      );
+    }
+    return <LobbyPlayer key={i} />;
+  });
+
   const showCopyNotification = notification.copy && (
     <Notification
       notification={notification}
@@ -25,6 +49,9 @@ const Lobby = ({ className }) => {
       onClose={() => setNotification(false)}
     />
   );
+  // const playersJSX = gamePlayers.map((player) => (
+  //   <LobbyPlayer name={player.name} image={player.avatar} />
+  // ));
   return (
     <div className={classesList}>
       <Tile className={classes.firstTile}>
@@ -45,28 +72,18 @@ const Lobby = ({ className }) => {
       </Tile>
       <Tile className={classes.largerTile}>
         <div className={classes.playersContainer}>
-          <LobbyPlayer image="avatar1" name="Neil" />
-          {/* <LobbyPlayer image="avatar3.png" name="Steph" />
-          <LobbyPlayer image="avatar8.png" name="Amar" /> */}
+          {/* <LobbyPlayer image="avatar1" name="Neil" />
           <LobbyPlayer />
           <LobbyPlayer />
-          <LobbyPlayer />
+          <LobbyPlayer /> */}
+          {playerJSXXX}
         </div>
         <div className={classes.buttonsContainer}>
           <Link to="/">
             <Button type="back" beforeIcon={faAnglesLeft} />
           </Link>
           <Link to="/game">
-            <Button
-              text="Start game"
-              // onClick={() =>
-              //   setNotification({
-              //     few: true,
-              //     type: "alert",
-              //     text: "Not enough people to start game!",
-              //   })
-              // }
-            />
+            <Button text="Start game" />
           </Link>
 
           <Spinner />

@@ -1,4 +1,8 @@
-import { allCardsHaveEqualValue, generateDeck } from "./gameUtils";
+import {
+  allCardsHaveEqualValue,
+  generateDeck,
+  cardsWillReverseDirection,
+} from "./gameUtils";
 import store from "../redux/store";
 import { burnStack, hasToPickUp, switchActivePlayer } from "../redux/gameSlice";
 import { faStoreAlt } from "@fortawesome/free-solid-svg-icons";
@@ -106,6 +110,38 @@ const checkDrawCards = (playerId) => {
   return actualCardsToPickUp;
 };
 
+const checkGameOver = () => {
+  const activePlayers = playersState.filter(
+    (player) => player.playing === true
+  );
+  if (activePlayers.length === 1) {
+    return activePlayers[0].name;
+  }
+  return false;
+};
+
+export function setFaceCards(cards, playerId) {
+  const toBeEmitted = [];
+  const player = playersState.find((player) => player.id === playerId);
+
+  if (player.hasSetFaceCards) return;
+
+  if (cards.length !== 3) {
+    return store.dispatch(setNotification(notifications.setThreeFaceCards));
+  }
+  if (!checkCardsAreInHand(cards, playerId)) {
+    store.dispatch(setNotification(notifications.cardsNotInHand));
+    return;
+  }
+  toBeEmitted.push([
+    "selectFaceUpCards",
+    {
+      playerId,
+      cards,
+    },
+  ]);
+}
+
 export function playCards(cards, playerId) {
   const toBeEmitted = [];
   if (!checkActivePlayer(playerId)) {
@@ -153,7 +189,7 @@ export function playCards(cards, playerId) {
         playerId,
       },
     ]);
-    return;
+    return toBeEmitted;
     // store.dispatch(setGameAnnouncement("Betrayed by the blind Card!"));
     // return store.dispatch(hasToPickUp(playerId));
   }
@@ -185,16 +221,42 @@ export function playCards(cards, playerId) {
 
     // CONTINUE FROM HERE
 
-    return checkAndSetGameOver();
+    if (checkGameOver()) {
+      toBeEmitted.push(["setGameOver"]);
+      toBeEmitted.push([
+        "setShipHead",
+        {
+          name: checkGameOver(),
+        },
+      ]);
+      return toBeEmitted;
+    }
   }
-  if (checkDirectionSwitch()) {
+  if (cardsWillReverseDirection(cards)) {
     //---ADD TO 'TO BE EMMITED' ARRAY------//
-    store.dispatch(switchDirection());
-    store.dispatch(setGameAnnouncement());
+    toBeEmitted.push([
+      "changeDirection",
+      {
+        direction: !gameState.direction,
+      },
+    ]);
+    toBeEmitted.push([
+      "setGameAnnouncement",
+      {
+        message: "Reverse Direction",
+      },
+    ]);
+
+    //TO BE IMPLEMENTED: REVERSE X2 CANCELS
+
+    // store.dispatch(switchDirection());
+    // store.dispatch(setGameAnnouncement());
   }
   //---ADD TO 'TO BE EMMITED' ARRAY------//
-  store.dispatch(switchActivePlayer());
+  toBeEmitted.push(["switchActivePlayer"]);
+  //   store.dispatch(switchActivePlayer());
   //---RETURN 'TO BE EMMITED' ARRAY------//
+  return toBeEmitted;
 }
 
 export function checkBurnStack() {

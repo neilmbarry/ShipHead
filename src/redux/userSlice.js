@@ -15,7 +15,6 @@ const initialState = {
   name: null,
   id: null,
   avatar: null,
-  active: false,
   notification: {
     type: "",
     message: "",
@@ -25,13 +24,19 @@ const initialState = {
 
 const userSlice = createSlice({
   name: "userState",
-  initialState: { value: userStateTemplate },
+  initialState: { value: initialState },
   reducers: {
     setNotification: (state, action) => {
       state.value.notification = action.payload;
     },
     setSelecteCards: (state, action) => {
       state.value.selectedCards = action.payload;
+    },
+    setInfo: (state, action) => {
+      state.value = {
+        ...state.value,
+        ...action.payload,
+      };
     },
     setAvatar: (state, action) => {
       state.value.avatar = action.payload;
@@ -45,7 +50,13 @@ const userSlice = createSlice({
   },
 });
 
-export const { setNotification, setSelecteCards, setAvatar, setId, setName } =
-  userSlice.actions;
+export const {
+  setNotification,
+  setSelecteCards,
+  setAvatar,
+  setId,
+  setName,
+  setInfo,
+} = userSlice.actions;
 
 export default userSlice.reducer;

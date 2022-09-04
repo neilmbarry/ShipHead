@@ -27,4 +27,8 @@ export const notifications = {
     type: "info",
     message: "You can play multiple same-valued cards together",
   },
+  setThreeFaceCards: {
+    type: "alert",
+    message: "You must selected 3 Face-Up cards",
+  },
 };

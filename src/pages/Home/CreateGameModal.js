@@ -5,7 +5,7 @@ import Button from "../../components/UI/Button";
 import Switch from "../../components/UI/Switch";
 import { Link } from "react-router-dom";
 
-const CreateGameModal = ({ className, onClose }) => {
+const CreateGameModal = ({ className, onClose, onStart }) => {
   const classesList = `${classes.main} ${className}`;
   return (
     <div className={classesList}>
@@ -23,8 +23,8 @@ const CreateGameModal = ({ className, onClose }) => {
       />
       <div className={classes.buttonsContainer}>
         <Button text="cancel" type="secondary" onClick={onClose} />
-        <Link to="/lobby/testID">
-          <Button text="Create!" />
+        <Link to="/lobby">
+          <Button text="Create!" onClick={onStart} />
         </Link>
       </div>
     </div>
