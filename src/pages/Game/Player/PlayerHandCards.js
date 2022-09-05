@@ -2,15 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import classes from "./PlayerHandCards.module.css";
 import Card from "../../../components/UI/Card";
 import CardImages from "../../../utils/CardImages";
-// import { generateDeck, checkBurnStack } from "../../../gameLogic/gameUtils";
+
 import store from "../../../redux/store";
-import { setSelecteCards } from "../../../redux/userSlice";
-import {
-  cardValues,
-  suits,
-  powerCards,
-  reverseCards,
-} from "../../../config/initialCardValues";
+import userActions from "../../../redux/userSlice";
 import { useSelector } from "react-redux";
 
 const PlayerHand = ({ className, handCards }) => {
@@ -20,10 +14,14 @@ const PlayerHand = ({ className, handCards }) => {
   const selectCardHandler = (name) => {
     if (selectedCards.includes(name)) {
       return store.dispatch(
-        setSelecteCards(selectedCards.filter((card) => card !== name))
+        userActions.setSelecteCards(
+          selectedCards.filter((card) => card !== name)
+        )
       );
     }
-    return store.dispatch(setSelecteCards([...selectedCards, name]));
+    return store.dispatch(
+      userActions.setSelecteCards([...selectedCards, name])
+    );
   };
 
   //-------------------DEVELOPMENT-----------------//

@@ -6,7 +6,7 @@ import {
 import store from "../redux/store";
 import { burnStack, hasToPickUp, switchActivePlayer } from "../redux/gameSlice";
 import { faStoreAlt } from "@fortawesome/free-solid-svg-icons";
-import { setNotification } from "../redux/userSlice";
+import userAction from "../redux/userSlice";
 import { notifications } from "../config/notificationMessages";
 
 const gameState = store.getState((state) => state.gameState.value);
@@ -127,10 +127,12 @@ export function setFaceCards(cards, playerId) {
   if (player.hasSetFaceCards) return;
 
   if (cards.length !== 3) {
-    return store.dispatch(setNotification(notifications.setThreeFaceCards));
+    return store.dispatch(
+      userAction.setNotification(notifications.setThreeFaceCards)
+    );
   }
   if (!checkCardsAreInHand(cards, playerId)) {
-    store.dispatch(setNotification(notifications.cardsNotInHand));
+    store.dispatch(userAction.setNotification(notifications.cardsNotInHand));
     return;
   }
   toBeEmitted.push([
@@ -145,15 +147,15 @@ export function setFaceCards(cards, playerId) {
 export function playCards(cards, playerId) {
   const toBeEmitted = [];
   if (!checkActivePlayer(playerId)) {
-    store.dispatch(setNotification(notifications.notYourTurn));
+    store.dispatch(userAction.setNotification(notifications.notYourTurn));
     return;
   }
   if (!checkCardsAreInHand(cards, playerId)) {
-    store.dispatch(setNotification(notifications.cardsNotInHand));
+    store.dispatch(userAction.setNotification(notifications.cardsNotInHand));
     return;
   }
   if (getActiveHand(playerId) !== "faceDownCards" && !checkLegalMove(cards)) {
-    store.dispatch(setNotification(notifications.illegalMove));
+    store.dispatch(userAction.setNotification(notifications.illegalMove));
     return;
   }
   //---ADD TO 'TO BE EMMITED' ARRAY------//

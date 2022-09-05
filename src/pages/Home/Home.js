@@ -9,11 +9,13 @@ import Modal from "../../components/UI/Modal";
 import CreateGameModal from "./CreateGameModal";
 import PlayComputerModal from "./PlayComputerModal";
 import { useSelector } from "react-redux";
-import { setNotification, setInfo } from "../../redux/userSlice";
-import { createRoom, resetGame } from "../../redux/gameSlice";
+import userActions from "../../redux/userSlice";
+import gameActions from "../../redux/gameSlice";
 import generateRoomId from "../../utils/generateRoomId";
 import store from "../../redux/store";
-import { io } from "socket.io-client";
+import { useSocket } from "../../context/SocketProvider";
+import { Link } from "react-router-dom";
+import { getGameState } from "../../gameLogic/gameLogic";
 
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -22,10 +24,13 @@ const Home = ({ className }) => {
   const [modal, setModal] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const name = useRef();
+  const socket = useSocket();
 
   const params = useParams();
 
   const user = useSelector((state) => state.user.value);
+
+  // console.log(getGameState());
 
   const setAvatarHandler = (avatar) => {
     setAvatar(avatar);
@@ -39,23 +44,22 @@ const Home = ({ className }) => {
     const player = {
       name: name.current.value,
       avatar,
-      // id: getPlayerId(),
-      id: "PLAYER1ID",
+      id: user.id,
     };
-    store.dispatch(setInfo(player));
+    store.dispatch(userActions.setInfo(player));
 
     //Set game to initial conditions
-    store.dispatch(resetGame());
+    store.dispatch(gameActions.resetGame());
 
     //Join random room Id
-    const roomId = generateRoomId();
+    const roomId = user.id;
 
     //-----IMPLEMENT ROOM JOIN FUNCTIONALITY----//
-    // io.join(roomId);
+    socket.emit("joinRoom", roomId);
 
     //Set room to room Id in GameSlice
     store.dispatch(
-      createRoom({
+      gameActions.createRoom({
         playerInfo: player,
         room: roomId,
         hostId: player.id,
@@ -65,6 +69,24 @@ const Home = ({ className }) => {
 
     //Add host id in GameSlice
     //Add player to players in GameSlice
+  };
+
+  const joinGameHandler = () => {
+    const roomId = params.roomId;
+    const player = {
+      name: name.current.value,
+      avatar,
+      id: user.id,
+    };
+    store.dispatch(userActions.setInfo(player));
+
+    //Set game to initial conditions
+    store.dispatch(gameActions.resetGame());
+
+    store.dispatch(gameActions.setRoom(roomId));
+
+    socket.emit("joinRoom", roomId);
+    socket.emit("getGameState", roomId);
   };
 
   const playComputerHandler = () => {
@@ -121,7 +143,9 @@ const Home = ({ className }) => {
       </div>
       <div className={classes.createGameBox}>
         {params.roomId && (
-          <Button text={"Join Neil's Game"} onClick={createNewGameHandler} />
+          <Link to="/lobby">
+            <Button text={"Join Neil's Game"} onClick={joinGameHandler} />
+          </Link>
         )}
         <Button text={"Create new game"} onClick={createNewGameHandler} />
         <Button text={"Play against computer"} onClick={playComputerHandler} />

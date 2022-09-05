@@ -10,8 +10,10 @@ export function useSocket() {
 let server;
 
 if (process.env.NODE_ENV === "development") {
+  console.warn("Connecting to development server...");
   server = "http://localhost:4000/";
 } else {
+  console.warn("Connecting to production server...");
   server = "https://shit-head-heroku.herokuapp.com/";
 }
 
@@ -22,7 +24,7 @@ export function SocketProvider({ id, children }) {
     const newSocket = io(server);
     setSocket(newSocket);
     return () => {
-      console.log("DISCONNECTING");
+      console.error("DISCONNECTING");
       newSocket.disconnect();
     };
   }, []);

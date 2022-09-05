@@ -47,11 +47,11 @@ export function shuffleDeck(deck) {
   return shuffledDeck;
 }
 
-const allCardsHaveEqualValue = (cards, deckRef) => {
+export const allCardsHaveEqualValue = (cards, deckRef) => {
   return cards.every((card) => deckRef[card].value === deckRef[cards[0]].value);
 };
 
-const cardsWillReverseDirection = (cards, deckRef) => {
+export const cardsWillReverseDirection = (cards, deckRef) => {
   if (!deckRef(cards[0]).reverse) return false;
   if (cards.length % 2 === 1) return true;
   return false;

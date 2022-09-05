@@ -15,7 +15,9 @@ const Lobby = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const [notification, setNotification] = useState(false);
 
-  const gamePlayers = useSelector((state) => state.game.value.players);
+  const gameState = useSelector((state) => state.game.value);
+  const players = gameState.players;
+  const room = gameState.room;
 
   const emptyJSX = [
     <LobbyPlayer />,
@@ -25,13 +27,9 @@ const Lobby = ({ className }) => {
   ];
 
   const playerJSXXX = emptyJSX.map((player, i) => {
-    if (gamePlayers[i]) {
+    if (players[i]) {
       return (
-        <LobbyPlayer
-          key={i}
-          name={gamePlayers[i].name}
-          image={gamePlayers[i].avatar}
-        />
+        <LobbyPlayer key={i} name={players[i].name} image={players[i].avatar} />
       );
     }
     return <LobbyPlayer key={i} />;
@@ -56,19 +54,25 @@ const Lobby = ({ className }) => {
     <div className={classesList}>
       <Tile className={classes.firstTile}>
         <h4>Waiting for other players...</h4>
-        <div
-          className={classes.codeBox}
-          onClick={() =>
-            setNotification({
-              copy: true,
-              type: "success",
-              text: "Code copied to clipboard!",
-            })
-          }
-        >
-          <h4>o2k37o</h4>
-          <FontAwesomeIcon icon={faCopy} />
-        </div>
+        <a href={`http://localhost:3000/${room}`} target="_blank">
+          <div
+            className={classes.codeBox}
+            onClick={() => {
+              // navigator.clipboard
+              //   .writeText(`http://localhost:3000/${room}`)
+              //   .then(() => {
+              //     setNotification({
+              //       copy: true,
+              //       type: "success",
+              //       text: "Link copied to clipboard!",
+              //     });
+              //   });
+            }}
+          >
+            <h4>Room ID: {room}</h4>
+            <FontAwesomeIcon icon={faCopy} />
+          </div>
+        </a>
       </Tile>
       <Tile className={classes.largerTile}>
         <div className={classes.playersContainer}>

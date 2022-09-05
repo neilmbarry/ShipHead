@@ -9,10 +9,10 @@ import { SocketProvider } from "./context/SocketProvider";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {/* <SocketProvider> */}
-    <Provider store={store}>
-      <App />
-    </Provider>
-    {/* </SocketProvider> */}
+    <SocketProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </SocketProvider>
   </React.StrictMode>
 );

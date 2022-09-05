@@ -131,6 +131,9 @@ const gameSlice = createSlice({
         },
       ];
     },
+    setRoom: (state, action) => {
+      state.value.room = action.payload;
+    },
     newGame: (state, action) => {
       state.value = {
         ...state.value,
@@ -286,31 +289,6 @@ const gameSlice = createSlice({
   },
 });
 
-export const {
-  resetGame,
-  newGame,
-  drawCard,
-  playCard,
-  takeStack,
-  dealCards,
-  selectFaceUpCards,
-  setDeck,
-  addPlayer,
-  setActivePlayer,
-  burnStack,
-  switchActivePlayer,
-  changeDirection,
-  setWinner,
-  removePlayer,
-  hasToPickUp,
-  setGameState,
-  setCurrentPlayer,
-  setShipHead,
-  setGameOver,
-  setRoom,
-  setPlayerInfo,
-  takeFaceUpCards,
-  createRoom,
-} = gameSlice.actions;
+export default gameSlice.actions;
 
-export default gameSlice.reducer;
+export const gameReducer = gameSlice.reducer;
