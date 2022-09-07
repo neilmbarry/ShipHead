@@ -21,8 +21,6 @@ const stackState = gameState().stack;
 
 const userId = userState().id;
 
-const playersState = gameState().players;
-
 const getTopStackCard = () => {
   return stackState[stackState.length - 1];
 };
@@ -81,12 +79,12 @@ export function checkLegalMove(cards) {
 }
 
 const checkActivePlayer = (id) => {
-  if (gameState.activePlayer === id) return true;
+  if (gameState().activePlayerId === id) return true;
   return false;
 };
 
 const getActiveHand = (playerId) => {
-  const player = playersState.find((player) => player.id === playerId);
+  const player = gameState().players.find((player) => player.id === playerId);
   if (player.handCards.length > 0) return "handCards";
   if (player.faceUpCards.length > 0) return "faceUpCards";
   if (player.faceDownCards.length > 0) return "faceDownCards";
@@ -95,22 +93,22 @@ const getActiveHand = (playerId) => {
 
 const checkCardsAreInHand = (cards, playerId) => {
   const activeHand = getActiveHand(playerId);
-  const player = playersState.find((player) => player.id === playerId);
+  const player = gameState().players.find((player) => player.id === playerId);
   //MIGHT NOT WORK
   if (player[activeHand].includes(cards)) return true;
   return false;
 };
 
-const checkWinner = (playerId) => {
+export const checkWinner = (playerId) => {
   if (!getActiveHand(playerId)) {
     return true;
   }
   return false;
 };
 
-const checkDrawCards = (playerId) => {
+export const checkDrawCards = (playerId) => {
   if (stackState.length === 0) return false;
-  const player = playersState.find((player) => player.id === playerId);
+  const player = gameState().players.find((player) => player.id === playerId);
   if (player.handCards >= 3) return false;
   const cardsToPickUp = 3 - player.handCards.length;
   const actualCardsToPickUp = Math.min(stackState.length, cardsToPickUp);
@@ -118,7 +116,7 @@ const checkDrawCards = (playerId) => {
 };
 
 const checkGameOver = () => {
-  const activePlayers = playersState.filter(
+  const activePlayers = gameState().players.filter(
     (player) => player.playing === true
   );
   if (activePlayers.length === 1) {
@@ -129,7 +127,7 @@ const checkGameOver = () => {
 
 export function setFaceCards(cards, playerId) {
   const toBeEmitted = [];
-  const player = playersState.find((player) => player.id === playerId);
+  const player = gameState().players.find((player) => player.id === playerId);
 
   if (player.hasSetFaceCards) return;
 
@@ -150,6 +148,29 @@ export function setFaceCards(cards, playerId) {
     },
   ]);
 }
+
+export const allPlayersHaveSetFaceCards = () => {
+  console.log("checking if all players ready");
+  if (gameState().players.every((player) => player.hasSetFaceUpCards)) {
+    return true;
+  }
+};
+
+export const playerWithLowestStarter = () => {
+  const handWorth = (cards) => {
+    return cards.reduce((acc, card) => {
+      console.log(gameState().deckRef[card].worth);
+      return gameState().deckRef[card].worth + acc;
+    }, 0);
+  };
+  const justIdAndCards = gameState().players.map((player) => ({
+    id: player.id,
+    handCardsWorth: handWorth(player.handCards),
+  }));
+  justIdAndCards.sort((a, b) => a.handCardsWorth - b.handCardsWorth);
+  console.log(justIdAndCards);
+  return justIdAndCards[0].id;
+};
 
 export function playCards(cards, playerId) {
   const toBeEmitted = [];
@@ -231,7 +252,7 @@ export function playCards(cards, playerId) {
     toBeEmitted.push([
       "changeDirection",
       {
-        direction: !gameState.direction,
+        directionClockwise: !gameState().directionClockwise,
       },
     ]);
     toBeEmitted.push([
@@ -274,3 +295,54 @@ export function checkBurnStack() {
 
   return false;
 }
+
+// export const getNextPlayerId = (skip = 1) => {
+//   const gameStateCurrent = gameState();
+//   const direction = gameStateCurrent.directionClockwise;
+//   let currentActivePlayerIndex = gameStateCurrent.players.indexOf(
+//     (player) => player.playerId === gameStateCurrent.activePlayerId
+//   );
+//   let nextPlayerId = null;
+//   while (!nextPlayerId) {
+//     currentActivePlayerIndex =
+//       (currentActivePlayerIndex + (direction ? 1 * skip : -1 * skip)) %
+//       gameStateCurrent.players.length;
+//     if (gameStateCurrent.players[currentActivePlayerIndex].playing) {
+//       nextPlayerId = gameStateCurrent.players[currentActivePlayerIndex].id;
+//     }
+//   }
+// };
+
+export const getNextPlayerId = (skip = 0) => {
+  let loopStop = 0;
+  const gameStateCurrent = gameState();
+  const players = gameStateCurrent.players;
+  console.log("THIS FAR -----<", players[0].id);
+  console.log("THIS FAR -----<", gameStateCurrent.activePlayerId);
+  const direction = gameStateCurrent.directionClockwise ? 1 : -1;
+  let moves = direction * (1 + skip);
+  let currentActivePlayer = players.find(
+    (player) => player.id === gameStateCurrent.activePlayerId
+  );
+  let currentActivePlayerIndex = players.indexOf(currentActivePlayer);
+
+  console.log("THIS FAR -----<", currentActivePlayerIndex);
+  while (moves !== 0 && loopStop < 10) {
+    console.log("another loop");
+    let moveIndex = currentActivePlayerIndex + direction;
+    if (moveIndex < 0) moveIndex += players.length;
+    console.log("by yeeeeeah4");
+    console.log(players[moveIndex % players.length].id);
+    currentActivePlayerIndex = [moveIndex % players.length];
+    if (!players[currentActivePlayerIndex].playing) {
+      loopStop++;
+      console.log("by yeeeeeah1");
+    } else {
+      moves -= direction;
+      loopStop++;
+      console.log("by yeeeeeah2");
+    }
+  }
+  console.log("FINAL: ", players[currentActivePlayerIndex].id);
+  return players[currentActivePlayerIndex].id;
+};

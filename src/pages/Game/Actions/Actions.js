@@ -4,6 +4,8 @@ import Button from "../../../components/UI/Button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useSocket } from "../../../context/SocketProvider";
+import store from "../../../redux/store";
+import userActions from "../../../redux/userSlice";
 
 const Actions = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -11,6 +13,17 @@ const Actions = ({ className }) => {
   const gameState = useSelector((state) => state.game.value);
   const socket = useSocket();
   const player = gameState.players.find((player) => player.id === userState.id);
+  const activeHand = () => {
+    if (player.handCards.length > 0) {
+      return "handCards";
+    }
+    if (player.faceUpCards.length > 0) {
+      return "faceUpCards";
+    }
+    if (player.faceDownCards.length > 0) {
+      return "faceDownCards";
+    }
+  };
 
   const playerHasSetFaceCards = player?.hasSetFaceUpCards;
   const selectedCards = userState.selectedCards;
@@ -22,9 +35,20 @@ const Actions = ({ className }) => {
       cards: selectedCards,
       room: gameState.room,
     });
+    store.dispatch(userActions.setSelecteCards([]));
   };
 
-  const playCardsHandler = () => {};
+  const playCardsHandler = () => {
+    console.log("emiiting cards to play");
+    console.log(activeHand());
+    socket.emit("playCards", {
+      playerId: userState.id,
+      hand: activeHand(),
+      cards: selectedCards,
+      room: gameState.room,
+    });
+    store.dispatch(userActions.setSelecteCards([]));
+  };
 
   const takeCardsHandler = () => {};
 

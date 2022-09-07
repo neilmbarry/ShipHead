@@ -3,6 +3,7 @@ import classes from "./Opponent.module.css";
 import OpponentInfo from "./OpponentInfo";
 import OpponentFaceCards from "./OpponentFaceCards";
 import OpponentHandCards from "./OpponentHandCards";
+import { useSelector } from "react-redux";
 
 const Opponent = ({
   className,
@@ -13,7 +14,11 @@ const Opponent = ({
   faceDownCards,
   handCards,
 }) => {
-  const classesList = `${classes.main} ${className}`;
+  const activePlayerId = useSelector(
+    (state) => state.game.value.activePlayerId
+  );
+  const active = activePlayerId === playerId ? "active" : "";
+  const classesList = `${classes.main} ${className} ${classes[active]}`;
   return (
     <div className={classesList}>
       <OpponentFaceCards

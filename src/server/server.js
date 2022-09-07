@@ -74,12 +74,25 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("addPlayer", player);
   });
 
-  socket.on("startGame", ({ deck, room }) => {
-    io.to(room).emit("startGame", deck);
+  socket.on("startGame", (info) => {
+    console.log("STARTING GMAE", info.room);
+    io.to(info.room).emit("startGame", info);
   });
 
   socket.on("setFaceUpCards", ({ cards, playerId, room }) => {
     io.in(room).emit("setFaceUpCards", { cards, playerId });
+  });
+
+  socket.on("setActivePlayer", ({ id, roomId }) => {
+    io.in(roomId).emit("setActivePlayer", id);
+  });
+
+  socket.on("playCards", (data) => {
+    io.in(data.room).emit("playCards", {
+      cards: data.cards,
+      playerId: data.playerId,
+      hand: data.hand,
+    });
   });
 
   //--------- BELOW IS SHITE -----------//
@@ -92,9 +105,6 @@ io.on("connection", (socket) => {
   //   io.in(info.room).emit("pickUpStack", info.playerNumber);
   // });
 
-  // socket.on("playCards", (data) => {
-  //   io.in(data.room).emit("playCards", data);
-  // });
   // socket.on("sortCards", (player) => {
   //   io.emit("sortCards", player);
   // });

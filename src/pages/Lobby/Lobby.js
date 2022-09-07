@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import classes from "./Lobby.module.css";
@@ -20,13 +20,19 @@ const Lobby = ({ className }) => {
   const [notification, setNotification] = useState(false);
   const socket = useSocket();
   const gameState = useSelector((state) => state.game.value);
+  const navigate = useNavigate();
 
   const players = gameState.players;
   const room = gameState.room;
 
   const startGameHandler = () => {
+    console.log({
+      ...generateDeck(),
+      room,
+    });
     socket.emit("startGame", {
       ...generateDeck(),
+      room,
     });
   };
   const emptyJSX = [
@@ -66,6 +72,14 @@ const Lobby = ({ className }) => {
   // const playersJSX = gamePlayers.map((player) => (
   //   <LobbyPlayer name={player.name} image={player.avatar} />
   // ));
+
+  useEffect(() => {
+    if (!gameState.gameOver) {
+      console.log(gameState);
+      return navigate("/game");
+    }
+  }, [gameState, navigate]);
+
   return (
     <div className={classesList}>
       <Tile className={classes.firstTile}>

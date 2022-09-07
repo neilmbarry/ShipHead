@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { generateDeck, shuffleDeck } from "../../gameLogic/gameUtils";
+import {
+  allPlayersHaveSetFaceCards,
+  playerWithLowestStarter,
+} from "../../gameLogic/gameLogic";
 
 import classes from "./Game.module.css";
 
@@ -11,18 +15,26 @@ import Stack from "./Stack/Stack";
 import Message from "./Message/Message";
 import Actions from "./Actions/Actions";
 import Opponents from "./Opponent/Opponents";
+import { useSocket } from "../../context/SocketProvider";
 
 const Game = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const userState = useSelector((state) => state.user.value);
   const gameState = useSelector((state) => state.game.value);
   const host = userState.id === gameState.hostId;
+  const socket = useSocket();
 
   useEffect(() => {
     if (gameState.gameOver || !host) return;
-    // Deal cards
     // (Players set Face Cards)
     // Check all players have set FaceUp cards
+    if (allPlayersHaveSetFaceCards() && !gameState.activePlayerId) {
+      console.warn("Setting Lowest starter");
+      socket.emit("setActivePlayer", {
+        id: playerWithLowestStarter(),
+        roomId: gameState.room,
+      });
+    }
     // Set Computer Face Cards?
     // Decide who has lowest starting hand
     // (play begins)
@@ -37,9 +49,9 @@ const Game = ({ className }) => {
     //
     //-----REGULAR PLAY------//
     const toBeEmitted = [];
-    const newDeck = shuffleDeck(generateDeck()[0]);
-    toBeEmitted.push("setDeck", newDeck);
-    toBeEmitted.push("dealCards");
+
+    // toBeEmitted.push("setDeck", newDeck);
+    // toBeEmitted.push("dealCards");
   }, [host, gameState]);
 
   return (
