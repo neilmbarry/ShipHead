@@ -16,6 +16,7 @@ import store from "../../redux/store";
 import { useSocket } from "../../context/SocketProvider";
 import { Link } from "react-router-dom";
 import { getGameState } from "../../gameLogic/gameLogic";
+import { generateDeck } from "../../gameLogic/gameUtils";
 
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -55,7 +56,7 @@ const Home = ({ className }) => {
     const roomId = user.id;
 
     //-----IMPLEMENT ROOM JOIN FUNCTIONALITY----//
-    socket.emit("joinRoom", roomId);
+    socket.emit("joinRoom", { roomId, player });
 
     //Set room to room Id in GameSlice
     store.dispatch(
@@ -85,8 +86,7 @@ const Home = ({ className }) => {
 
     store.dispatch(gameActions.setRoom(roomId));
 
-    socket.emit("joinRoom", roomId);
-    socket.emit("getGameState", roomId);
+    socket.emit("joinRoom", { roomId, player });
   };
 
   const playComputerHandler = () => {
@@ -97,6 +97,47 @@ const Home = ({ className }) => {
       });
     }
     setModal({ playComputer: true });
+  };
+
+  const createComputerGame = (quantity) => {
+    const player = {
+      name: name.current.value,
+      avatar,
+      id: user.id,
+    };
+    store.dispatch(userActions.setInfo(player));
+
+    //Set game to initial conditions
+    store.dispatch(gameActions.resetGame());
+
+    //Join random room Id
+    const roomId = user.id;
+
+    socket.emit("joinRoom", { roomId, player });
+
+    //Set room to room Id in GameSlice
+    store.dispatch(
+      gameActions.createRoom({
+        playerInfo: player,
+        room: roomId,
+        hostId: player.id,
+      })
+    );
+
+    for (let i = 1; i < quantity; i++) {
+      store.dispatch(
+        gameActions.addPlayer({
+          name: "bot",
+          avatar: `avatar${i}`,
+          bot: true,
+          id: i,
+        })
+      );
+    }
+    store.dispatch(gameActions.startGame(generateDeck()[0]));
+    setTimeout(() => {
+      store.dispatch(gameActions.dealCards());
+    }, 2000);
   };
 
   const showNotification = notification && (
@@ -115,7 +156,10 @@ const Home = ({ className }) => {
   );
   const showPlayComputerModal = modal.playComputer && (
     <Modal onClose={() => setModal(false)}>
-      <PlayComputerModal onClose={() => setModal(false)} />
+      <PlayComputerModal
+        onClose={() => setModal(false)}
+        onPlayComputer={createComputerGame}
+      />
     </Modal>
   );
   const showContactModal = modal.contact && (

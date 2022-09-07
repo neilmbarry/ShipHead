@@ -8,7 +8,7 @@ import {
 export function generateDeck() {
   // Create a deck to use in state, and deckRef to hold info about values, powers etc.
   const deck = [];
-  const deckReference = {};
+  const deckRef = {};
 
   suits.forEach((suit) => {
     cardValues.forEach((value) => {
@@ -21,14 +21,14 @@ export function generateDeck() {
         (entry) => entry[1] === value[0]
       );
       deck.push(value[0] + suit);
-      deckReference[value[0] + suit] = {
+      deckRef[value[0] + suit] = {
         power: power ? power[0] : false,
         worth: power ? 15 : value[1],
         reverse: reverse ? true : false,
       };
     });
   });
-  return [deck, deckReference];
+  return { deck: shuffleDeck(deck), deckRef };
 }
 
 export function shuffleDeck(deck) {

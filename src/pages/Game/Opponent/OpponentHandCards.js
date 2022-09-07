@@ -14,7 +14,7 @@ const OpponentHandCards = ({ className, handCards }) => {
     if (i > 42) return null;
     return <Card name="back" back={true} className={classes.card} key={name} />;
   });
-  const handCardsJSX = handCards.map((card) => (
+  const handCardsJSX = handCards?.map((card) => (
     <Card name="back" back={true} className={classes.card} key={card} />
   ));
   return (

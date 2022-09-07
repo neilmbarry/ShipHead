@@ -9,26 +9,35 @@ import store from "./redux/store";
 import gameActions from "./redux/gameSlice";
 import userActions from "./redux/userSlice";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { checkBurnStack, gameState } from "./gameLogic/gameLogic";
+import { socketFunctions } from "./context/SocketFunctions";
 
 function App() {
   const socket = useSocket();
-
-  const gameState = useSelector((state) => state.game.value);
-  console.log("CONSOLE LOG OF GAMESTATE VARIABLE IN APP COMPONENT", gameState);
+  // const gameState = useSelector((state) => state.game.value);
+  // console.log("CONSOLE LOG OF GAMESTATE VARIABLE IN APP COMPONENT", gameState);
+  console.log("App has rendered.");
+  const navigate = useNavigate();
   useEffect(() => {
     if (!socket) return;
     //Set user room Id to player id in UserSlice
+
+    socketFunctions(socket);
+
+    // socket.on("message", (message) => {
+    //   console.warn(message);
+    // });
 
     socket.on("userID", (userID) => {
       console.log(userID);
       store.dispatch(userActions.setId(userID));
     });
 
-    socket.on("shareGameState", () => {
-      console.log("Sharing state ", gameState);
+    socket.on("shareGameState", (newPlayer) => {
       socket.emit("setGameState", {
-        room: gameState.room,
-        state: gameState,
+        state: gameState(),
+        newPlayer,
       });
     });
 
@@ -37,37 +46,49 @@ function App() {
       store.dispatch(gameActions.setGameState(state));
     });
 
-    // socket.on("shareGameState", (newPlayer) => {
-    //   console.log("Sharing game state");
+    socket.on("addPlayer", (player) => {
+      console.log("New Player has joined: ", player.name);
+      store.dispatch(gameActions.addPlayer(player));
+    });
 
-    //   // socket.to(room).emit("setGameState", getGameState());
+    socket.on("removePlayer", (playerId) => {
+      store.dispatch(gameActions.removePlayer(playerId));
+    });
 
-    //   socket.emit("setGameState", { state: getGameState(), newPlayer });
-    // });
+    socket.on("startGame", (deck) => {
+      navigate("/game");
+      store.dispatch(gameActions.startGame(deck));
+      setTimeout(() => {
+        store.dispatch(gameActions.dealCards());
+      }, 3000);
+    });
 
-    // socket.on("setGameState", (state) => {
-    //   console.log("setting game state");
-    //   console.log(state);
-    //   setAppState(state);
-    //   // setPlayer();
-    // });
+    socket.on("setFaceUpCards", ({ cards, playerId }) => {
+      store.dispatch(gameActions.selectFaceUpCards({ cards, playerId }));
+    });
 
-    // socket.on("message", (message) => {
-    //   console.warn("CLIENT", message);
-    //   // return;
-    // });
-    // socket.on("groupChat", (message) => {
-    //   console.log("Someone else: ", message);
-    //   // return;
-    // });
-    // socket.on("addPlayer", (player) => {
-    //   console.log("New Player has joined: ", player.name);
-    //   addNewPlayer(player);
-    // });
-    // socket.on("dealCards", (deck) => {
-    //   console.log("Dealing Cards");
-    //   startGame(deck);
-    // });
+    socket.on("playCards", ({ cards, playerId }) => {
+      const legalMove = true;
+      store.dispatch(gameActions.playCards({ cards, playerId }));
+      // Check legal move
+      // UNDO EVERYTHING BELOW
+      // if (!legalMove) {
+      //   return store.dispatch(gameActions.hasToPickUp(playerId));
+      // }
+      // // Check Burn
+      // if (checkBurnStack()) {
+      //   store.dispatch(gameActions.burnStack());
+      // }
+      // // Check draw cards
+      // if (checkDrawCards()) {
+      //   store.dispatch(gameActions.drawCard());
+      // }
+      // Check winner
+      // Check SHIPHEAD
+      // Check reverse
+      // Switch Player
+    });
+
     // socket.on("setFaceUpCards", ({ cards, player }) => {
     //   console.log("called");
     //   setFaceUpCards(cards, player);
@@ -101,17 +122,17 @@ function App() {
   useEffect(() => {});
   return (
     <div className={classes.app}>
-      <Router>
-        <Routes>
-          <Route path="/">
-            <Route path="/" element={<Home />} />
-            <Route path="/:roomId" element={<Home />} />
-          </Route>
-          {/* <Route path="/join/:roomId" element={<Join />} /> */}
-          <Route path="/lobby" element={<Lobby />} />
-          <Route path="/game" element={<Game />} />
-        </Routes>
-      </Router>
+      {/* <Router> */}
+      <Routes>
+        <Route path="/">
+          <Route path="/" element={<Home />} />
+          <Route path="/:roomId" element={<Home />} />
+        </Route>
+        {/* <Route path="/join/:roomId" element={<Join />} /> */}
+        <Route path="/lobby" element={<Lobby />} />
+        <Route path="/game" element={<Game />} />
+      </Routes>
+      {/* </Router> */}
     </div>
   );
 }

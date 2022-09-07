@@ -9,15 +9,19 @@ import { faStoreAlt } from "@fortawesome/free-solid-svg-icons";
 import userAction from "../redux/userSlice";
 import { notifications } from "../config/notificationMessages";
 
-const gameState = store.getState((state) => state.gameState.value);
-const stackState = store.getState((state) => state.gameState.value).stack;
-const playerId = store.getState((state) => state.user.value.id);
-const playerState = store
-  .getState((state) => state.gameState.value)
-  .players.find((player) => player.id === playerId);
-const playersState = store.getState((state) => state.gameState.value).players;
+export function gameState() {
+  return store.getState().game.value;
+}
 
-const [deck, deckRef] = generateDeck();
+export function userState() {
+  return store.getState().user.value;
+}
+
+const stackState = gameState().stack;
+
+const userId = userState().id;
+
+const playersState = gameState().players;
 
 const getTopStackCard = () => {
   return stackState[stackState.length - 1];
@@ -25,17 +29,20 @@ const getTopStackCard = () => {
 
 export function checkLegalMove(cards) {
   // Check if there are no cards or multiple different valued cards [played]
-  if (cards.length === 0 || !allCardsHaveEqualValue(cards, deckRef))
+  if (cards.length === 0 || !allCardsHaveEqualValue(cards, gameState().deckRef))
     return false;
   // Check if there is an empty stack
   if (stackState.length === 0) return true;
   // Check if it's a four of a kind [played]
-  if (allCardsHaveEqualValue(cards, deckRef) && cards.length === 4) {
+  if (
+    allCardsHaveEqualValue(cards, gameState().deckRef) &&
+    cards.length === 4
+  ) {
     return true;
   }
   // Set Player and Stack card info for comparison
-  const topStackCardInfo = deckRef[getTopStackCard()];
-  const playedCardInfo = deckRef[cards[0]];
+  const topStackCardInfo = gameState().deckRef[getTopStackCard()];
+  const playedCardInfo = gameState().deckRef[cards[0]];
   // Check if playing a power card
   if (playedCardInfo.power) {
     return true;
@@ -167,18 +174,6 @@ export function playCards(cards, playerId) {
     },
   ]);
 
-  //   store.dispatch(
-  //     playCards({
-  //       playerId: "asdfasdf342",
-  //       cards,
-  //     })
-  //   );
-  //---ADD TO 'TO BE EMMITED' ARRAY------//
-  const playerName = playersState.find((player) => player.id === playerId).name;
-  toBeEmitted.push(["setGameEvent", { name: playerName, cards }]);
-
-  //   store.dispatch(setGameEvent());
-
   if (!checkLegalMove(cards)) {
     //---ADD TO 'TO BE EMMITED' ARRAY------//
     toBeEmitted.push([
@@ -192,11 +187,8 @@ export function playCards(cards, playerId) {
       },
     ]);
     return toBeEmitted;
-    // store.dispatch(setGameAnnouncement("Betrayed by the blind Card!"));
-    // return store.dispatch(hasToPickUp(playerId));
   }
 
-  //---ADD RETURN VALUES TO 'TO BE EMMITED' ARRAY------//
   if (checkWinner()) {
     toBeEmitted.push("setWinner", {
       playerId,
@@ -265,7 +257,7 @@ export function checkBurnStack() {
   // Check for empty stack
   if (stackState.length === 0) return false;
 
-  const topStackCardInfo = deckRef[getTopStackCard(stackState)];
+  const topStackCardInfo = gameState().deckRef[getTopStackCard(stackState)];
 
   if (topStackCardInfo.power === "burn") {
     return true;
@@ -276,7 +268,7 @@ export function checkBurnStack() {
     (card, i) => i >= stackState.length - 4
   );
 
-  if (allCardsHaveEqualValue(lastFourCards, deckRef)) {
+  if (allCardsHaveEqualValue(lastFourCards, gameState().deckRef)) {
     return true;
   }
 

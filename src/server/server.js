@@ -21,44 +21,45 @@ const io = require("socket.io")(server, {
 app.get("/", function (req, res) {
   res.send("<h1>Ship Head is Ready!</h1>");
 });
+console.log("-------------RESET------------");
 
 io.on("connection", (socket) => {
-  console.log("New User connected");
-  console.log(socket.rooms);
+  console.log("New User connected: ", socket.id);
 
   // Just to 1 user
-  socket.emit("message", `[SERVER] You have connected`);
-
-  socket.emit("message", socket.handshake.query.t);
-
-  socket.emit("userID", [...socket.rooms][0]);
-
-  // To everyone but 1 user
+  socket.emit("message", `You have connected (${socket.id})`);
+  socket.emit("userID", socket.id);
 
   socket.broadcast.emit(
     "message",
     `[SERVER] A user NEW has joined: ${socket.handshake.query.t}`
   );
 
-  socket.on("disconnect", (info) => {
-    console.log("A User DISCONNECT XXXXXXXXXXXXXXXXX", info.client);
-    // To everyone
-    io.emit("message", "[SERVER] A user has left the chat");
+  socket.on("disconnecting", () => {
+    console.log(socket.id, " is disconnecting. Rooms are: ", socket.rooms);
+    io.emit("message", "A player is disconnecting...");
+    io.emit("removePlayer", socket.id);
   });
 
-  // socket.on("message", (message) => {
-  //   // when receiving message, emits message to everyone
-  //   io.emit("message", message);
-  //   console.log(message);
-  // });
+  socket.on("disconnect", (info) => {
+    console.log("A User DISCONNECT XXXXXXXXXXXXXXXXX");
+  });
 
   socket.on("groupChat", (message) => {
     socket.broadcast.emit("groupChat", message);
   });
 
-  socket.on("joinRoom", (room) => {
-    console.log("Someone has joined room: ", room);
-    socket.join(room);
+  socket.on("joinRoom", ({ roomId, player }) => {
+    console.log(`${player.name} has joined room: `, roomId);
+    socket.join(roomId);
+    socket.to(roomId).emit("message", `${player.name} has joined the room.`);
+    socket.in(roomId).emit("shareGameState", player);
+  });
+
+  socket.on("setGameState", ({ state, newPlayer }) => {
+    console.log(`Sending state to all users`);
+    io.in(state.room).emit("setGameState", state);
+    io.in(state.room).emit("addPlayer", newPlayer);
   });
 
   socket.on("leaveRoom", (room) => {
@@ -66,77 +67,46 @@ io.on("connection", (socket) => {
     socket.leave(room);
   });
 
-  socket.on("addPlayer", (data) => {
-    console.log(`Adding player '${data.name}' to room: '${data.room}'`);
-    io.in(data.room).emit("addPlayer", data);
-  });
-  socket.on("getGameState", (room) => {
-    console.log("getting game state");
-    socket.to(room).emit("shareGameState");
-    // const clients = io.sockets.adapter.rooms.get(data.room);
-    // const numClients = clients ? clients.size : 0;
-    // console.log(data, "<=== DATA");
-    // if (numClients === 1) {
-    //   console.log("first client in room");
-    //   return io.in(data.room).emit("addPlayer", data);
-    // }
-    // console.log("NOT THE FIRST");
+  socket.on("addPlayer", ({ player, roomId }) => {
+    console.log(`Adding player '${player.name}' to room: '${roomId}'`);
+    console.log("about to emit addplayer from server");
 
-    // console.log(`'${data.name}' is requesting state data`);
-    // socket.to(data.room).emit("shareGameState", data.name);
-    // socket.to(data.room).emit("shareGameState", data.newPlayer);
-  });
-  socket.on("setGameState", (state) => {
-    console.log(state);
-    console.log(`Sending state to all users`);
-    io.in(state.room).emit("setGameState", state);
-    // console.log(
-    //   `Adding player '${data.newPlayer}' to room: '${data.state.room}'`
-    // );
-    // io.in(data.state.room).emit("addPlayer", {
-    //   room: data.state.room,
-    //   name: data.newPlayer,
-    // });
-
-    // io.emit("setGameState", state);
+    io.to(roomId).emit("addPlayer", player);
   });
 
-  socket.on("readyPlayer", (info) => {
-    io.in(info.room).emit("readyPlayer", info.playerNumber);
+  socket.on("startGame", ({ deck, room }) => {
+    io.to(room).emit("startGame", deck);
   });
 
-  socket.on("title", (message) => {
-    // when receiving title, emits title to everyone
-    io.emit("title", message);
+  socket.on("setFaceUpCards", ({ cards, playerId, room }) => {
+    io.in(room).emit("setFaceUpCards", { cards, playerId });
   });
 
-  socket.on("dealCards", (info) => {
-    io.in(info.room).emit("dealCards", info.deck);
-  });
+  //--------- BELOW IS SHITE -----------//
 
-  socket.on("setFaceUpCards", ({ cards, player, room }) => {
-    io.in(room).emit("setFaceUpCards", { cards, player });
-  });
+  // socket.on("dealCards", (info) => {
+  //   io.in(info.room).emit("dealCards", info.deck);
+  // });
 
-  socket.on("pickUpStack", (info) => {
-    io.in(info.room).emit("pickUpStack", info.playerNumber);
-  });
+  // socket.on("pickUpStack", (info) => {
+  //   io.in(info.room).emit("pickUpStack", info.playerNumber);
+  // });
 
-  socket.on("playCards", (data) => {
-    io.in(data.room).emit("playCards", data);
-  });
-  socket.on("sortCards", (player) => {
-    io.emit("sortCards", player);
-  });
-  socket.on("drawCardsFromDeck", (info) => {
-    io.in(info.room).emit("drawCardsFromDeck", info.playerNumber);
-  });
-  socket.on("reset", () => {
-    io.emit("reset");
-  });
-  socket.on("newGame", () => {
-    io.emit("newGame");
-  });
+  // socket.on("playCards", (data) => {
+  //   io.in(data.room).emit("playCards", data);
+  // });
+  // socket.on("sortCards", (player) => {
+  //   io.emit("sortCards", player);
+  // });
+  // socket.on("drawCardsFromDeck", (info) => {
+  //   io.in(info.room).emit("drawCardsFromDeck", info.playerNumber);
+  // });
+  // socket.on("reset", () => {
+  //   io.emit("reset");
+  // });
+  // socket.on("newGame", () => {
+  //   io.emit("newGame");
+  // });
 });
 
 // io.on("message", (message) => {

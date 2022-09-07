@@ -19,12 +19,28 @@ const Game = ({ className }) => {
   const host = userState.id === gameState.hostId;
 
   useEffect(() => {
-    if (!host) return;
+    if (gameState.gameOver || !host) return;
+    // Deal cards
+    // (Players set Face Cards)
+    // Check all players have set FaceUp cards
+    // Set Computer Face Cards?
+    // Decide who has lowest starting hand
+    // (play begins)
+    // (Plyaer makes a move)
+    // Check legal move
+    // Check Burn
+    // Check draw cards
+    // Check winner
+    // Check SHIPHEAD
+    // Check reverse
+    // Switch Player
+    //
+    //-----REGULAR PLAY------//
     const toBeEmitted = [];
     const newDeck = shuffleDeck(generateDeck()[0]);
     toBeEmitted.push("setDeck", newDeck);
     toBeEmitted.push("dealCards");
-  }, [host]);
+  }, [host, gameState]);
 
   return (
     <div className={classesList}>

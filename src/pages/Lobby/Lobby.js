@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import classes from "./Lobby.module.css";
 import Tile from "../../components/UI/Tile";
 import LobbyPlayer from "./LobbyPlayer";
@@ -10,15 +12,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import Notification from "../../components/UI/Notification";
 import { useSelector } from "react-redux";
+import { useSocket } from "../../context/SocketProvider";
+import { generateDeck } from "../../gameLogic/gameUtils";
 
 const Lobby = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const [notification, setNotification] = useState(false);
-
+  const socket = useSocket();
   const gameState = useSelector((state) => state.game.value);
+
   const players = gameState.players;
   const room = gameState.room;
 
+  const startGameHandler = () => {
+    socket.emit("startGame", {
+      ...generateDeck(),
+    });
+  };
   const emptyJSX = [
     <LobbyPlayer />,
     <LobbyPlayer />,
@@ -33,6 +43,12 @@ const Lobby = ({ className }) => {
       );
     }
     return <LobbyPlayer key={i} />;
+  });
+
+  const playersJSXTest = players.map((player) => {
+    return (
+      <LobbyPlayer key={player.id} name={player.name} image={player.avatar} />
+    );
   });
 
   const showCopyNotification = notification.copy && (
@@ -81,14 +97,15 @@ const Lobby = ({ className }) => {
           <LobbyPlayer />
           <LobbyPlayer /> */}
           {playerJSXXX}
+          {/* {playersJSXTest} */}
         </div>
         <div className={classes.buttonsContainer}>
           <Link to="/">
             <Button type="back" beforeIcon={faAnglesLeft} />
           </Link>
-          <Link to="/game">
-            <Button text="Start game" />
-          </Link>
+          {/* <Link to="/game"> */}
+          <Button text="Start game" onClick={startGameHandler} />
+          {/* </Link> */}
 
           <Spinner />
         </div>

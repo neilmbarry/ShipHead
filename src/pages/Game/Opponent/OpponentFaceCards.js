@@ -4,10 +4,10 @@ import Card from "../../../components/UI/Card";
 
 const OpponentFaceCards = ({ className, faceUpCards, faceDownCards }) => {
   const classesList = `${classes.main} ${className}`;
-  const faceUpJSX = faceUpCards.map((card) => (
+  const faceUpJSX = faceUpCards?.map((card) => (
     <Card className={classes.card} name={card} key={card} />
   ));
-  const faceDownJSX = faceDownCards.map((card) => (
+  const faceDownJSX = faceDownCards?.map((card) => (
     <Card className={classes.card} name={"back"} key={card} />
   ));
   return (
