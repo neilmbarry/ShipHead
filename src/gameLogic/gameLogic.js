@@ -17,12 +17,13 @@ export function userState() {
   return store.getState().user.value;
 }
 
-const stackState = gameState().stack;
+// const gameState().stack = gameState().stack;
 
 const userId = userState().id;
 
 const getTopStackCard = () => {
-  return stackState[stackState.length - 1];
+  const stack = gameState().stack;
+  return stack[stack.length - 1];
 };
 
 export function checkLegalMove(cards) {
@@ -30,7 +31,7 @@ export function checkLegalMove(cards) {
   if (cards.length === 0 || !allCardsHaveEqualValue(cards, gameState().deckRef))
     return false;
   // Check if there is an empty stack
-  if (stackState.length === 0) return true;
+  if (gameState().stack.length === 0) return true;
   // Check if it's a four of a kind [played]
   if (
     allCardsHaveEqualValue(cards, gameState().deckRef) &&
@@ -45,6 +46,7 @@ export function checkLegalMove(cards) {
   if (playedCardInfo.power) {
     return true;
   }
+  console.error(topStackCardInfo, playedCardInfo);
   // Check if played card is of greater or equal value
   if (playedCardInfo.worth >= topStackCardInfo.worth) {
     return true;
@@ -107,11 +109,11 @@ export const checkWinner = (playerId) => {
 };
 
 export const checkDrawCards = (playerId) => {
-  if (stackState.length === 0) return false;
+  if (gameState().stack.length === 0) return false;
   const player = gameState().players.find((player) => player.id === playerId);
   if (player.handCards >= 3) return false;
   const cardsToPickUp = 3 - player.handCards.length;
-  const actualCardsToPickUp = Math.min(stackState.length, cardsToPickUp);
+  const actualCardsToPickUp = Math.min(gameState().stack.length, cardsToPickUp);
   return actualCardsToPickUp;
 };
 
@@ -159,7 +161,6 @@ export const allPlayersHaveSetFaceCards = () => {
 export const playerWithLowestStarter = () => {
   const handWorth = (cards) => {
     return cards.reduce((acc, card) => {
-      console.log(gameState().deckRef[card].worth);
       return gameState().deckRef[card].worth + acc;
     }, 0);
   };
@@ -168,7 +169,6 @@ export const playerWithLowestStarter = () => {
     handCardsWorth: handWorth(player.handCards),
   }));
   justIdAndCards.sort((a, b) => a.handCardsWorth - b.handCardsWorth);
-  console.log(justIdAndCards);
   return justIdAndCards[0].id;
 };
 
@@ -276,20 +276,25 @@ export function playCards(cards, playerId) {
 
 export function checkBurnStack() {
   // Check for empty stack
-  if (stackState.length === 0) return false;
+  if (gameState().stack.length === 0) return false;
 
-  const topStackCardInfo = gameState().deckRef[getTopStackCard(stackState)];
+  const topStackCardInfo =
+    gameState().deckRef[getTopStackCard(gameState().stack)];
 
+  console.log("BURN FUNC...  ", topStackCardInfo);
   if (topStackCardInfo.power === "burn") {
     return true;
   }
-  if (stackState.length < 4) return false;
+  if (gameState().stack.length < 4) return false;
 
-  const lastFourCards = stackState.filter(
-    (card, i) => i >= stackState.length - 4
+  const lastFourCards = gameState().stack.filter(
+    (card, i) => i >= gameState().stack.length - 4
   );
 
+  console.log(lastFourCards);
+
   if (allCardsHaveEqualValue(lastFourCards, gameState().deckRef)) {
+    console.log('"BURN FUNC...  all cards are equal value"');
     return true;
   }
 
@@ -317,8 +322,7 @@ export const getNextPlayerId = (skip = 0) => {
   let loopStop = 0;
   const gameStateCurrent = gameState();
   const players = gameStateCurrent.players;
-  console.log("THIS FAR -----<", players[0].id);
-  console.log("THIS FAR -----<", gameStateCurrent.activePlayerId);
+
   const direction = gameStateCurrent.directionClockwise ? 1 : -1;
   let moves = direction * (1 + skip);
   let currentActivePlayer = players.find(
@@ -326,23 +330,16 @@ export const getNextPlayerId = (skip = 0) => {
   );
   let currentActivePlayerIndex = players.indexOf(currentActivePlayer);
 
-  console.log("THIS FAR -----<", currentActivePlayerIndex);
   while (moves !== 0 && loopStop < 10) {
-    console.log("another loop");
     let moveIndex = currentActivePlayerIndex + direction;
     if (moveIndex < 0) moveIndex += players.length;
-    console.log("by yeeeeeah4");
-    console.log(players[moveIndex % players.length].id);
     currentActivePlayerIndex = [moveIndex % players.length];
     if (!players[currentActivePlayerIndex].playing) {
       loopStop++;
-      console.log("by yeeeeeah1");
     } else {
       moves -= direction;
       loopStop++;
-      console.log("by yeeeeeah2");
     }
   }
-  console.log("FINAL: ", players[currentActivePlayerIndex].id);
   return players[currentActivePlayerIndex].id;
 };

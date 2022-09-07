@@ -10,6 +10,10 @@ import { useSelector } from "react-redux";
 const PlayerHand = ({ className, handCards }) => {
   const classesList = `${classes.main} ${className}`;
   const selectedCards = useSelector((state) => state.user.value.selectedCards);
+  const hasSetFaceCards = useSelector(
+    (state) => state.user.value.hasSetFaceCards
+  );
+  const deckRef = useSelector((state) => state.game.value.deckRef);
 
   const selectCardHandler = (name) => {
     if (selectedCards.includes(name)) {
@@ -19,6 +23,23 @@ const PlayerHand = ({ className, handCards }) => {
         )
       );
     }
+    if (!hasSetFaceCards) {
+      if (selectedCards.length === 3) {
+        return store.dispatch(
+          userActions.setSelecteCards([...selectedCards.slice(1, 3), name])
+        );
+      }
+    }
+
+    if (hasSetFaceCards) {
+      if (
+        selectedCards.length > 0 &&
+        deckRef[name].worth === deckRef[selectedCards[0]].worth
+      ) {
+        return store.dispatch(userActions.setSelecteCards([name]));
+      }
+    }
+
     return store.dispatch(
       userActions.setSelecteCards([...selectedCards, name])
     );

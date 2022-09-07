@@ -208,7 +208,7 @@ const gameSlice = createSlice({
     },
     takeStack: (state, action) => {
       const player = state.value.players.find(
-        (player) => player.id === action.payload.id
+        (player) => player.id === action.payload
       );
       // Add stack to players hand
       player.handCards.unshift(...state.value.stack);
@@ -224,7 +224,7 @@ const gameSlice = createSlice({
     },
     hasToPickUp: (state, action) => {
       state.value.players.find(
-        (player) => player.id === action.payload.id
+        (player) => player.id === action.payload
       ).hasToPickUp = true;
     },
     burnStack: (state) => {

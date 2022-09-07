@@ -27,15 +27,16 @@ const Game = ({ className }) => {
   useEffect(() => {
     if (gameState.gameOver || !host) return;
     // (Players set Face Cards)
+    // Set Computer Face Cards?
     // Check all players have set FaceUp cards
-    if (allPlayersHaveSetFaceCards() && !gameState.activePlayerId) {
+    if (!gameState.activePlayerId && allPlayersHaveSetFaceCards()) {
       console.warn("Setting Lowest starter");
       socket.emit("setActivePlayer", {
         id: playerWithLowestStarter(),
         roomId: gameState.room,
       });
     }
-    // Set Computer Face Cards?
+
     // Decide who has lowest starting hand
     // (play begins)
     // (Plyaer makes a move)

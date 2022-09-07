@@ -15,7 +15,10 @@ function App() {
   useEffect(() => {
     if (!socket) return;
     socketFunctions(socket);
-    return () => socket.disconnect();
+    return () => {
+      console.error("DISCONNECTED");
+      socket.disconnect();
+    };
   }, [socket]);
 
   return (

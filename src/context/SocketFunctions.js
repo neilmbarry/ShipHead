@@ -16,7 +16,8 @@ export const socketFunctions = (socket) => {
   });
 
   socket.on("userID", (userID) => {
-    console.log(userID);
+    console.warn("GAME RESET!");
+    store.dispatch(gameActions.resetGame());
     store.dispatch(userActions.setId(userID));
   });
 
@@ -65,13 +66,7 @@ export const socketFunctions = (socket) => {
     if (!legalMove) {
       return store.dispatch(gameActions.hasToPickUp(playerId));
     }
-    console.log("THIS FAR");
-    // Check Burn
-    if (checkBurnStack()) {
-      store.dispatch(gameActions.burnStack());
-    }
     // // Check draw cards
-    console.log("THIS FAR");
     if (checkDrawCards(playerId)) {
       store.dispatch(
         gameActions.drawCard({
@@ -80,19 +75,24 @@ export const socketFunctions = (socket) => {
         })
       );
     }
-    console.log("THIS FAR");
     // Check winner
     if (checkWinner(playerId)) {
       store.dispatch("setWinner", {
         playerId,
       });
     }
-    console.log("THIS FAR");
+    // Check Burn
+    if (checkBurnStack()) {
+      store.dispatch(gameActions.burnStack());
+    }
     // Check SHIPHEAD
     // Check reverse
     // Switch Player
     store.dispatch(gameActions.switchActivePlayer(getNextPlayerId()));
-    console.log("THIS FAR");
+  });
+
+  socket.on("takeStack", (playerId) => {
+    store.dispatch(gameActions.takeStack(playerId));
   });
 
   // socket.on("setFaceUpCards", ({ cards, player }) => {

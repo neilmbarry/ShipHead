@@ -48,7 +48,7 @@ export function shuffleDeck(deck) {
 }
 
 export const allCardsHaveEqualValue = (cards, deckRef) => {
-  return cards.every((card) => deckRef[card].value === deckRef[cards[0]].value);
+  return cards.every((card) => deckRef[card].worth === deckRef[cards[0]].worth);
 };
 
 export const cardsWillReverseDirection = (cards, deckRef) => {

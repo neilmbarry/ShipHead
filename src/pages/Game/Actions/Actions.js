@@ -50,7 +50,13 @@ const Actions = ({ className }) => {
     store.dispatch(userActions.setSelecteCards([]));
   };
 
-  const takeCardsHandler = () => {};
+  const takeCardsHandler = () => {
+    socket.emit("takeStack", {
+      id: userState.id,
+      room: gameState.room,
+    });
+    store.dispatch(userActions.setSelecteCards([]));
+  };
 
   const sortCardsHandler = () => {};
 

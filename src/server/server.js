@@ -95,6 +95,10 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("takeStack", ({ id, room }) => {
+    io.in(room).emit("takeStack", id);
+  });
+
   //--------- BELOW IS SHITE -----------//
 
   // socket.on("dealCards", (info) => {
