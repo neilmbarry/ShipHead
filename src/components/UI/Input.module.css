@@ -1,7 +1,7 @@
 .main {
   padding: 0.3rem 0.5rem;
   font-family: "Silkscreen";
-  background-color: rgb(32, 32, 32);
+  background-color: transparent;
   outline: none;
   border: 3px solid rgb(133, 133, 133);
   font-size: 1.2rem;

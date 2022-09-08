@@ -19,6 +19,7 @@
 
 .active {
   border: 2px solid gold;
+  border-radius: 15px;
 }
 
 .face {

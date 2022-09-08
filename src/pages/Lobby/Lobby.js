@@ -26,10 +26,6 @@ const Lobby = ({ className }) => {
   const room = gameState.room;
 
   const startGameHandler = () => {
-    console.log({
-      ...generateDeck(),
-      room,
-    });
     socket.emit("startGame", {
       ...generateDeck(),
       room,
@@ -75,7 +71,6 @@ const Lobby = ({ className }) => {
 
   useEffect(() => {
     if (!gameState.gameOver) {
-      console.log(gameState);
       return navigate("/game");
     }
   }, [gameState, navigate]);

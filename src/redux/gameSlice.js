@@ -181,18 +181,13 @@ const gameSlice = createSlice({
       state.value.activePlayerId = action.payload;
     },
     playCards: (state, action) => {
-      console.log("inside PlayCards action");
       const player = state.value.players.find(
         (player) => player.id === action.payload.playerId
       );
-      console.warn("here", action.payload.hand);
       player[action.payload.hand] = player[action.payload.hand].filter(
         (card) => !action.payload.cards.includes(card)
       );
-      console.warn("and here");
       state.value.stack.push(...action.payload.cards);
-      console.warn("not here");
-      console.warn(state.value.stack);
     },
     drawCard: (state, action) => {
       const player = state.value.players.find(

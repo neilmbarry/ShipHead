@@ -46,7 +46,6 @@ export function checkLegalMove(cards) {
   if (playedCardInfo.power) {
     return true;
   }
-  console.error(topStackCardInfo, playedCardInfo);
   // Check if played card is of greater or equal value
   if (playedCardInfo.worth >= topStackCardInfo.worth) {
     return true;
@@ -85,11 +84,11 @@ const checkActivePlayer = (id) => {
   return false;
 };
 
-const getActiveHand = (playerId) => {
+export const getActiveHand = (playerId) => {
   const player = gameState().players.find((player) => player.id === playerId);
-  if (player.handCards.length > 0) return "handCards";
-  if (player.faceUpCards.length > 0) return "faceUpCards";
-  if (player.faceDownCards.length > 0) return "faceDownCards";
+  if (player?.handCards?.length > 0) return "handCards";
+  if (player?.faceUpCards?.length > 0) return "faceUpCards";
+  if (player?.faceDownCards?.length > 0) return "faceDownCards";
   return false;
 };
 
@@ -152,7 +151,6 @@ export function setFaceCards(cards, playerId) {
 }
 
 export const allPlayersHaveSetFaceCards = () => {
-  console.log("checking if all players ready");
   if (gameState().players.every((player) => player.hasSetFaceUpCards)) {
     return true;
   }
@@ -281,7 +279,6 @@ export function checkBurnStack() {
   const topStackCardInfo =
     gameState().deckRef[getTopStackCard(gameState().stack)];
 
-  console.log("BURN FUNC...  ", topStackCardInfo);
   if (topStackCardInfo.power === "burn") {
     return true;
   }
@@ -291,10 +288,7 @@ export function checkBurnStack() {
     (card, i) => i >= gameState().stack.length - 4
   );
 
-  console.log(lastFourCards);
-
   if (allCardsHaveEqualValue(lastFourCards, gameState().deckRef)) {
-    console.log('"BURN FUNC...  all cards are equal value"');
     return true;
   }
 

@@ -4,9 +4,11 @@
   /* overflow: hidden; */
   position: relative;
   /* background-color: #396148; */
-  z-index: -2;
+  width: 200px;
+  z-index: 2;
   height: 100%;
   opacity: 0.5;
+  margin: auto;
 }
 
 .faceUp {
@@ -17,6 +19,10 @@
   height: 100%;
   transform: translateY(15px);
   /* z-index: 4; */
+}
+
+.active {
+  opacity: 1;
 }
 
 .faceDown {

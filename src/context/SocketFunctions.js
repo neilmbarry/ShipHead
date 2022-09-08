@@ -53,14 +53,11 @@ export const socketFunctions = (socket) => {
   });
 
   socket.on("setActivePlayer", (id) => {
-    console.log("setting active player", id);
     store.dispatch(gameActions.setActivePlayer(id));
   });
 
   socket.on("playCards", ({ cards, playerId, hand }) => {
-    console.log("RECEIVED PLAY CARDS", cards);
     const legalMove = checkLegalMove(cards);
-    console.log(legalMove && "LEGAL MOVE");
     store.dispatch(gameActions.playCards({ cards, playerId, hand }));
     // Check legal move
     if (!legalMove) {

@@ -39,8 +39,6 @@ const Actions = ({ className }) => {
   };
 
   const playCardsHandler = () => {
-    console.log("emiiting cards to play");
-    console.log(activeHand());
     socket.emit("playCards", {
       playerId: userState.id,
       hand: activeHand(),

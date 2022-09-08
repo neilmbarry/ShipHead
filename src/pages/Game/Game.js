@@ -30,7 +30,6 @@ const Game = ({ className }) => {
     // Set Computer Face Cards?
     // Check all players have set FaceUp cards
     if (!gameState.activePlayerId && allPlayersHaveSetFaceCards()) {
-      console.warn("Setting Lowest starter");
       socket.emit("setActivePlayer", {
         id: playerWithLowestStarter(),
         roomId: gameState.room,

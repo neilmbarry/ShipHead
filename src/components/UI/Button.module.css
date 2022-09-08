@@ -2,6 +2,11 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 1.2rem;
+  border: 1px solid grey;
+  border-bottom: 1px solid rgb(51, 51, 51);
+  border-right: 1px solid rgb(51, 51, 51);
+  font-family: "silkscreen";
+  background-color: rgba(71, 71, 71, 0.404);
 }
 
 .secondary {
