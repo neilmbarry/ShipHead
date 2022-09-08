@@ -13,8 +13,10 @@ const LobbyPlayer = ({ className, image, name }) => {
   );
   return (
     <div className={classesList}>
-      <Avatar image={image} className={classes.avatar} />
-      <div className={classes.nameContainer}>{nameJSX}</div>
+      <Avatar image={image} initial={!name} className={classes.avatar} />
+      <div className={`${classes.nameContainer} ${!name && classes.initial}`}>
+        {nameJSX}
+      </div>
     </div>
   );
 };

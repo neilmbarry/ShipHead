@@ -3,12 +3,12 @@
   font-family: "Silkscreen";
   background-color: transparent;
   outline: none;
-  border: 3px solid rgb(133, 133, 133);
+  border: 2px solid rgb(133, 133, 133);
   font-size: 1.2rem;
   color: gold;
   width: 100%;
 }
 
 .main:focus {
-  border: 3px solid gold;
+  border: 2px solid gold;
 }
