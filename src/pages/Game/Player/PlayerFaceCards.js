@@ -83,7 +83,7 @@ const PlayerFace = ({
   });
   return (
     <div className={classesList}>
-      <div className={`${classes.faceUp} ${classes.hide}`}>{faceUpJSX}</div>
+      <div className={`${classes.faceUp} ${classes[hide]}`}>{faceUpJSX}</div>
       <div className={classes.faceDown}>{faceDownJSX}</div>
     </div>
   );

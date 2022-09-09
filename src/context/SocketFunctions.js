@@ -58,6 +58,7 @@ export const socketFunctions = (socket) => {
 
   socket.on("playCards", ({ cards, playerId, hand }) => {
     const legalMove = checkLegalMove(cards);
+
     store.dispatch(gameActions.playCards({ cards, playerId, hand }));
     // Check legal move
     if (!legalMove) {
@@ -74,9 +75,7 @@ export const socketFunctions = (socket) => {
     }
     // Check winner
     if (checkWinner(playerId)) {
-      store.dispatch("setWinner", {
-        playerId,
-      });
+      store.dispatch(gameActions.setWinner(playerId));
     }
     // Check Burn
     if (checkBurnStack()) {

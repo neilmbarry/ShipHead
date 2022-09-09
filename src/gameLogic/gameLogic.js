@@ -337,3 +337,32 @@ export const getNextPlayerId = (skip = 0) => {
   }
   return players[currentActivePlayerIndex].id;
 };
+
+export function hasValidMove(player, hand, stack) {
+  if (hand === "faceDownCards") {
+    return true;
+  }
+  const availableCards = player[hand];
+
+  if (!availableCards) return false;
+
+  const validCards = availableCards.find((card) => checkLegalMove([card]));
+
+  // Find 4 of a kind
+  let fourOfAKind = false;
+  const cardsObject = {};
+  availableCards.forEach((card) => {
+    if (cardsObject[gameState().deckRef[card].worth]) {
+      return cardsObject[gameState().deckRef[card].worth]++;
+    }
+    return (cardsObject[gameState().deckRef[card].worth] = 0);
+  });
+  if (Object.values(cardsObject).find((el) => el === 4)) {
+    fourOfAKind = true;
+  }
+
+  if (!validCards && !fourOfAKind) {
+    return false;
+  }
+  return validCards || fourOfAKind;
+}

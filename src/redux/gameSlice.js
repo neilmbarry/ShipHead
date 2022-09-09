@@ -198,6 +198,15 @@ const gameSlice = createSlice({
       // Add card to players hand
       player.handCards.unshift(...newCards);
     },
+    sortHandCards: (state, action) => {
+      const player = state.value.players.find(
+        (player) => player.id === action.payload.id
+      );
+      player.handCards.sort(
+        (a, b) =>
+          action.payload.deckRef[a].worth - action.payload.deckRef[b].worth
+      );
+    },
     switchActivePlayer: (state, action) => {
       state.value.activePlayerId = action.payload;
     },

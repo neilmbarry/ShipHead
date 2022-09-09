@@ -15,10 +15,7 @@ const initialState = {
   name: null,
   id: null,
   avatar: null,
-  notification: {
-    type: "",
-    message: "",
-  },
+  notification: null,
   selectedCards: [],
 };
 

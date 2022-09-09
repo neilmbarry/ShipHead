@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { useSocket } from "../../../context/SocketProvider";
 import store from "../../../redux/store";
 import userActions from "../../../redux/userSlice";
+import gameActions from "../../../redux/gameSlice";
+import { checkLegalMove, hasValidMove } from "../../../gameLogic/gameLogic";
+import { sortCards } from "../../../gameLogic/gameUtils";
 
 const Actions = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -39,6 +42,24 @@ const Actions = ({ className }) => {
   };
 
   const playCardsHandler = () => {
+    if (selectedCards.length === 0) {
+      return store.dispatch(
+        userActions.setNotification({
+          type: "alert",
+          message: "Please select card(s)",
+        })
+      );
+    }
+    const legalMove = checkLegalMove(selectedCards);
+    if (!legalMove && activeHand() !== "faceDownCards") {
+      store.dispatch(userActions.setSelecteCards([]));
+      return store.dispatch(
+        userActions.setNotification({
+          type: "alert",
+          message: "You cannot play that card",
+        })
+      );
+    }
     socket.emit("playCards", {
       playerId: userState.id,
       hand: activeHand(),
@@ -49,6 +70,15 @@ const Actions = ({ className }) => {
   };
 
   const takeCardsHandler = () => {
+    if (hasValidMove(player, activeHand(), gameState.stack)) {
+      store.dispatch(userActions.setSelecteCards([]));
+      return store.dispatch(
+        userActions.setNotification({
+          type: "alert",
+          message: "You have a valid move",
+        })
+      );
+    }
     socket.emit("takeStack", {
       id: userState.id,
       room: gameState.room,
@@ -56,7 +86,14 @@ const Actions = ({ className }) => {
     store.dispatch(userActions.setSelecteCards([]));
   };
 
-  const sortCardsHandler = () => {};
+  const sortCardsHandler = () => {
+    store.dispatch(
+      gameActions.sortHandCards({
+        id: player.id,
+        deckRef: gameState.deckRef,
+      })
+    );
+  };
 
   return (
     <div className={classesList}>

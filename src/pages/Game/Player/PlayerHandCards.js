@@ -44,27 +44,6 @@ const PlayerHand = ({ className, handCards, player, activeHand }) => {
     );
   };
 
-  //-------------------DEVELOPMENT-----------------//
-  const fullDeck = Object.keys(CardImages).map((name, i) => {
-    if (i > 2) return null;
-    // if (i > 8) return null;
-    // if (i > 16) return null;
-    // if (i > 34) return null;
-    // if (i > 44) return null;
-    return (
-      <Card
-        name={name}
-        className={classes.card}
-        key={name}
-        z={i}
-        selected={selectedCards.includes(name)}
-        onClick={() => selectCardHandler(name)}
-      />
-    );
-  });
-
-  //-------------------DEVELOPMENT-----------------//
-
   const handCardsJSX = handCards?.map((card, i) => (
     <Card
       name={card}
@@ -75,10 +54,6 @@ const PlayerHand = ({ className, handCards, player, activeHand }) => {
       onClick={() => selectCardHandler(card)}
     />
   ));
-
-  useEffect(() => {
-    // generateDeck(suits, cardValues, powerCards, reverseCards);
-  }, []);
 
   return <div className={classesList}>{handCardsJSX}</div>;
 };

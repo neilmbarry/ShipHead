@@ -27,7 +27,7 @@ const Notification = ({ className, notification, onClose }) => {
   useEffect(() => {
     const autoClose = setTimeout(() => {
       onClose();
-    }, 1500);
+    }, 2000);
     return () => clearTimeout(autoClose);
   }, [onClose]);
   return ReactDOM.createPortal(
@@ -36,8 +36,8 @@ const Notification = ({ className, notification, onClose }) => {
         <FontAwesomeIcon icon={notificationIcon} />
       </div>
       <div className={classes.text}>
-        <h5>{notification.type}</h5>
-        <p>{notification.text}</p>
+        {/* <h5>{notification.type}</h5> */}
+        <p>{notification.message}</p>
       </div>
       <div className={classes.closeIcon} onClick={onClose}>
         <FontAwesomeIcon icon={faClose} />

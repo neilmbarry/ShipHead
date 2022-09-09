@@ -23,7 +23,7 @@ export function generateDeck() {
       deck.push(value[0] + suit);
       deckRef[value[0] + suit] = {
         power: power ? power[0] : false,
-        worth: power ? 15 : value[1],
+        worth: power ? 15 + value[1] : value[1],
         reverse: reverse ? true : false,
       };
     });
@@ -55,4 +55,8 @@ export const cardsWillReverseDirection = (cards, deckRef) => {
   if (!deckRef(cards[0]).reverse) return false;
   if (cards.length % 2 === 1) return true;
   return false;
+};
+
+export const sortCards = (cards, deckRef) => {
+  return cards.sort((a, b) => deckRef[a].worth - deckRef[b].worth);
 };

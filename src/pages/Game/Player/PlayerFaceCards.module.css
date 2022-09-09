@@ -44,3 +44,7 @@
   /* border-radius: 22px; */
   /* transform: translateY(20px); */
 }
+
+.hide {
+  display: none;
+}

@@ -14,6 +14,10 @@
   flex-wrap: wrap;
 }
 
+.hide {
+  display: none;
+}
+
 .card {
   margin: -4rem -0.68rem;
   /* margin: -4rem -1rem; */
