@@ -3,6 +3,7 @@ import {
   cardValues,
   powerCards,
   reverseCards,
+  numbersSpelled,
 } from "../config/initialCardValues";
 
 export function generateDeck() {
@@ -25,6 +26,7 @@ export function generateDeck() {
         power: power ? power[0] : false,
         worth: power ? 15 + value[1] : value[1],
         reverse: reverse ? true : false,
+        name: value[0],
       };
     });
   });
@@ -48,6 +50,8 @@ export function shuffleDeck(deck) {
 }
 
 export const allCardsHaveEqualValue = (cards, deckRef) => {
+  if (cards.length === 0) return;
+  console.log(cards, deckRef);
   return cards.every((card) => deckRef[card].worth === deckRef[cards[0]].worth);
 };
 
@@ -59,4 +63,25 @@ export const cardsWillReverseDirection = (cards, deckRef) => {
 
 export const sortCards = (cards, deckRef) => {
   return cards.sort((a, b) => deckRef[a].worth - deckRef[b].worth);
+};
+
+export const cardsToText = (cards, deckRef) => {
+  console.log("here");
+  const cardsLength = cards.length;
+  const name = deckRef[cards[0]].name;
+  let article = "a";
+  let end = "";
+  if (cardsLength > 1) {
+    article = cardsLength;
+    end = "s";
+    if (name === "6") {
+      end = "es";
+    }
+  }
+  if (cards[0][0] === "8" || cards[0][0] === "A") {
+    article = "an";
+  }
+
+  const text = `${article} ${numbersSpelled[name]}${end}`;
+  return text;
 };

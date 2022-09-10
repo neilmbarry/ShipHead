@@ -83,20 +83,25 @@ io.on("connection", (socket) => {
     io.in(room).emit("setFaceUpCards", { cards, playerId });
   });
 
-  socket.on("setActivePlayer", ({ id, roomId }) => {
-    io.in(roomId).emit("setActivePlayer", id);
+  socket.on("setActivePlayer", ({ player, roomId }) => {
+    io.in(roomId).emit("setActivePlayer", player);
   });
 
   socket.on("playCards", (data) => {
     io.in(data.room).emit("playCards", {
       cards: data.cards,
-      playerId: data.playerId,
+      player: data.player,
       hand: data.hand,
+      deckRef: data.deckRef,
     });
   });
 
-  socket.on("takeStack", ({ id, room }) => {
-    io.in(room).emit("takeStack", id);
+  socket.on("takeStack", ({ player, room }) => {
+    io.in(room).emit("takeStack", player);
+  });
+
+  socket.on("takeFaceCards", ({ player, room }) => {
+    io.in(room).emit("takeFaceCards", player);
   });
 
   //--------- BELOW IS SHITE -----------//

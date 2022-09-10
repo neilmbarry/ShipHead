@@ -4,24 +4,22 @@ import classes from "./Home.module.css";
 import Button from "../../components/UI/Button";
 import Input from "../../components/UI/Input";
 import AvatarContainer from "../../components/Avatars/AvatarContainer";
-import Notification from "../../components/UI/Notification";
+
 import Modal from "../../components/UI/Modal";
 import CreateGameModal from "./CreateGameModal";
 import PlayComputerModal from "./PlayComputerModal";
 import { useSelector } from "react-redux";
 import userActions from "../../redux/userSlice";
 import gameActions from "../../redux/gameSlice";
-import generateRoomId from "../../utils/generateRoomId";
+
 import store from "../../redux/store";
 import { useSocket } from "../../context/SocketProvider";
 import { Link } from "react-router-dom";
-import { getGameState } from "../../gameLogic/gameLogic";
+
 import { generateDeck } from "../../gameLogic/gameUtils";
 
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
-  // const [avatar, setAvatar] = useState();
-  const [notification, setNotification] = useState();
   const [modal, setModal] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const name = useRef();
@@ -31,34 +29,28 @@ const Home = ({ className }) => {
 
   const user = useSelector((state) => state.user.value);
 
-  // console.log(getGameState());
-
   const setAvatarHandler = (avatar) => {
     setAvatar(avatar);
   };
 
-  const createNewGameHandler = () => {
+  const showNewGameModal = () => {
     setModal({ createGame: true });
   };
 
   const createRoomHandler = () => {
     const player = {
       name: name.current.value,
-      avatar,
+      avatar: avatar || "avatar1",
       id: user.id,
     };
     store.dispatch(userActions.setInfo(player));
 
-    //Set game to initial conditions
     store.dispatch(gameActions.resetGame());
 
-    //Join random room Id
     const roomId = user.id;
 
-    //-----IMPLEMENT ROOM JOIN FUNCTIONALITY----//
     socket.emit("joinRoom", { roomId, player });
 
-    //Set room to room Id in GameSlice
     store.dispatch(
       gameActions.createRoom({
         playerInfo: player,
@@ -66,22 +58,17 @@ const Home = ({ className }) => {
         hostId: player.id,
       })
     );
-    // Set user Id in UserSlice
-
-    //Add host id in GameSlice
-    //Add player to players in GameSlice
   };
 
   const joinGameHandler = () => {
     const roomId = params.roomId;
     const player = {
       name: name.current.value,
-      avatar,
+      avatar: avatar || "avatar2",
       id: user.id,
     };
     store.dispatch(userActions.setInfo(player));
 
-    //Set game to initial conditions
     store.dispatch(gameActions.resetGame());
 
     store.dispatch(gameActions.setRoom(roomId));
@@ -89,33 +76,24 @@ const Home = ({ className }) => {
     socket.emit("joinRoom", { roomId, player });
   };
 
-  const playComputerHandler = () => {
-    if (!name.current.value) {
-      return setNotification({
-        type: "alert",
-        text: "Please enter a valid name",
-      });
-    }
+  const showComputerModal = () => {
     setModal({ playComputer: true });
   };
 
   const createComputerGame = (quantity) => {
     const player = {
       name: name.current.value,
-      avatar,
+      avatar: avatar || "avatar3",
       id: user.id,
     };
     store.dispatch(userActions.setInfo(player));
 
-    //Set game to initial conditions
     store.dispatch(gameActions.resetGame());
 
-    //Join random room Id
     const roomId = user.id;
 
     socket.emit("joinRoom", { roomId, player });
 
-    //Set room to room Id in GameSlice
     store.dispatch(
       gameActions.createRoom({
         playerInfo: player,
@@ -134,18 +112,12 @@ const Home = ({ className }) => {
         })
       );
     }
-    store.dispatch(gameActions.startGame(generateDeck()[0]));
+    store.dispatch(gameActions.startGame(generateDeck()));
     setTimeout(() => {
       store.dispatch(gameActions.dealCards());
     }, 2000);
   };
 
-  const showNotification = notification && (
-    <Notification
-      notification={notification}
-      onClose={() => setNotification(null)}
-    />
-  );
   const showCreateGameModal = modal.createGame && (
     <Modal onClose={() => setModal(false)}>
       <CreateGameModal
@@ -191,35 +163,18 @@ const Home = ({ className }) => {
             <Button text={"Join Neil's Game"} onClick={joinGameHandler} />
           </Link>
         )}
-        <Button text={"Create new game"} onClick={createNewGameHandler} />
-        <Button text={"Play against computer"} onClick={playComputerHandler} />
+        <Button text={"Create new game"} onClick={showNewGameModal} />
+        <Button text={"Play against computer"} onClick={showComputerModal} />
       </div>
-      {/* <div className={classes.codeBox}>
-        <Input
-          className={classes.codeInput}
-          type="text"
-          placeholder="Enter code e.g GE4I8S"
-        />
-        <Button
-          text={"Join using code"}
-          onClick={() => setNotification({ type: "info", text: "Some info" })}
-        />
-      </div> */}
       <div className={classes.footerBtns}>
-        <Button
-          text={"How to play"}
-          type="small"
-          onClick={() => setNotification({ type: "alert" })}
-        />
+        <Button text={"How to play"} type="small" onClick={null} />
         <Button
           text={"Contact"}
           type="small"
           onClick={() => setModal({ contact: true })}
         />
         <Button text={"Changelog"} type="small" />
-        {/* <Button text={"English"} type="small" /> */}
       </div>
-      {showNotification}
       {showCreateGameModal}
       {showPlayComputerModal}
       {showContactModal}

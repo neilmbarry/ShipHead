@@ -45,6 +45,10 @@ const PlayerFace = ({
       }
     }
 
+    if (activeHand === "faceDownCards") {
+      return store.dispatch(userActions.setSelecteCards([name]));
+    }
+
     return store.dispatch(
       userActions.setSelecteCards([...selectedCards, name])
     );

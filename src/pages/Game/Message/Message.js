@@ -7,8 +7,8 @@ const Message = ({ className }) => {
   const message = useSelector((state) => state.game.value.message);
   return (
     <div className={classesList}>
-      <h4>{message.gameEvent}</h4>
-      <h4>{message.gameAnnouncement}</h4>
+      <h4>{message.event}</h4>
+      <h4>{message.announcement}</h4>
     </div>
   );
 };

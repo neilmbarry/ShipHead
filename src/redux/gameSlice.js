@@ -91,8 +91,8 @@ const initialState = {
   room: null,
   hostId: null,
   message: {
-    gameEvent: "",
-    gameAnnouncement: "",
+    event: "",
+    announcement: "",
   },
   players: [],
 };
@@ -139,6 +139,9 @@ const gameSlice = createSlice({
         playing: true,
         hasSetFaceUpCards: false,
         hasToPickUp: false,
+        handCards: [],
+        faceUpCards: [],
+        faceDownCards: [],
       });
     },
     removePlayer: (state, action) => {
@@ -151,10 +154,6 @@ const gameSlice = createSlice({
         ...state.value,
         ...action.payload,
         gameOver: false,
-        message: {
-          gameEvent: "welcome to ship-head",
-          gameAnnouncement: "the game is about to begin",
-        },
       };
     },
     dealCards: (state, action) => {
@@ -162,10 +161,6 @@ const gameSlice = createSlice({
         player.faceDownCards = state.value.deck.splice(0, 3);
         player.handCards = state.value.deck.splice(0, 6);
       });
-      state.value.message = {
-        gameEvent: "select your face up cards",
-        gameAnnouncement: "(pick three)",
-      };
     },
     selectFaceUpCards: (state, action) => {
       const player = state.value.players.find(
@@ -182,7 +177,7 @@ const gameSlice = createSlice({
     },
     playCards: (state, action) => {
       const player = state.value.players.find(
-        (player) => player.id === action.payload.playerId
+        (player) => player.id === action.payload.player.id
       );
       player[action.payload.hand] = player[action.payload.hand].filter(
         (card) => !action.payload.cards.includes(card)
@@ -220,11 +215,12 @@ const gameSlice = createSlice({
       player.hasToPickUp = false;
       state.value.stack = [];
     },
-    takeFaceUpCards: (state, action) => {
+    takeFaceCards: (state, action) => {
       const player = state.value.players.find(
-        (player) => player.id === action.payload.id
+        (player) => player.id === action.payload
       );
       player.handCards.unshift(...player.faceUpCards);
+      player.faceUpCards = [];
     },
     hasToPickUp: (state, action) => {
       state.value.players.find(
@@ -249,10 +245,10 @@ const gameSlice = createSlice({
       state.value.gameOver = true;
     },
     setGameEvent: (state, action) => {
-      state.value.message.gameEvent = action.payload;
+      state.value.message.event = action.payload;
     },
     setGameAnnouncement: (state, action) => {
-      state.value.message.gameAnnouncement = action.payload;
+      state.value.message.announcement = action.payload;
     },
   },
 });

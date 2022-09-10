@@ -8,7 +8,10 @@ import {
   checkDrawCards,
   checkWinner,
   getNextPlayerId,
+  checkShipHead,
+  checkReverse,
 } from "../gameLogic/gameLogic";
+import { cardsToText } from "../gameLogic/gameUtils";
 
 export const socketFunctions = (socket) => {
   socket.on("message", (message) => {
@@ -43,8 +46,15 @@ export const socketFunctions = (socket) => {
 
   socket.on("startGame", (info) => {
     store.dispatch(gameActions.startGame(info));
+    store.dispatch(gameActions.setGameEvent("welcome to ship-head"));
+    store.dispatch(
+      gameActions.setGameAnnouncement("the game is about to begin")
+    );
+
     setTimeout(() => {
       store.dispatch(gameActions.dealCards());
+      store.dispatch(gameActions.setGameEvent("select your face up cards"));
+      store.dispatch(gameActions.setGameAnnouncement("(pick three)"));
     }, 1000);
   });
 
@@ -52,43 +62,83 @@ export const socketFunctions = (socket) => {
     store.dispatch(gameActions.selectFaceUpCards({ cards, playerId }));
   });
 
-  socket.on("setActivePlayer", (id) => {
-    store.dispatch(gameActions.setActivePlayer(id));
+  socket.on("setActivePlayer", (player) => {
+    store.dispatch(gameActions.setActivePlayer(player.id));
+    store.dispatch(
+      gameActions.setGameEvent("who has the worst starting hand?")
+    );
+    store.dispatch(
+      gameActions.setGameAnnouncement(`${player.name}! You may begin!`)
+    );
   });
 
-  socket.on("playCards", ({ cards, playerId, hand }) => {
+  socket.on("playCards", ({ cards, player, hand, deckRef }) => {
     const legalMove = checkLegalMove(cards);
+    console.log(cards, player, hand, deckRef);
+    store.dispatch(gameActions.playCards({ cards, player, hand }));
 
-    store.dispatch(gameActions.playCards({ cards, playerId, hand }));
+    store.dispatch(
+      gameActions.setGameEvent(
+        `${player.name} has played ${cardsToText(cards, deckRef)}`
+      )
+    );
+    store.dispatch(gameActions.setGameAnnouncement(``));
     // Check legal move
     if (!legalMove) {
-      return store.dispatch(gameActions.hasToPickUp(playerId));
+      store.dispatch(
+        gameActions.setGameAnnouncement(`betrayed by the blind card!`)
+      );
+      return store.dispatch(gameActions.hasToPickUp(player.id));
     }
     // // Check draw cards
-    if (checkDrawCards(playerId)) {
+    if (checkDrawCards(player.id)) {
       store.dispatch(
         gameActions.drawCard({
-          id: playerId,
-          quantity: checkDrawCards(playerId),
+          id: player.id,
+          quantity: checkDrawCards(player.id),
         })
       );
     }
     // Check winner
-    if (checkWinner(playerId)) {
-      store.dispatch(gameActions.setWinner(playerId));
+    if (checkWinner(player.id)) {
+      store.dispatch(gameActions.setWinner(player.id));
+      store.dispatch(
+        gameActions.setGameAnnouncement(`${player.name} is a winner!}`)
+      );
     }
     // Check Burn
     if (checkBurnStack()) {
       store.dispatch(gameActions.burnStack());
+      store.dispatch(gameActions.setGameAnnouncement(`it burns!`));
+      if (checkShipHead()) {
+        store.dispatch(gameActions.setGameAnnouncement(`game over!}`));
+        store.dispatch(gameActions.setShipHead(checkShipHead()));
+        return store.dispatch(gameActions.setGameOver(true));
+      }
     }
     // Check SHIPHEAD
+    if (checkShipHead()) {
+      store.dispatch(gameActions.setGameAnnouncement(`game over!`));
+      store.dispatch(gameActions.setShipHead(checkShipHead()));
+      return store.dispatch(gameActions.setGameOver(true));
+    }
     // Check reverse
+    if (checkReverse(cards, deckRef)) {
+      store.dispatch(gameActions.setGameAnnouncement(`Switching direction!`));
+    }
+
     // Switch Player
     store.dispatch(gameActions.switchActivePlayer(getNextPlayerId()));
   });
 
-  socket.on("takeStack", (playerId) => {
-    store.dispatch(gameActions.takeStack(playerId));
+  socket.on("takeStack", (player) => {
+    store.dispatch(gameActions.takeStack(player.id));
+    store.dispatch(gameActions.setGameEvent(`${player.name} has picked up!`));
+    store.dispatch(gameActions.switchActivePlayer(getNextPlayerId()));
+  });
+
+  socket.on("takeFaceCards", (player) => {
+    store.dispatch(gameActions.takeFaceCards(player.id));
   });
 
   // socket.on("setFaceUpCards", ({ cards, player }) => {

@@ -1,11 +1,6 @@
-import {
-  allCardsHaveEqualValue,
-  generateDeck,
-  cardsWillReverseDirection,
-} from "./gameUtils";
+import { allCardsHaveEqualValue, cardsWillReverseDirection } from "./gameUtils";
 import store from "../redux/store";
-import { burnStack, hasToPickUp, switchActivePlayer } from "../redux/gameSlice";
-import { faStoreAlt } from "@fortawesome/free-solid-svg-icons";
+
 import userAction from "../redux/userSlice";
 import { notifications } from "../config/notificationMessages";
 
@@ -16,10 +11,6 @@ export function gameState() {
 export function userState() {
   return store.getState().user.value;
 }
-
-// const gameState().stack = gameState().stack;
-
-const userId = userState().id;
 
 const getTopStackCard = () => {
   const stack = gameState().stack;
@@ -163,11 +154,11 @@ export const playerWithLowestStarter = () => {
     }, 0);
   };
   const justIdAndCards = gameState().players.map((player) => ({
-    id: player.id,
+    player,
     handCardsWorth: handWorth(player.handCards),
   }));
   justIdAndCards.sort((a, b) => a.handCardsWorth - b.handCardsWorth);
-  return justIdAndCards[0].id;
+  return justIdAndCards[0].player;
 };
 
 export function playCards(cards, playerId) {
@@ -295,6 +286,18 @@ export function checkBurnStack() {
   return false;
 }
 
+export const checkShipHead = () => {
+  const playersPlaying = gameState().players.filter((player) => player.playing);
+  if (playersPlaying.length === 1) {
+    return playersPlaying[0];
+  }
+};
+
+export const checkReverse = (cards, deckRef) => {
+  if (!deckRef[cards[0]].reverse) return;
+  if (cards.length % 2 === 1) return true;
+};
+
 // export const getNextPlayerId = (skip = 1) => {
 //   const gameStateCurrent = gameState();
 //   const direction = gameStateCurrent.directionClockwise;
@@ -338,31 +341,80 @@ export const getNextPlayerId = (skip = 0) => {
   return players[currentActivePlayerIndex].id;
 };
 
-export function hasValidMove(player, hand, stack) {
+export function hasValidMove(player, hand) {
+  const deckRef = gameState().deckRef;
   if (hand === "faceDownCards") {
-    return true;
+    return [player[hand][0]];
   }
   const availableCards = player[hand];
 
   if (!availableCards) return false;
 
-  const validCards = availableCards.find((card) => checkLegalMove([card]));
+  const validCards = availableCards
+    .filter((card) => checkLegalMove([card]))
+    .sort((a, b) => deckRef[a].worth - deckRef[b].worth);
+
+  const bestCards = validCards.filter(
+    (card) => deckRef[card].worth === deckRef[validCards[0]].worth
+  );
+  console.warn(validCards);
+  console.error(bestCards);
 
   // Find 4 of a kind
   let fourOfAKind = false;
   const cardsObject = {};
   availableCards.forEach((card) => {
-    if (cardsObject[gameState().deckRef[card].worth]) {
-      return cardsObject[gameState().deckRef[card].worth]++;
+    if (cardsObject[deckRef[card].worth]) {
+      return cardsObject[deckRef[card].worth]++;
     }
-    return (cardsObject[gameState().deckRef[card].worth] = 0);
+    return (cardsObject[deckRef[card].worth] = 0);
   });
-  if (Object.values(cardsObject).find((el) => el === 4)) {
-    fourOfAKind = true;
+  const fourOfAKindWorth = Object.values(cardsObject).find((el) => el === 4);
+
+  if (fourOfAKindWorth) {
+    fourOfAKind = availableCards.filter(
+      (card) => deckRef[card].worth === fourOfAKindWorth
+    );
   }
 
-  if (!validCards && !fourOfAKind) {
+  if (bestCards.length === 0 && !fourOfAKind) {
     return false;
   }
-  return validCards || fourOfAKind;
+  return [...bestCards] || fourOfAKind;
 }
+
+export const setBotFaceCards = (socket) => {
+  const currentGameState = gameState();
+  const bot = currentGameState.players.find((player) => {
+    return (
+      player.bot && !player.hasSetFaceUpCards && player.handCards.length > 0
+    );
+  });
+  if (!bot) return;
+  const orderedCards = [...bot.handCards].sort(
+    (a, b) =>
+      currentGameState.deckRef[a].worth - currentGameState.deckRef[b].worth
+  );
+  socket.emit("setFaceUpCards", {
+    playerId: bot.id,
+    cards: orderedCards.slice(3, 6),
+    room: currentGameState.room,
+  });
+};
+
+export const playValidMove = (socket, player) => {
+  if (hasValidMove(player, getActiveHand(player.id), gameState.stack)) {
+    socket.emit("playCards", {
+      player: userState,
+      hand: activeHand(),
+      cards: hasValidMove(player, activeHand(), gameState.stack),
+      room: gameState.room,
+      deckRef: gameState.deckRef,
+    });
+    return store.dispatch(userActions.setSelecteCards([]));
+  }
+  socket.emit("takeStack", {
+    player: userState,
+    room: gameState.room,
+  });
+};

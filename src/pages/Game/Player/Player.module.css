@@ -1,7 +1,7 @@
 .main {
   display: grid;
   grid-template-areas:
-    "null face face empty"
+    "face face face face"
     "hand hand hand hand"
     "hand hand hand hand";
   grid-template-columns: repeat(4, 1fr);

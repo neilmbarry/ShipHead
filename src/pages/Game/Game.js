@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-
-import { generateDeck, shuffleDeck } from "../../gameLogic/gameUtils";
 import {
   allPlayersHaveSetFaceCards,
   playerWithLowestStarter,
+  setBotFaceCards,
 } from "../../gameLogic/gameLogic";
 
 import classes from "./Game.module.css";
@@ -24,35 +23,34 @@ const Game = ({ className }) => {
   const host = userState.id === gameState.hostId;
   const socket = useSocket();
 
+  // setTimeout(() => {
+  //   setBotFaceCards(socket);
+  // }, 3000);
+
   useEffect(() => {
     if (gameState.gameOver || !host) return;
-    // (Players set Face Cards)
-    // Set Computer Face Cards?
-    // Check all players have set FaceUp cards
+    console.log("running");
+    if (!allPlayersHaveSetFaceCards()) {
+      setTimeout(() => {
+        setBotFaceCards(socket);
+      }, 500);
+    }
+
     if (!gameState.activePlayerId && allPlayersHaveSetFaceCards()) {
+      const startingPlayer = playerWithLowestStarter();
       socket.emit("setActivePlayer", {
-        id: playerWithLowestStarter(),
+        player: startingPlayer,
         roomId: gameState.room,
       });
     }
 
-    // Decide who has lowest starting hand
-    // (play begins)
-    // (Plyaer makes a move)
-    // Check legal move
-    // Check Burn
-    // Check draw cards
-    // Check winner
-    // Check SHIPHEAD
-    // Check reverse
-    // Switch Player
-    //
-    //-----REGULAR PLAY------//
-    const toBeEmitted = [];
-
-    // toBeEmitted.push("setDeck", newDeck);
-    // toBeEmitted.push("dealCards");
-  }, [host, gameState]);
+    if (
+      gameState.players.find((player) => player.id === gameState.activePlayerId)
+        .bot
+    ) {
+      setTimeout(() => {}, 1000);
+    }
+  }, [host, gameState, socket]);
 
   return (
     <div className={classesList}>
