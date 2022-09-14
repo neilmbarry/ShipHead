@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./Opponent.module.css";
 import OpponentInfo from "./OpponentInfo";
 import OpponentFaceCards from "./OpponentFaceCards";
 import OpponentHandCards from "./OpponentHandCards";
 import { useSelector } from "react-redux";
+import { useSocket } from "../../../context/SocketProvider";
+import {
+  returnBestThreeBestCards,
+  playValidMove,
+} from "../../../gameLogic/gameLogic";
 
 const Opponent = ({
   className,
@@ -13,12 +18,51 @@ const Opponent = ({
   faceUpCards,
   faceDownCards,
   handCards,
+  bot,
+  hasSetFaceCards,
+  room,
+  player,
 }) => {
   const activePlayerId = useSelector(
     (state) => state.game.value.activePlayerId
   );
+  const gameOver = useSelector((state) => state.game.value.gameOver);
   const active = activePlayerId === playerId ? "active" : "";
   const classesList = `${classes.main} ${className} ${classes[active]}`;
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (gameOver) return;
+    if (!bot) return;
+    if (hasSetFaceCards) return;
+    if (handCards.length === 0) return;
+    const setFaceCards = setTimeout(() => {
+      socket.emit("setFaceUpCards", {
+        playerId,
+        cards: returnBestThreeBestCards(handCards),
+        room,
+      });
+    }, 1000);
+
+    return () => {
+      clearTimeout(setFaceCards);
+    };
+  }, [bot, hasSetFaceCards, socket, room, playerId, handCards, gameOver]);
+
+  useEffect(() => {
+    if (gameOver) return;
+    if (!active) return;
+    if (!bot) return;
+
+    const computerValidMove = setTimeout(() => {
+      playValidMove(socket, player);
+    }, 2000);
+
+    return () => {
+      clearTimeout(computerValidMove);
+    };
+  }, [active, bot, player, socket]);
+
   return (
     <div className={classesList}>
       <OpponentFaceCards

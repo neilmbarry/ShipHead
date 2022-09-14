@@ -100,12 +100,20 @@ const initialState = {
 // ADD CONNECTION STATUS
 
 const setPlayersNewGame = (players) => {
-  return players
-    .filter((player) => player.playing)
-    .map((player) => ({
-      ...player,
-      hasSetFaceUpCards: false,
-    }));
+  return (
+    players
+      // .filter((player) => player.playing)
+      .map((player) => ({
+        ...player,
+        hasSetFaceUpCards: false,
+        hasToPickUp: false,
+        // remove
+        playing: true,
+        handCards: [],
+        faceUpCards: [],
+        faceDownCards: [],
+      }))
+  );
 };
 
 const gameSlice = createSlice({
@@ -153,6 +161,7 @@ const gameSlice = createSlice({
       state.value = {
         ...state.value,
         ...action.payload,
+        shipHead: null,
         gameOver: false,
       };
     },
@@ -231,7 +240,7 @@ const gameSlice = createSlice({
       state.value.stack = [];
     },
     changeDirection: (state, action) => {
-      state.value.direction = action.payload;
+      state.value.directionClockwise = !state.value.directionClockwise;
     },
     setWinner: (state, action) => {
       state.value.players.find(
@@ -249,6 +258,16 @@ const gameSlice = createSlice({
     },
     setGameAnnouncement: (state, action) => {
       state.value.message.announcement = action.payload;
+    },
+    newGame: (state, action) => {
+      state.value = {
+        ...initialState,
+        ...action.payload,
+        gameOver: false,
+        room: state.value.room,
+        hostId: state.value.hostId,
+        players: setPlayersNewGame(state.value.players),
+      };
     },
   },
 });

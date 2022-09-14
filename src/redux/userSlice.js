@@ -13,7 +13,7 @@ const userStateTemplate = {
 
 const initialState = {
   name: null,
-  id: null,
+  id: "",
   avatar: null,
   notification: null,
   selectedCards: [],

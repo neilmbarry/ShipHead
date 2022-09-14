@@ -62,11 +62,10 @@ export function checkLegalMove(cards) {
         return true;
 
       default:
-        console.warn("Missing Case");
         return false;
     }
   }
-  console.warn("Missing Case");
+
   return false;
 }
 
@@ -320,9 +319,16 @@ export const getNextPlayerId = (skip = 0) => {
   const gameStateCurrent = gameState();
   const players = gameStateCurrent.players;
 
+  if (
+    skip > 1 &&
+    gameStateCurrent.players.filter((player) => player.playing).length === 2
+  ) {
+    skip = 1;
+  }
+
   const direction = gameStateCurrent.directionClockwise ? 1 : -1;
-  let moves = direction * (1 + skip);
-  let currentActivePlayer = players.find(
+  let moves = 1 + skip;
+  const currentActivePlayer = players.find(
     (player) => player.id === gameStateCurrent.activePlayerId
   );
   let currentActivePlayerIndex = players.indexOf(currentActivePlayer);
@@ -330,14 +336,15 @@ export const getNextPlayerId = (skip = 0) => {
   while (moves !== 0 && loopStop < 10) {
     let moveIndex = currentActivePlayerIndex + direction;
     if (moveIndex < 0) moveIndex += players.length;
-    currentActivePlayerIndex = [moveIndex % players.length];
+    currentActivePlayerIndex = moveIndex % players.length;
     if (!players[currentActivePlayerIndex].playing) {
       loopStop++;
     } else {
-      moves -= direction;
+      moves--;
       loopStop++;
     }
   }
+
   return players[currentActivePlayerIndex].id;
 };
 
@@ -357,8 +364,6 @@ export function hasValidMove(player, hand) {
   const bestCards = validCards.filter(
     (card) => deckRef[card].worth === deckRef[validCards[0]].worth
   );
-  console.warn(validCards);
-  console.error(bestCards);
 
   // Find 4 of a kind
   let fourOfAKind = false;
@@ -383,38 +388,65 @@ export function hasValidMove(player, hand) {
   return [...bestCards] || fourOfAKind;
 }
 
-export const setBotFaceCards = (socket) => {
-  const currentGameState = gameState();
-  const bot = currentGameState.players.find((player) => {
-    return (
-      player.bot && !player.hasSetFaceUpCards && player.handCards.length > 0
-    );
-  });
-  if (!bot) return;
-  const orderedCards = [...bot.handCards].sort(
-    (a, b) =>
-      currentGameState.deckRef[a].worth - currentGameState.deckRef[b].worth
+// export const setBotFaceCards = (socket) => {
+//   console.log("running here");
+//   const currentGameState = gameState();
+//   const bot = currentGameState.players.find((player) => {
+//     return (
+//       player.bot && !player.hasSetFaceUpCards && player.handCards.length > 0
+//     );
+//   });
+//   if (!bot) return;
+//   const orderedCards = [...bot.handCards].sort(
+//     (a, b) =>
+//       currentGameState.deckRef[a].worth - currentGameState.deckRef[b].worth
+//   );
+//   socket.emit("setFaceUpCards", {
+//     playerId: bot.id,
+//     cards: orderedCards.slice(3, 6),
+//     room: currentGameState.room,
+//   });
+// };
+
+export const returnBestThreeBestCards = (cards) => {
+  const deckRef = gameState().deckRef;
+  const orderedCards = [...cards].sort(
+    (a, b) => deckRef[a].worth - deckRef[b].worth
   );
-  socket.emit("setFaceUpCards", {
-    playerId: bot.id,
-    cards: orderedCards.slice(3, 6),
-    room: currentGameState.room,
-  });
+  return orderedCards.slice(3, 6);
 };
 
 export const playValidMove = (socket, player) => {
-  if (hasValidMove(player, getActiveHand(player.id), gameState.stack)) {
-    socket.emit("playCards", {
-      player: userState,
-      hand: activeHand(),
-      cards: hasValidMove(player, activeHand(), gameState.stack),
-      room: gameState.room,
-      deckRef: gameState.deckRef,
+  const activeHand = getActiveHand(player.id);
+  const stack = gameState().stack;
+  if (hasValidMove(player, activeHand, stack) && !player.hasToPickUp) {
+    return socket.emit("playCards", {
+      player,
+      hand: activeHand,
+      cards: hasValidMove(player, activeHand, stack),
+      room: gameState().room,
+      deckRef: gameState().deckRef,
     });
-    return store.dispatch(userActions.setSelecteCards([]));
   }
   socket.emit("takeStack", {
-    player: userState,
-    room: gameState.room,
+    player,
+    room: gameState().room,
   });
+  console.log(
+    player.faceUpCards.length === 1,
+    allCardsHaveEqualValue(player.faceUpCards, gameState().deckRef)
+  );
+  if (
+    player.faceUpCards.length === 1 ||
+    allCardsHaveEqualValue(player.faceUpCards, gameState().deckRef)
+  ) {
+    socket.emit("takeFaceCards", {
+      player: userState,
+      room: gameState.room,
+    });
+  }
+};
+
+export const getPlayerInfo = (id) => {
+  return gameState().players.find((player) => player.id === id);
 };

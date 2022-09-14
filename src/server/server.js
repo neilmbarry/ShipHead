@@ -80,10 +80,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("setFaceUpCards", ({ cards, playerId, room }) => {
+    console.log("Player setting face cards");
     io.in(room).emit("setFaceUpCards", { cards, playerId });
   });
 
   socket.on("setActivePlayer", ({ player, roomId }) => {
+    console.log("setting active player");
     io.in(roomId).emit("setActivePlayer", player);
   });
 
@@ -102,6 +104,10 @@ io.on("connection", (socket) => {
 
   socket.on("takeFaceCards", ({ player, room }) => {
     io.in(room).emit("takeFaceCards", player);
+  });
+
+  socket.on("newGame", ({ room, info }) => {
+    io.in(room).emit("newGame", info);
   });
 
   //--------- BELOW IS SHITE -----------//

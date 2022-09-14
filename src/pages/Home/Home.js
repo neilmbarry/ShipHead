@@ -105,7 +105,7 @@ const Home = ({ className }) => {
     for (let i = 1; i < quantity; i++) {
       store.dispatch(
         gameActions.addPlayer({
-          name: "bot",
+          name: `bot ${i}`,
           avatar: `avatar${i}`,
           bot: true,
           id: i,

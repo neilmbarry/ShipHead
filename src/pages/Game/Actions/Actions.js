@@ -147,15 +147,15 @@ const Actions = ({ className }) => {
       return store.dispatch(userActions.setSelecteCards([]));
     }
     console.log(hasValidMove(player, activeHand(), gameState.stack));
-    if (hasValidMove(player, activeHand(), gameState.stack)) {
-      store.dispatch(userActions.setSelecteCards([]));
-      return store.dispatch(
-        userActions.setNotification({
-          type: "alert",
-          message: "You have a valid move",
-        })
-      );
-    }
+    // if (hasValidMove(player, activeHand(), gameState.stack)) {
+    //   store.dispatch(userActions.setSelecteCards([]));
+    //   return store.dispatch(
+    //     userActions.setNotification({
+    //       type: "alert",
+    //       message: "You have a valid move",
+    //     })
+    //   );
+    // }
     socket.emit("takeStack", {
       player: userState,
       room: gameState.room,
@@ -184,7 +184,7 @@ const Actions = ({ className }) => {
   return (
     <div className={classesList}>
       {!playerHasSetFaceCards ? (
-        <Button text="Select" onClick={autoSelectFaceCards} />
+        <Button text="Select" onClick={selectFaceCardsHandler} />
       ) : (
         <Button text="Play" onClick={playCardsHandler} />
       )}

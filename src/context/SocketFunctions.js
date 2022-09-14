@@ -74,12 +74,12 @@ export const socketFunctions = (socket) => {
 
   socket.on("playCards", ({ cards, player, hand, deckRef }) => {
     const legalMove = checkLegalMove(cards);
-    console.log(cards, player, hand, deckRef);
+
     store.dispatch(gameActions.playCards({ cards, player, hand }));
 
     store.dispatch(
       gameActions.setGameEvent(
-        `${player.name} has played ${cardsToText(cards, deckRef)}`
+        `${player.name} has played ${cardsToText(cards, deckRef)}!`
       )
     );
     store.dispatch(gameActions.setGameAnnouncement(``));
@@ -103,7 +103,7 @@ export const socketFunctions = (socket) => {
     if (checkWinner(player.id)) {
       store.dispatch(gameActions.setWinner(player.id));
       store.dispatch(
-        gameActions.setGameAnnouncement(`${player.name} is a winner!}`)
+        gameActions.setGameAnnouncement(`${player.name} is a winner!`)
       );
     }
     // Check Burn
@@ -115,20 +115,36 @@ export const socketFunctions = (socket) => {
         store.dispatch(gameActions.setShipHead(checkShipHead()));
         return store.dispatch(gameActions.setGameOver(true));
       }
+      return;
     }
     // Check SHIPHEAD
     if (checkShipHead()) {
       store.dispatch(gameActions.setGameAnnouncement(`game over!`));
-      store.dispatch(gameActions.setShipHead(checkShipHead()));
-      return store.dispatch(gameActions.setGameOver(true));
+      store.dispatch(gameActions.setActivePlayer(null));
+      store.dispatch(gameActions.setGameOver(true));
+      return setTimeout(() => {
+        store.dispatch(gameActions.setShipHead(checkShipHead()));
+      }, 1000);
     }
     // Check reverse
     if (checkReverse(cards, deckRef)) {
+      store.dispatch(gameActions.changeDirection());
       store.dispatch(gameActions.setGameAnnouncement(`Switching direction!`));
     }
 
     // Switch Player
-    store.dispatch(gameActions.switchActivePlayer(getNextPlayerId()));
+    let skip = 0;
+    if (deckRef[cards[0]].power === "skip") {
+      skip = cards.length;
+    }
+    if (skip) {
+      store.dispatch(
+        gameActions.setGameAnnouncement(
+          `Skipping over ${skip} player${skip !== 1 ? "s" : ""}!`
+        )
+      );
+    }
+    store.dispatch(gameActions.switchActivePlayer(getNextPlayerId(skip)));
   });
 
   socket.on("takeStack", (player) => {
@@ -139,6 +155,20 @@ export const socketFunctions = (socket) => {
 
   socket.on("takeFaceCards", (player) => {
     store.dispatch(gameActions.takeFaceCards(player.id));
+  });
+
+  socket.on("newGame", (info) => {
+    store.dispatch(gameActions.newGame(info));
+    store.dispatch(gameActions.setGameEvent("welcome to ship-head"));
+    store.dispatch(
+      gameActions.setGameAnnouncement("the game is about to begin")
+    );
+
+    setTimeout(() => {
+      store.dispatch(gameActions.dealCards());
+      store.dispatch(gameActions.setGameEvent("select your face up cards"));
+      store.dispatch(gameActions.setGameAnnouncement("(pick three)"));
+    }, 1000);
   });
 
   // socket.on("setFaceUpCards", ({ cards, player }) => {
