@@ -132,6 +132,9 @@ const gameSlice = createSlice({
           playing: true,
           hasSetFaceUpCards: false,
           hasToPickUp: false,
+          handCards: [],
+          faceUpCards: [],
+          faceDownCards: [],
         },
       ];
     },

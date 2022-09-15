@@ -55,7 +55,7 @@ export const socketFunctions = (socket) => {
       store.dispatch(gameActions.dealCards());
       store.dispatch(gameActions.setGameEvent("select your face up cards"));
       store.dispatch(gameActions.setGameAnnouncement("(pick three)"));
-    }, 1000);
+    }, 500);
   });
 
   socket.on("setFaceUpCards", ({ cards, playerId }) => {

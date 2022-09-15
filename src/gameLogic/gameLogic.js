@@ -1,7 +1,9 @@
 import { allCardsHaveEqualValue, cardsWillReverseDirection } from "./gameUtils";
 import store from "../redux/store";
 
-import userAction from "../redux/userSlice";
+import userActions from "../redux/userSlice";
+import gameActions from "../redux/gameSlice";
+
 import { notifications } from "../config/notificationMessages";
 
 export function gameState() {
@@ -10,6 +12,21 @@ export function gameState() {
 
 export function userState() {
   return store.getState().user.value;
+}
+
+function getState() {
+  return [store.getState().game.value, store.getState().user.value];
+}
+
+export function getPlayer() {
+  const [gameState, userState] = getState();
+  return gameState.players.find((player) => player.id === userState.id);
+}
+
+function isActive(player) {
+  const gameState = getState()[0];
+  if (gameState.activePlayerId === player.id) return true;
+  return false;
 }
 
 const getTopStackCard = () => {
@@ -124,11 +141,11 @@ export function setFaceCards(cards, playerId) {
 
   if (cards.length !== 3) {
     return store.dispatch(
-      userAction.setNotification(notifications.setThreeFaceCards)
+      userActions.setNotification(notifications.setThreeFaceCards)
     );
   }
   if (!checkCardsAreInHand(cards, playerId)) {
-    store.dispatch(userAction.setNotification(notifications.cardsNotInHand));
+    store.dispatch(userActions.setNotification(notifications.cardsNotInHand));
     return;
   }
   toBeEmitted.push([
@@ -160,107 +177,107 @@ export const playerWithLowestStarter = () => {
   return justIdAndCards[0].player;
 };
 
-export function playCards(cards, playerId) {
-  const toBeEmitted = [];
-  if (!checkActivePlayer(playerId)) {
-    store.dispatch(userAction.setNotification(notifications.notYourTurn));
-    return;
-  }
-  if (!checkCardsAreInHand(cards, playerId)) {
-    store.dispatch(userAction.setNotification(notifications.cardsNotInHand));
-    return;
-  }
-  if (getActiveHand(playerId) !== "faceDownCards" && !checkLegalMove(cards)) {
-    store.dispatch(userAction.setNotification(notifications.illegalMove));
-    return;
-  }
-  //---ADD TO 'TO BE EMMITED' ARRAY------//
-  toBeEmitted.push([
-    "playCards",
-    {
-      playerId: "asdfasdf342",
-      cards,
-    },
-  ]);
+// export function playCards(cards, playerId) {
+//   const toBeEmitted = [];
+//   if (!checkActivePlayer(playerId)) {
+//     store.dispatch(userActions.setNotification(notifications.notYourTurn));
+//     return;
+//   }
+//   if (!checkCardsAreInHand(cards, playerId)) {
+//     store.dispatch(userActions.setNotification(notifications.cardsNotInHand));
+//     return;
+//   }
+//   if (getActiveHand(playerId) !== "faceDownCards" && !checkLegalMove(cards)) {
+//     store.dispatch(userActions.setNotification(notifications.illegalMove));
+//     return;
+//   }
+//   //---ADD TO 'TO BE EMMITED' ARRAY------//
+//   toBeEmitted.push([
+//     "playCards",
+//     {
+//       playerId: "asdfasdf342",
+//       cards,
+//     },
+//   ]);
 
-  if (!checkLegalMove(cards)) {
-    //---ADD TO 'TO BE EMMITED' ARRAY------//
-    toBeEmitted.push([
-      "setGameAnnouncement",
-      { message: "Betrayed by the blind Card!" },
-    ]);
-    toBeEmitted.push([
-      "hasToPickUp",
-      {
-        playerId,
-      },
-    ]);
-    return toBeEmitted;
-  }
+//   if (!checkLegalMove(cards)) {
+//     //---ADD TO 'TO BE EMMITED' ARRAY------//
+//     toBeEmitted.push([
+//       "setGameAnnouncement",
+//       { message: "Betrayed by the blind Card!" },
+//     ]);
+//     toBeEmitted.push([
+//       "hasToPickUp",
+//       {
+//         playerId,
+//       },
+//     ]);
+//     return toBeEmitted;
+//   }
 
-  if (checkWinner()) {
-    toBeEmitted.push("setWinner", {
-      playerId,
-    });
-  }
-  if (checkDrawCards()) {
-    toBeEmitted.push("drawCards", {
-      playerId,
-      quantity: checkDrawCards(),
-    });
-  }
+//   if (checkWinner()) {
+//     toBeEmitted.push("setWinner", {
+//       playerId,
+//     });
+//   }
+//   if (checkDrawCards()) {
+//     toBeEmitted.push("drawCards", {
+//       playerId,
+//       quantity: checkDrawCards(),
+//     });
+//   }
 
-  if (checkBurnStack()) {
-    //---ADD TO 'TO BE EMMITED' ARRAY------//
-    toBeEmitted.push([
-      "setGameAnnouncement",
-      {
-        message: "It Burns!!",
-      },
-    ]);
-    toBeEmitted.push(["burnStack"]);
-    // store.dispatch(setGameAnnouncement());
-    // store.dispatch(burnStack());
+//   if (checkBurnStack()) {
+//     //---ADD TO 'TO BE EMMITED' ARRAY------//
+//     toBeEmitted.push([
+//       "setGameAnnouncement",
+//       {
+//         message: "It Burns!!",
+//       },
+//     ]);
+//     toBeEmitted.push(["burnStack"]);
+//     // store.dispatch(setGameAnnouncement());
+//     // store.dispatch(burnStack());
 
-    // CONTINUE FROM HERE
+//     // CONTINUE FROM HERE
 
-    if (checkGameOver()) {
-      toBeEmitted.push(["setGameOver"]);
-      toBeEmitted.push([
-        "setShipHead",
-        {
-          name: checkGameOver(),
-        },
-      ]);
-      return toBeEmitted;
-    }
-  }
-  if (cardsWillReverseDirection(cards)) {
-    //---ADD TO 'TO BE EMMITED' ARRAY------//
-    toBeEmitted.push([
-      "changeDirection",
-      {
-        directionClockwise: !gameState().directionClockwise,
-      },
-    ]);
-    toBeEmitted.push([
-      "setGameAnnouncement",
-      {
-        message: "Reverse Direction",
-      },
-    ]);
+//     if (checkGameOver()) {
+//       toBeEmitted.push(["setGameOver"]);
+//       toBeEmitted.push([
+//         "setShipHead",
+//         {
+//           name: checkGameOver(),
+//         },
+//       ]);
+//       return toBeEmitted;
+//     }
+//   }
+//   if (cardsWillReverseDirection(cards)) {
+//     //---ADD TO 'TO BE EMMITED' ARRAY------//
+//     toBeEmitted.push([
+//       "changeDirection",
+//       {
+//         directionClockwise: !gameState().directionClockwise,
+//       },
+//     ]);
+//     toBeEmitted.push([
+//       "setGameAnnouncement",
+//       {
+//         message: "Reverse Direction",
+//       },
+//     ]);
 
-    //TO BE IMPLEMENTED: REVERSE X2 CANCELS
+//     //TO BE IMPLEMENTED: REVERSE X2 CANCELS
 
-    // store.dispatch(switchDirection());
-    // store.dispatch(setGameAnnouncement());
-  }
-  //---ADD TO 'TO BE EMMITED' ARRAY------//
-  toBeEmitted.push(["switchActivePlayer"]);
-  //   store.dispatch(switchActivePlayer());
-  //---RETURN 'TO BE EMMITED' ARRAY------//
-  return toBeEmitted;
-}
+//     // store.dispatch(switchDirection());
+//     // store.dispatch(setGameAnnouncement());
+//   }
+//   //---ADD TO 'TO BE EMMITED' ARRAY------//
+//   toBeEmitted.push(["switchActivePlayer"]);
+//   //   store.dispatch(switchActivePlayer());
+//   //---RETURN 'TO BE EMMITED' ARRAY------//
+//   return toBeEmitted;
+// }
 
 export function checkBurnStack() {
   // Check for empty stack
@@ -348,12 +365,13 @@ export const getNextPlayerId = (skip = 0) => {
   return players[currentActivePlayerIndex].id;
 };
 
-export function hasValidMove(player, hand) {
+export function hasValidMove(player) {
   const deckRef = gameState().deckRef;
-  if (hand === "faceDownCards") {
-    return [player[hand][0]];
+  const activeHand = getActiveHand(player.id);
+  if (activeHand === "faceDownCards") {
+    return [player[activeHand][0]];
   }
-  const availableCards = player[hand];
+  const availableCards = player[activeHand];
 
   if (!availableCards) return false;
 
@@ -388,27 +406,8 @@ export function hasValidMove(player, hand) {
   return [...bestCards] || fourOfAKind;
 }
 
-// export const setBotFaceCards = (socket) => {
-//   console.log("running here");
-//   const currentGameState = gameState();
-//   const bot = currentGameState.players.find((player) => {
-//     return (
-//       player.bot && !player.hasSetFaceUpCards && player.handCards.length > 0
-//     );
-//   });
-//   if (!bot) return;
-//   const orderedCards = [...bot.handCards].sort(
-//     (a, b) =>
-//       currentGameState.deckRef[a].worth - currentGameState.deckRef[b].worth
-//   );
-//   socket.emit("setFaceUpCards", {
-//     playerId: bot.id,
-//     cards: orderedCards.slice(3, 6),
-//     room: currentGameState.room,
-//   });
-// };
-
 export const returnBestThreeBestCards = (cards) => {
+  if (!cards) return;
   const deckRef = gameState().deckRef;
   const orderedCards = [...cards].sort(
     (a, b) => deckRef[a].worth - deckRef[b].worth
@@ -416,37 +415,179 @@ export const returnBestThreeBestCards = (cards) => {
   return orderedCards.slice(3, 6);
 };
 
-export const playValidMove = (socket, player) => {
+export const getPlayerInfo = (id) => {
+  return gameState().players.find((player) => player.id === id);
+};
+
+//-----------------------------------//
+// NEW AND IMPROVED FUNCTIONS BELOW  //
+//-----------------------------------//
+export function selectFaceCards(socket) {
+  const [gameState, userState] = getState();
+  if (userState.selectedCards.length !== 3) {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "info",
+        message: "You must select 3 cards",
+      })
+    );
+  }
+  socket.emit("setFaceUpCards", {
+    playerId: userState.id,
+    cards: userState.selectedCards,
+    room: gameState.room,
+  });
+  store.dispatch(userActions.setSelecteCards([]));
+}
+
+export function autoSelectFaceCards(socket, player = getPlayer()) {
+  if (player.handCards.length === 0) return;
+  const gameState = getState()[0];
+  socket.emit("setFaceUpCards", {
+    playerId: player.id,
+    cards: returnBestThreeBestCards(player.handCards),
+    room: gameState.room,
+  });
+}
+
+export function playValidMove(socket, player = getPlayer()) {
+  const gameState = getState()[0];
+  if (!isActive(player)) {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "It is not your turn",
+      })
+    );
+  }
   const activeHand = getActiveHand(player.id);
-  const stack = gameState().stack;
-  if (hasValidMove(player, activeHand, stack) && !player.hasToPickUp) {
+  if (hasValidMove(player) && !player.hasToPickUp) {
+    // store.dispatch(userActions.setSelecteCards([]));
     return socket.emit("playCards", {
       player,
       hand: activeHand,
-      cards: hasValidMove(player, activeHand, stack),
-      room: gameState().room,
-      deckRef: gameState().deckRef,
+      cards: hasValidMove(player),
+      room: gameState.room,
+      deckRef: gameState.deckRef,
+    });
+  }
+  if (
+    player.handCards.length === 0 &&
+    allCardsHaveEqualValue(player.faceUpCards, gameState.deckRef)
+  ) {
+    socket.emit("takeFaceCards", {
+      player: player.id,
+      room: gameState.room,
     });
   }
   socket.emit("takeStack", {
     player,
-    room: gameState().room,
+    room: gameState.room,
   });
-  console.log(
-    player.faceUpCards.length === 1,
-    allCardsHaveEqualValue(player.faceUpCards, gameState().deckRef)
-  );
+  // store.dispatch(userActions.setSelecteCards([]));
+}
+
+export function playCards(socket) {
+  const [gameState, userState] = getState();
+  const player = getPlayer();
+  if (!isActive(player)) {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "It is not your turn",
+      })
+    );
+  }
+  if (player.hasToPickUp) {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "You must pick up the stack!",
+      })
+    );
+  }
+  if (userState.selectedCards.length === 0) {
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "Please select your card(s)",
+      })
+    );
+  }
+  const legalMove = checkLegalMove(userState.selectedCards);
+  if (!legalMove && getActiveHand(player.id) !== "faceDownCards") {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "You cannot play that card",
+      })
+    );
+  }
+  socket.emit("playCards", {
+    player: userState,
+    hand: getActiveHand(player.id),
+    cards: userState.selectedCards,
+    room: gameState.room,
+    deckRef: gameState.deckRef,
+  });
+  store.dispatch(userActions.setSelecteCards([]));
+}
+
+export function takeStack(socket, player = getPlayer()) {
+  const gameState = getState()[0];
+  if (!isActive(player)) {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "It is not your turn",
+      })
+    );
+  }
+  if (player.hasToPickUp) {
+    socket.emit("takeStack", {
+      player,
+      room: gameState.room,
+    });
+    return store.dispatch(userActions.setSelecteCards([]));
+  }
+  if (hasValidMove(player)) {
+    store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(
+      userActions.setNotification({
+        type: "alert",
+        message: "You have a valid move",
+      })
+    );
+  }
   if (
-    player.faceUpCards.length === 1 ||
-    allCardsHaveEqualValue(player.faceUpCards, gameState().deckRef)
+    player.handCards.length === 0 &&
+    allCardsHaveEqualValue(player.faceUpCards, gameState.deckRef)
   ) {
     socket.emit("takeFaceCards", {
-      player: userState,
+      player,
       room: gameState.room,
     });
   }
-};
+  socket.emit("takeStack", {
+    player,
+    room: gameState.room,
+  });
+  store.dispatch(userActions.setSelecteCards([]));
+}
 
-export const getPlayerInfo = (id) => {
-  return gameState().players.find((player) => player.id === id);
-};
+export function sortCards() {
+  const gameState = getState()[0];
+  const player = getPlayer();
+  store.dispatch(
+    gameActions.sortHandCards({
+      id: player.id,
+      deckRef: gameState.deckRef,
+    })
+  );
+}

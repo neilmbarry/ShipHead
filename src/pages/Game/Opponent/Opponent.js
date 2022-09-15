@@ -8,6 +8,7 @@ import { useSocket } from "../../../context/SocketProvider";
 import {
   returnBestThreeBestCards,
   playValidMove,
+  autoSelectFaceCards,
 } from "../../../gameLogic/gameLogic";
 
 const Opponent = ({
@@ -37,17 +38,12 @@ const Opponent = ({
     if (hasSetFaceCards) return;
     if (handCards.length === 0) return;
     const setFaceCards = setTimeout(() => {
-      socket.emit("setFaceUpCards", {
-        playerId,
-        cards: returnBestThreeBestCards(handCards),
-        room,
-      });
+      autoSelectFaceCards(socket, player);
     }, 1000);
-
     return () => {
       clearTimeout(setFaceCards);
     };
-  }, [bot, hasSetFaceCards, socket, room, playerId, handCards, gameOver]);
+  }, [bot, hasSetFaceCards, socket, room, player, handCards, gameOver]);
 
   useEffect(() => {
     if (gameOver) return;
@@ -61,7 +57,7 @@ const Opponent = ({
     return () => {
       clearTimeout(computerValidMove);
     };
-  }, [active, bot, player, socket]);
+  }, [active, bot, player, socket, gameOver]);
 
   return (
     <div className={classesList}>

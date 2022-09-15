@@ -1,5 +1,5 @@
 .main {
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
