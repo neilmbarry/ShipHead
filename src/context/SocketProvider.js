@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "development") {
   server = "http://localhost:4000/";
 } else {
   console.warn("Connecting to production server...");
-  server = "https://shit-head-heroku.herokuapp.com/";
+  server = "https://ship-head.herokuapp.com/";
 }
 
 export function SocketProvider({ id, children }) {
