@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "development") {
   origin = "http://localhost:3000";
   console.log("Connecting to development project");
 } else {
-  origin = "https://ship-head.vercel.app/";
+  origin = "https://ship-head.vercel.app";
   console.log("Connecting to production project");
 }
 const io = require("socket.io")(server, {
