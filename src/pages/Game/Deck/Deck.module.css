@@ -1,12 +1,15 @@
 .main {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card {
   max-width: 60px;
   border-radius: 4px;
   position: absolute;
-  top: 50%;
+  /* top: 50%; */
   left: 0%;
   transform: translate(-0%, -50%);
   margin-left: 1rem;

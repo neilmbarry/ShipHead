@@ -5,10 +5,13 @@
   position: relative;
   /* background-color: #396148; */
   z-index: -2;
+  opacity: 1;
+  transition: all ease 0.3s;
 }
 
 .inactive {
   opacity: 0.5;
+  transition: all ease 0.3s;
 }
 
 .faceUp {

@@ -1,18 +1,25 @@
 .main {
   display: grid;
   grid-template-areas:
-    "face face face face"
+    "info face face yes"
     "hand hand hand hand"
     "hand hand hand hand";
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, 1fr);
   height: 100%;
   border: 2px solid transparent;
+  opacity: 0.6;
+  transition: all ease 0.5s;
 }
 
 .face {
   grid-area: face;
   /* background-color: pink; */
+}
+
+.info {
+  grid-area: info;
+  /* border: 1px dashed red; */
 }
 
 .hand {
@@ -22,8 +29,8 @@
 
 .active {
   /* border: 2px solid gold; */
-  background-color: rgba(255, 217, 0, 0.15);
-  border-radius: 15px;
+  opacity: 1;
+  transition: all ease 0.5s;
   /* animation: pulse 1s linear infinite; */
 }
 

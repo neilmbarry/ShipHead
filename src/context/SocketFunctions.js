@@ -76,18 +76,21 @@ export const socketFunctions = (socket) => {
     const legalMove = checkLegalMove(cards);
 
     store.dispatch(gameActions.playCards({ cards, player, hand }));
-
-    store.dispatch(
-      gameActions.setGameEvent(
-        `${player.name} has played ${cardsToText(cards, deckRef)}!`
-      )
-    );
+    setTimeout(() => {
+      store.dispatch(
+        gameActions.setGameEvent(
+          `${player.name} has played ${cardsToText(cards, deckRef)}!`
+        )
+      );
+    }, 750);
     store.dispatch(gameActions.setGameAnnouncement(``));
     // Check legal move
     if (!legalMove) {
-      store.dispatch(
-        gameActions.setGameAnnouncement(`betrayed by the blind card!`)
-      );
+      setTimeout(() => {
+        store.dispatch(
+          gameActions.setGameAnnouncement(`betrayed by the blind card!`)
+        );
+      }, 1500);
       return store.dispatch(gameActions.hasToPickUp(player.id));
     }
     // // Check draw cards

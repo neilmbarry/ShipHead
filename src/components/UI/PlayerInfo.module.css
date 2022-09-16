@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  justify-content: center;
+  /* justify-content: center; */
   /* transform: rotate(180deg); */
   width: 90%;
   margin: 0 auto;
@@ -11,8 +11,15 @@
   border-radius: 10px;
   color: white;
   max-width: 100px;
+  margin-top: 5px;
   /* background-color: rgb(53, 53, 53); */
+}
+
+.avatarContainer {
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .name {
@@ -36,6 +43,6 @@
 
 .active {
   border: 2px solid gold;
-  color: gold;
+  /* color: gold; */
   transition: all ease 0.5s;
 }

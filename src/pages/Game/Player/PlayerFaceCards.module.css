@@ -5,11 +5,12 @@
   position: relative;
   /* background-color: #396148; */
   width: 100%;
-  max-width: 250px;
+  max-width: 200px;
   z-index: 2;
   height: 100%;
   opacity: 0.5;
   margin: auto;
+  transition: all ease 0.3s;
 }
 
 .faceUp {
@@ -24,6 +25,7 @@
 
 .active {
   opacity: 1;
+  transition: all ease 0.3s;
 }
 
 .faceDown {
@@ -40,8 +42,8 @@
 }
 
 .card {
-  /* margin: 0 -1.9rem 0 0; */
-  width: 33%;
+  margin: 0 -0.7rem;
+  width: 40%;
   /* border-radius: 22px; */
   /* transform: translateY(20px); */
 }

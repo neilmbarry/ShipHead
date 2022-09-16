@@ -2,9 +2,9 @@ import React from "react";
 import classes from "./Player.module.css";
 import PlayerFaceCards from "./PlayerFaceCards";
 import PlayerHandCards from "./PlayerHandCards";
-import store from "../../../redux/store";
 import { useSelector } from "react-redux";
 import { getActiveHand } from "../../../gameLogic/gameLogic";
+import PlayerInfo from "../../../components/UI/PlayerInfo";
 
 const Player = ({ className }) => {
   const userId = useSelector((state) => state.user.value.id);
@@ -14,11 +14,17 @@ const Player = ({ className }) => {
   const activePlayerId = useSelector(
     (state) => state.game.value.activePlayerId
   );
-  const active = activePlayerId === userId ? "active" : "";
+  const active = activePlayerId === userId || !activePlayerId ? "active" : "";
   const classesList = `${classes.main} ${className} ${classes[active]}`;
   const activeHand = getActiveHand(userId);
   return (
     <div className={classesList}>
+      <PlayerInfo
+        className={classes.info}
+        name={player.name}
+        avatar={player.avatar}
+        active={active}
+      />
       <PlayerFaceCards
         faceUpCards={player?.faceUpCards}
         faceDownCards={player?.faceDownCards}

@@ -106,7 +106,7 @@ const Home = ({ className }) => {
       store.dispatch(
         gameActions.addPlayer({
           name: `bot ${i}`,
-          avatar: `avatar${i}`,
+          avatar: `avatar${Math.floor(Math.random() * 8) + 1}`,
           bot: true,
           id: i,
         })

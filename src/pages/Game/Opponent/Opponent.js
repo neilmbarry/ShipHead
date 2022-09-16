@@ -8,8 +8,8 @@ import { useSocket } from "../../../context/SocketProvider";
 import {
   playValidMove,
   autoSelectFaceCards,
-  getActiveHand,
 } from "../../../gameLogic/gameLogic";
+import PlayerInfo from "../../../components/UI/PlayerInfo";
 
 const Opponent = ({
   className,
@@ -30,6 +30,7 @@ const Opponent = ({
   const stack = useSelector((state) => state.game.value.stack);
   const gameOver = useSelector((state) => state.game.value.gameOver);
   const active = activePlayerId === playerId ? "active" : "";
+
   const classesList = `${classes.main} ${className} ${classes[active]}`;
   const socket = useSocket();
 
@@ -69,7 +70,13 @@ const Opponent = ({
         player={player}
       />
       <OpponentHandCards handCards={handCards} className={classes.hand} />
-      <OpponentInfo name={name} avatar={avatar} className={classes.info} />
+      <PlayerInfo
+        name={name}
+        active={active}
+        avatar={avatar}
+        className={classes.info}
+      />
+      {/* <OpponentInfo name={name} active={active} avatar={avatar} className={classes.info} /> */}
     </div>
   );
 };
