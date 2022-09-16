@@ -3,13 +3,12 @@
 }
 
 body {
-  background-color: rgb(29, 29, 29);
+  /* background-color: rgb(29, 29, 29); */
+
   font-family: "silkscreen";
 }
 
 button {
-  font-family: "silkscreen";
-  background-color: rgb(71, 71, 71);
 }
 
 img {
@@ -22,7 +21,7 @@ img {
 
 h1 {
   font-size: 4.5rem;
-  text-shadow: 4px 4px gold;
+  text-shadow: 3px 3px gold;
   line-height: 4rem;
 }
 

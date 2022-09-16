@@ -13,12 +13,9 @@ const userStateTemplate = {
 
 const initialState = {
   name: null,
-  id: null,
+  id: "",
   avatar: null,
-  notification: {
-    type: "",
-    message: "",
-  },
+  notification: null,
   selectedCards: [],
 };
 
@@ -50,13 +47,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {
-  setNotification,
-  setSelecteCards,
-  setAvatar,
-  setId,
-  setName,
-  setInfo,
-} = userSlice.actions;
+export default userSlice.actions;
 
-export default userSlice.reducer;
+export const userReducer = userSlice.reducer;

@@ -2,9 +2,11 @@
   display: grid;
   height: 86vh;
   /* REMOVE */
-  overflow: hidden;
+  /* overflow: hidden; */
   /**/
-  width: 100vw;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
   /* border: 2px dashed red; */
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(12, 1fr);
@@ -21,15 +23,6 @@
     "player player player player player player player player player"
     "player player player player player player player player player"
     "player player player player player player player player player";
-}
-
-.threeOpponents {
-}
-
-.twoOpponents {
-}
-
-.oneOpponent {
 }
 
 .player {
@@ -86,7 +79,7 @@
   display: flex;
   width: 50%;
   justify-content: center;
-  animation: spin 3s linear infinite;
+  /* animation: spin 3s linear infinite; */
 }
 
 @keyframes spin {

@@ -4,9 +4,13 @@
   /* overflow: hidden; */
   position: relative;
   /* background-color: #396148; */
-  z-index: -2;
+  width: 100%;
+  max-width: 200px;
+  z-index: 2;
   height: 100%;
   opacity: 0.5;
+  margin: auto;
+  transition: all ease 0.3s;
 }
 
 .faceUp {
@@ -19,6 +23,11 @@
   /* z-index: 4; */
 }
 
+.active {
+  opacity: 1;
+  transition: all ease 0.3s;
+}
+
 .faceDown {
   position: absolute;
   top: 0;
@@ -27,14 +36,18 @@
   gap: 3px;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  /* height: 100%; */
 
   z-index: -1;
 }
 
 .card {
-  /* margin: 0 -1.9rem 0 0; */
+  margin: 0 -0.7rem;
   width: 40%;
   /* border-radius: 22px; */
   /* transform: translateY(20px); */
+}
+
+.hide {
+  display: none;
 }

@@ -1,0 +1,48 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  /* justify-content: center; */
+  /* transform: rotate(180deg); */
+  width: 90%;
+  margin: 0 auto;
+  /* margin-bottom: 10px; */
+  border-radius: 10px;
+  color: white;
+  max-width: 100px;
+  margin-top: 5px;
+  /* background-color: rgb(53, 53, 53); */
+}
+
+.avatarContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  color: white;
+  border: 2px solid grey;
+  font-size: 0.9rem;
+  position: absolute;
+  bottom: -15px;
+  background-color: rgb(61, 61, 61);
+  padding: 3px 12px 4px 12px;
+  border-radius: 50px;
+  transition: all ease 0.5s;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border: 2px solid grey;
+  transition: all ease 0.5s;
+}
+
+.active {
+  border: 2px solid gold;
+  /* color: gold; */
+  transition: all ease 0.5s;
+}

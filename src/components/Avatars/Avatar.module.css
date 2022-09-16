@@ -3,12 +3,19 @@
   height: 70px;
   border-radius: 500px;
   overflow: hidden;
-  border: 5px solid rgb(102, 102, 102);
+  border: 3px solid rgb(102, 102, 102);
   /* background-color: grey; */
   cursor: pointer;
-  animation: loading infinite linear 1.5s;
+  border: 3px solid gold;
+  /* animation: loading infinite linear 1.5s; */
   /* transition: all ease 0.2s; */
   /* justify-self: center; */
+  opacity: 1;
+}
+
+.initial {
+  opacity: 0.7;
+  border: 3px solid rgb(102, 102, 102);
 }
 
 @keyframes loading {
@@ -28,5 +35,6 @@
 }
 
 .selected {
-  border: 5px solid gold;
+  border: 3px solid gold;
+  opacity: 1;
 }

@@ -5,21 +5,29 @@
   position: relative;
   /* background-color: #396148; */
   z-index: -2;
+  opacity: 1;
+  transition: all ease 0.3s;
+}
+
+.inactive {
   opacity: 0.5;
+  transition: all ease 0.3s;
 }
 
 .faceUp {
   display: flex;
+  flex-direction: row-reverse;
   gap: 3px;
   align-items: center;
   justify-content: center;
   height: 100%;
-  transform: translateY(20px);
+  transform: translateY(-10px);
   /* z-index: 4; */
 }
 
 .faceDown {
   position: absolute;
+  flex-direction: row-reverse;
   top: 0;
   width: 100%;
   display: flex;
@@ -27,15 +35,15 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  transform: translateY(10px);
+  transform: translateY(0px);
   z-index: -1;
 }
 
 .card {
   /* margin: 0 -1.9rem 0 0; */
-  width: 38%;
-  margin: -4rem -0.68rem -4rem -0.68rem;
-  max-width: 50px;
+  width: 50%;
+  margin: -1.2rem;
+  max-width: 70px;
   /* border-radius: 22px; */
   /* transform: translateY(20px); */
 }

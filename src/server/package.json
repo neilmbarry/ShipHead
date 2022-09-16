@@ -1,0 +1,21 @@
+{
+  "name": "ship-head-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "prod": "node server",
+    "start": "nodemon server",
+    "dev": "NODE_ENV=development nodemon server"
+  },
+  "author": "Neil Barry",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "socket.io": "^4.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}

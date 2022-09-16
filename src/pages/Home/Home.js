@@ -4,24 +4,26 @@ import classes from "./Home.module.css";
 import Button from "../../components/UI/Button";
 import Input from "../../components/UI/Input";
 import AvatarContainer from "../../components/Avatars/AvatarContainer";
-import Notification from "../../components/UI/Notification";
+
 import Modal from "../../components/UI/Modal";
 import CreateGameModal from "./CreateGameModal";
 import PlayComputerModal from "./PlayComputerModal";
 import { useSelector } from "react-redux";
-import { setNotification, setInfo } from "../../redux/userSlice";
-import { createRoom, resetGame } from "../../redux/gameSlice";
-import generateRoomId from "../../utils/generateRoomId";
+import userActions from "../../redux/userSlice";
+import gameActions from "../../redux/gameSlice";
+
 import store from "../../redux/store";
-import { io } from "socket.io-client";
+import { useSocket } from "../../context/SocketProvider";
+import { Link } from "react-router-dom";
+
+import { generateDeck } from "../../gameLogic/gameUtils";
 
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
-  // const [avatar, setAvatar] = useState();
-  const [notification, setNotification] = useState();
   const [modal, setModal] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const name = useRef();
+  const socket = useSocket();
 
   const params = useParams();
 
@@ -31,58 +33,91 @@ const Home = ({ className }) => {
     setAvatar(avatar);
   };
 
-  const createNewGameHandler = () => {
+  const showNewGameModal = () => {
     setModal({ createGame: true });
   };
 
   const createRoomHandler = () => {
     const player = {
       name: name.current.value,
-      avatar,
-      // id: getPlayerId(),
-      id: "PLAYER1ID",
+      avatar: avatar || "avatar1",
+      id: user.id,
     };
-    store.dispatch(setInfo(player));
+    store.dispatch(userActions.setInfo(player));
 
-    //Set game to initial conditions
-    store.dispatch(resetGame());
+    store.dispatch(gameActions.resetGame());
 
-    //Join random room Id
-    const roomId = generateRoomId();
+    const roomId = user.id;
 
-    //-----IMPLEMENT ROOM JOIN FUNCTIONALITY----//
-    // io.join(roomId);
+    socket.emit("joinRoom", { roomId, player });
 
-    //Set room to room Id in GameSlice
     store.dispatch(
-      createRoom({
+      gameActions.createRoom({
         playerInfo: player,
         room: roomId,
         hostId: player.id,
       })
     );
-    // Set user Id in UserSlice
-
-    //Add host id in GameSlice
-    //Add player to players in GameSlice
   };
 
-  const playComputerHandler = () => {
-    if (!name.current.value) {
-      return setNotification({
-        type: "alert",
-        text: "Please enter a valid name",
-      });
-    }
+  const joinGameHandler = () => {
+    const roomId = params.roomId;
+    const player = {
+      name: name.current.value,
+      avatar: avatar || "avatar2",
+      id: user.id,
+    };
+    store.dispatch(userActions.setInfo(player));
+
+    store.dispatch(gameActions.resetGame());
+
+    store.dispatch(gameActions.setRoom(roomId));
+
+    socket.emit("joinRoom", { roomId, player });
+  };
+
+  const showComputerModal = () => {
     setModal({ playComputer: true });
   };
 
-  const showNotification = notification && (
-    <Notification
-      notification={notification}
-      onClose={() => setNotification(null)}
-    />
-  );
+  const createComputerGame = (quantity) => {
+    const player = {
+      name: name.current.value,
+      avatar: avatar || "avatar3",
+      id: user.id,
+    };
+    store.dispatch(userActions.setInfo(player));
+
+    store.dispatch(gameActions.resetGame());
+
+    const roomId = user.id;
+
+    socket.emit("joinRoom", { roomId, player });
+
+    store.dispatch(
+      gameActions.createRoom({
+        playerInfo: player,
+        room: roomId,
+        hostId: player.id,
+      })
+    );
+
+    for (let i = 1; i < quantity; i++) {
+      store.dispatch(
+        gameActions.addPlayer({
+          name: `bot ${i}`,
+          avatar: `avatar${Math.floor(Math.random() * 8) + 1}`,
+          bot: true,
+          id: i,
+        })
+      );
+    }
+    store.dispatch(gameActions.startGame(generateDeck()));
+    setTimeout(() => {
+      store.dispatch(gameActions.dealCards());
+    }, 2000);
+  };
+
   const showCreateGameModal = modal.createGame && (
     <Modal onClose={() => setModal(false)}>
       <CreateGameModal
@@ -93,7 +128,10 @@ const Home = ({ className }) => {
   );
   const showPlayComputerModal = modal.playComputer && (
     <Modal onClose={() => setModal(false)}>
-      <PlayComputerModal onClose={() => setModal(false)} />
+      <PlayComputerModal
+        onClose={() => setModal(false)}
+        onPlayComputer={createComputerGame}
+      />
     </Modal>
   );
   const showContactModal = modal.contact && (
@@ -121,37 +159,22 @@ const Home = ({ className }) => {
       </div>
       <div className={classes.createGameBox}>
         {params.roomId && (
-          <Button text={"Join Neil's Game"} onClick={createNewGameHandler} />
+          <Link to="/lobby">
+            <Button text={"Join Neil's Game"} onClick={joinGameHandler} />
+          </Link>
         )}
-        <Button text={"Create new game"} onClick={createNewGameHandler} />
-        <Button text={"Play against computer"} onClick={playComputerHandler} />
+        <Button text={"Create new game"} onClick={showNewGameModal} />
+        <Button text={"Play against computer"} onClick={showComputerModal} />
       </div>
-      {/* <div className={classes.codeBox}>
-        <Input
-          className={classes.codeInput}
-          type="text"
-          placeholder="Enter code e.g GE4I8S"
-        />
-        <Button
-          text={"Join using code"}
-          onClick={() => setNotification({ type: "info", text: "Some info" })}
-        />
-      </div> */}
       <div className={classes.footerBtns}>
-        <Button
-          text={"How to play"}
-          type="small"
-          onClick={() => setNotification({ type: "alert" })}
-        />
+        <Button text={"How to play"} type="small" onClick={null} />
         <Button
           text={"Contact"}
           type="small"
           onClick={() => setModal({ contact: true })}
         />
         <Button text={"Changelog"} type="small" />
-        {/* <Button text={"English"} type="small" /> */}
       </div>
-      {showNotification}
       {showCreateGameModal}
       {showPlayComputerModal}
       {showContactModal}

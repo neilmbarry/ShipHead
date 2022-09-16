@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import classes from "./PlayComputerModal.module.css";
 import Input from "../../components/UI/Input";
 import Button from "../../components/UI/Button";
+import { Link, useNavigate } from "react-router-dom";
 
-const PlayComputerModal = ({ className, onClose }) => {
+const PlayComputerModal = ({ className, onClose, onPlayComputer }) => {
   const classesList = `${classes.main} ${className}`;
   const [selected, setSelected] = useState(null);
+  const playComputerHandler = () => {
+    onPlayComputer(selected);
+  };
   return (
     <div className={classesList}>
       <h3>vs. computer</h3>
@@ -40,7 +44,9 @@ const PlayComputerModal = ({ className, onClose }) => {
 
       <div className={classes.buttonsContainer}>
         <Button text="Cancel" type="secondary" onClick={onClose} />
-        <Button text="Play!" />
+        <Link to="/game">
+          <Button text="Play!" onClick={playComputerHandler} />
+        </Link>
       </div>
     </div>
   );

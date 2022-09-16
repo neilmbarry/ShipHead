@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: spin 14s linear infinite;
+  /* animation: spin 14s linear infinite; */
 }
 
 .card {

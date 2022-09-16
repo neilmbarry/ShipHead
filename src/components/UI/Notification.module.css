@@ -1,16 +1,18 @@
 .main {
   position: fixed;
-  bottom: 20px;
-  padding: 1rem;
+  top: 20px;
+  padding: 0.5rem 1rem;
+  padding-right: 2.5rem;
   border-radius: 5px;
-  /* background-color: rgb(139, 39, 39); */
   font-size: 2rem;
   left: 50%;
   transform: translateX(-50%);
   font-family: "silkscreen";
   display: flex;
+  text-align: center;
   gap: 1rem;
   align-items: center;
+  min-width: 80%;
 }
 
 .notificationIcon {
@@ -18,14 +20,14 @@
   top: 5px;
   left: 10px; */
   font-size: 1.5rem;
-  align-self: flex-start;
-  margin-top: 0.2rem;
+
+  /* padding: 0rem 0.5rem; */
 }
 
 .closeIcon {
   position: absolute;
-  top: 0px;
-  font-size: 1.5rem;
+  top: 3px;
+  font-size: 1rem;
   right: 10px;
   cursor: pointer;
 }

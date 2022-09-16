@@ -2,35 +2,37 @@ import React from "react";
 import classes from "./Actions.module.css";
 import Button from "../../../components/UI/Button";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSocket } from "../../../context/SocketProvider";
+import {
+  selectFaceCards,
+  autoSelectFaceCards,
+  playCards,
+  playValidMove,
+  takeStack,
+  sortCards,
+  getPlayer,
+} from "../../../gameLogic/gameLogic";
 
 const Actions = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
-  const userState = useSelector((state) => state.user.value);
-  const gameState = useSelector((state) => state.game.value);
-  const player = gameState.players.find((player) => player.id === userState.id);
-  console.log(player);
-  const playerHasSetFaceCards = player.hasSetFaceUpCards;
-  const selectedCards = userState.selectedCards;
+  const socket = useSocket();
+  const player = getPlayer();
 
-  const selectFaceCardsHandler = () => {};
-
-  const playCardsHandler = () => {};
-
-  const takeCardsHandler = () => {};
-
-  const sortCardsHandler = () => {};
+  const playButton = player?.hasSetFaceUpCards ? (
+    <Button text="Play" onClick={() => playCards(socket)} />
+  ) : (
+    <>
+      <Button text="Select" onClick={() => selectFaceCards(socket)} />
+      <Button text="Auto" onClick={() => autoSelectFaceCards(socket)} />
+    </>
+  );
 
   return (
     <div className={classesList}>
-      {!playerHasSetFaceCards ? (
-        <Button text="Select" onClick={selectFaceCardsHandler} />
-      ) : (
-        <Button text="Play" onClick={playCardsHandler} />
-      )}
-
-      <Button text="take" onClick={takeCardsHandler} />
-      <Button text="sort" onClick={sortCardsHandler} />
+      {playButton}
+      <Button text="take" onClick={() => takeStack(socket)} />
+      <Button text="sort" onClick={() => sortCards()} />
+      <Button text="valid" onClick={() => playValidMove(socket)} />
       <Link to="/">
         <Button text="exit" />
       </Link>

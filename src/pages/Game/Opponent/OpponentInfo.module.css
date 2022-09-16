@@ -4,22 +4,38 @@
   align-items: center;
   gap: 0.5rem;
   justify-content: center;
-  transform: rotate(180deg);
+  /* transform: rotate(180deg); */
   width: 90%;
   margin: 0 auto;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   border-radius: 10px;
   color: white;
   max-width: 100px;
-  background-color: rgb(53, 53, 53);
+  /* background-color: rgb(53, 53, 53); */
+  position: relative;
 }
 
-.main h6 {
+.name {
   color: white;
+  border: 2px solid grey;
+  font-size: 0.9rem;
+  position: absolute;
+  bottom: -15px;
+  background-color: rgb(61, 61, 61);
+  padding: 3px 12px 4px 12px;
+  border-radius: 50px;
+  transition: all ease 0.5s;
 }
 
 .avatar {
-  width: 30px;
-  height: 30px;
-  border: 1px solid white;
+  width: 70px;
+  height: 70px;
+  border: 2px solid grey;
+  transition: all ease 0.5s;
+}
+
+.active {
+  border: 2px solid gold;
+  color: gold;
+  transition: all ease 0.5s;
 }

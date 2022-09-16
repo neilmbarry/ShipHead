@@ -17,6 +17,7 @@ const AvatarContainer = ({
         image={image}
         onClick={() => onAvatarClick(image)}
         selected={selectedAvatar === image}
+        initial={selectedAvatar !== image}
       />
     );
   });
