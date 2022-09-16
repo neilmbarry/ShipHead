@@ -198,7 +198,7 @@ const Card = ({
     exit: {
       opacity: 0,
       scale: 0.5,
-      rotateZ: 520,
+      rotateZ: 360,
       transition: {
         duration: 0.3,
       },

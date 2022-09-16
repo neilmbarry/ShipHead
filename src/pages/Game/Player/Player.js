@@ -21,8 +21,8 @@ const Player = ({ className }) => {
     <div className={classesList}>
       <PlayerInfo
         className={classes.info}
-        name={player.name}
-        avatar={player.avatar}
+        name={player?.name}
+        avatar={player?.avatar}
         active={active}
       />
       <PlayerFaceCards

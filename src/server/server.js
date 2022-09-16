@@ -4,6 +4,8 @@ const server = require("http").createServer(app);
 
 let origin;
 
+console.log("testing");
+
 if (process.env.NODE_ENV === "development") {
   origin = "http://localhost:3000";
   console.log("Connecting to development project");
