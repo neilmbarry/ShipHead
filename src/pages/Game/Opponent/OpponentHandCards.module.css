@@ -13,9 +13,12 @@
   padding-top: 1.2rem;
   align-items: center;
   justify-content: center;
-  display: grid;
+
+  /* display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8px, max-content));
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; */
+
+  display: flex;
 }
 
 .card {

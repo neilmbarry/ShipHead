@@ -7,7 +7,7 @@
   /* background-color: grey; */
   cursor: pointer;
   border: 3px solid gold;
-  animation: loading infinite linear 1.5s;
+  /* animation: loading infinite linear 1.5s; */
   /* transition: all ease 0.2s; */
   /* justify-self: center; */
   opacity: 1;

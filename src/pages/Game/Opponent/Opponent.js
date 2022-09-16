@@ -6,9 +6,9 @@ import OpponentHandCards from "./OpponentHandCards";
 import { useSelector } from "react-redux";
 import { useSocket } from "../../../context/SocketProvider";
 import {
-  returnBestThreeBestCards,
   playValidMove,
   autoSelectFaceCards,
+  getActiveHand,
 } from "../../../gameLogic/gameLogic";
 
 const Opponent = ({
@@ -27,6 +27,7 @@ const Opponent = ({
   const activePlayerId = useSelector(
     (state) => state.game.value.activePlayerId
   );
+  const stack = useSelector((state) => state.game.value.stack);
   const gameOver = useSelector((state) => state.game.value.gameOver);
   const active = activePlayerId === playerId ? "active" : "";
   const classesList = `${classes.main} ${className} ${classes[active]}`;
@@ -57,7 +58,7 @@ const Opponent = ({
     return () => {
       clearTimeout(computerValidMove);
     };
-  }, [active, bot, player, socket, gameOver]);
+  }, [active, bot, player, socket, gameOver, stack]);
 
   return (
     <div className={classesList}>
@@ -65,6 +66,7 @@ const Opponent = ({
         faceUpCards={faceUpCards}
         faceDownCards={faceDownCards}
         className={classes.face}
+        player={player}
       />
       <OpponentHandCards handCards={handCards} className={classes.hand} />
       <OpponentInfo name={name} avatar={avatar} className={classes.info} />

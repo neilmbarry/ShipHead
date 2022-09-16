@@ -1,14 +1,8 @@
 .main {
-  /* display: grid; */
-  /* justify-content: center;
-  align-items: center; */
-  /* padding: 1rem; */
-  /* grid-template-columns: repeat(auto-fit, minmax(2px, max-content)); */
   position: relative;
 }
 
 .card {
-  /* margin: -9rem -0.68rem -9rem -0.68rem; */
   max-width: 60px;
   border-radius: 4px;
   position: absolute;
@@ -16,12 +10,4 @@
   left: 0%;
   transform: translate(-0%, -50%);
   margin-left: 1rem;
-
-  /* max-height: 90%; */
-  /* flex: 1 0 auto; */
-  /* width: 30%; */
-  /* flex: 1 0 auto; */
-  /* transform: translateY(20px); */
-  /* transform: rotate(90deg); */
-  /* display: inline-block; */
 }

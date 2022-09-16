@@ -28,7 +28,7 @@
   width: 100px;
   height: 100px;
   /* border: none; */
-  animation: loading infinite linear 1.5s;
+  /* animation: loading infinite linear 1.5s; */
   /* transition: all ease 0.2s; */
   /* justify-self: center; */
 }
@@ -44,6 +44,7 @@
 }
 
 .empty {
-  animation: loading infinite linear 1.5s;
+  /* animation: loading infinite linear 1.5s; */
+  background-color: rgb(163, 163, 163);
   padding: 0.2rem 1.2rem;
 }

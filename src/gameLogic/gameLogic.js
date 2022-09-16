@@ -478,7 +478,7 @@ export function playValidMove(socket, player = getPlayer()) {
     allCardsHaveEqualValue(player.faceUpCards, gameState.deckRef)
   ) {
     socket.emit("takeFaceCards", {
-      player: player.id,
+      player,
       room: gameState.room,
     });
   }

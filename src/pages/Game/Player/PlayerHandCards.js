@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import classes from "./PlayerHandCards.module.css";
 import Card from "../../../components/UI/Card";
-import CardImages from "../../../utils/CardImages";
+import { AnimatePresence } from "framer-motion";
 
 import store from "../../../redux/store";
 import userActions from "../../../redux/userSlice";
@@ -50,12 +50,17 @@ const PlayerHand = ({ className, handCards, player, activeHand }) => {
       className={classes.card}
       key={card}
       z={i}
+      type="hand"
       selected={selectedCards.includes(card)}
       onClick={() => selectCardHandler(card)}
     />
   ));
 
-  return <div className={classesList}>{handCardsJSX}</div>;
+  return (
+    <div className={classesList}>
+      <AnimatePresence layout>{handCardsJSX}</AnimatePresence>
+    </div>
+  );
 };
 
 export default PlayerHand;

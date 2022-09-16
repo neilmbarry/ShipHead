@@ -72,7 +72,7 @@ export const socketFunctions = (socket) => {
     );
   });
 
-  socket.on("playCards", ({ cards, player, hand, deckRef }) => {
+  socket.on("playCards", async ({ cards, player, hand, deckRef }) => {
     const legalMove = checkLegalMove(cards);
 
     store.dispatch(gameActions.playCards({ cards, player, hand }));
@@ -92,6 +92,7 @@ export const socketFunctions = (socket) => {
     }
     // // Check draw cards
     if (checkDrawCards(player.id)) {
+      await new Promise((r) => setTimeout(r, 750));
       store.dispatch(
         gameActions.drawCard({
           id: player.id,
@@ -108,12 +109,15 @@ export const socketFunctions = (socket) => {
     }
     // Check Burn
     if (checkBurnStack()) {
+      await new Promise((r) => setTimeout(r, 750));
       store.dispatch(gameActions.burnStack());
       store.dispatch(gameActions.setGameAnnouncement(`it burns!`));
       if (checkShipHead()) {
-        store.dispatch(gameActions.setGameAnnouncement(`game over!}`));
+        store.dispatch(gameActions.setGameAnnouncement(`game over!`));
+        store.dispatch(gameActions.setActivePlayer(null));
+        store.dispatch(gameActions.setGameOver(true));
+        await new Promise((r) => setTimeout(r, 1000));
         store.dispatch(gameActions.setShipHead(checkShipHead()));
-        return store.dispatch(gameActions.setGameOver(true));
       }
       return;
     }

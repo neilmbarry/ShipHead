@@ -5,14 +5,14 @@
   margin: auto;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  transform: rotate(180deg);
+  /* transform: rotate(180deg); */
   grid-template-areas:
-    "face face face"
-    "face face face"
-    "hand hand hand"
-    "hand hand hand"
     "info info info"
-    "info info info";
+    "info info info"
+    "hand hand hand"
+    "hand hand hand"
+    "face face face"
+    "face face face";
   height: 100%;
   border: 2px solid transparent;
 }
@@ -38,9 +38,9 @@
 
 .active {
   /* border: 2px solid gold; */
-  /* background-color: rgba(255, 217, 0, 0.267); */
+  background-color: rgba(255, 217, 0, 0.123);
   border-radius: 15px;
-  animation: pulse 1s linear infinite;
+  /* animation: pulse 1s linear infinite; */
 }
 
 @keyframes pulse {

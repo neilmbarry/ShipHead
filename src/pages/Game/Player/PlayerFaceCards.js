@@ -4,6 +4,7 @@ import Card from "../../../components/UI/Card";
 import { useSelector } from "react-redux";
 import store from "../../../redux/store";
 import userActions from "../../../redux/userSlice";
+import { AnimatePresence } from "framer-motion";
 
 const PlayerFace = ({
   className,
@@ -61,8 +62,8 @@ const PlayerFace = ({
         name={card}
         key={card}
         selected={selectedCards.includes(card)}
+        type="face"
         onClick={() => {
-          console.log("trying");
           if (activeHand === "faceUpCards") {
             selectCardHandler(card);
           }
@@ -78,6 +79,7 @@ const PlayerFace = ({
         back={true}
         key={card}
         selected={selectedCards.includes(card)}
+        type="player"
         onClick={() => {
           console.log("tryuig");
           if (activeHand === "faceDownCards") return selectCardHandler(card);
@@ -87,8 +89,12 @@ const PlayerFace = ({
   });
   return (
     <div className={classesList}>
-      <div className={`${classes.faceUp} ${classes[hide]}`}>{faceUpJSX}</div>
-      <div className={classes.faceDown}>{faceDownJSX}</div>
+      <div className={`${classes.faceUp} ${classes[hide]}`}>
+        <AnimatePresence>{faceUpJSX}</AnimatePresence>
+      </div>
+      <div className={classes.faceDown}>
+        <AnimatePresence>{faceDownJSX}</AnimatePresence>
+      </div>
     </div>
   );
 };
