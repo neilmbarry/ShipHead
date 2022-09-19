@@ -182,12 +182,12 @@ const Card = ({
     hidden: {
       opacity: 0,
       scale: 1.2,
-      // rotateZ: r * 24 - 220,
+      rotateZ: r * 24 - 220,
     },
     visible: {
       opacity: 1,
       scale: 1,
-      rotateZ: (r * 24 + 15) % 360,
+      rotateZ: r * 24 + 15,
       transition: {
         type: "spring",
 
