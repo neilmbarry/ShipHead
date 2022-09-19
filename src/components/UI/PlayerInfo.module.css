@@ -12,6 +12,7 @@
   color: white;
   max-width: 100px;
   margin-top: 5px;
+  will-change: border;
   /* background-color: rgb(53, 53, 53); */
 }
 
@@ -31,18 +32,18 @@
   background-color: rgb(61, 61, 61);
   padding: 3px 12px 4px 12px;
   border-radius: 50px;
-  transition: all ease 0.5s;
+  transition: border linear 0.5s;
 }
 
 .avatar {
   width: 70px;
   height: 70px;
   border: 2px solid grey;
-  transition: all ease 0.5s;
+  transition: border linear 0.5s;
 }
 
 .active {
   border: 2px solid gold;
   /* color: gold; */
-  transition: all ease 0.5s;
+  transition: border linear 0.5s;
 }

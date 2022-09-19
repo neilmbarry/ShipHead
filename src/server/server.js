@@ -7,7 +7,7 @@ let origin;
 console.log("testing");
 
 if (process.env.NODE_ENV === "development") {
-  origin = "http://localhost:3000";
+  origin = "http://neils-macbook-pro.local:3000";
   console.log("Connecting to development project");
 } else {
   origin = "https://ship-head.vercel.app";
@@ -23,7 +23,6 @@ const io = require("socket.io")(server, {
 app.get("/", function (req, res) {
   res.send("<h1>Ship Head is Ready!</h1>");
 });
-console.log("-------------RESET------------");
 
 io.on("connection", (socket) => {
   console.log("New User connected: ", socket.id);

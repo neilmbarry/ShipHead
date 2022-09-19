@@ -9,7 +9,8 @@
   height: 100%;
   border: 2px solid transparent;
   opacity: 0.6;
-  transition: all ease 0.5s;
+  transition: opacity ease 0.5s;
+  will-change: opacity;
 }
 
 .face {
@@ -30,7 +31,7 @@
 .active {
   /* border: 2px solid gold; */
   opacity: 1;
-  transition: all ease 0.5s;
+  transition: opacity ease 0.5s;
   /* animation: pulse 1s linear infinite; */
 }
 

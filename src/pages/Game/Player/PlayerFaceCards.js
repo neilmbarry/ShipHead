@@ -79,7 +79,7 @@ const PlayerFace = ({
         back={true}
         key={card}
         selected={selectedCards.includes(card)}
-        type="player"
+        type="face"
         onClick={() => {
           console.log("tryuig");
           if (activeHand === "faceDownCards") return selectCardHandler(card);

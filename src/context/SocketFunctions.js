@@ -95,7 +95,7 @@ export const socketFunctions = (socket) => {
     }
     // // Check draw cards
     if (checkDrawCards(player.id)) {
-      await new Promise((r) => setTimeout(r, 750));
+      await new Promise((r) => setTimeout(r, 1000));
       store.dispatch(
         gameActions.drawCard({
           id: player.id,

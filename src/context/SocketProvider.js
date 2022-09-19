@@ -11,7 +11,7 @@ let server;
 
 if (process.env.NODE_ENV === "development") {
   console.warn("Connecting to development server...");
-  server = "http://localhost:4000/";
+  server = "http://neils-macbook-pro.local:4000/";
 } else {
   console.warn("Connecting to production server...");
   server = "https://ship-head.herokuapp.com/";

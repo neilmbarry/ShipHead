@@ -82,6 +82,31 @@ const Card = ({
     },
   };
 
+  const opHandVariants = {
+    hidden: {
+      y: 50,
+      opacity: 0,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: 0.3,
+      },
+    },
+    exit: {
+      y: 30,
+      opacity: 0,
+
+      transition: {
+        duration: 0.3,
+      },
+    },
+    hover: {
+      // scale: activeHover,
+    },
+  };
+
   const faceVariants = {
     hidden: {
       y: -50,
@@ -98,31 +123,6 @@ const Card = ({
     },
     exit: {
       y: -30,
-      opacity: 0,
-
-      transition: {
-        duration: 0.3,
-      },
-    },
-    hover: {
-      // scale: activeHover,
-    },
-  };
-
-  const opHandVariants = {
-    hidden: {
-      y: 50,
-      opacity: 0,
-    },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: 0.3,
-      },
-    },
-    exit: {
-      y: 30,
       opacity: 0,
 
       transition: {
@@ -182,12 +182,12 @@ const Card = ({
     hidden: {
       opacity: 0,
       scale: 1.2,
-      rotateZ: r * 24 - 220,
+      // rotateZ: r * 24 - 220,
     },
     visible: {
       opacity: 1,
       scale: 1,
-      rotateZ: r * 24 + 15,
+      rotateZ: (r * 24 + 15) % 360,
       transition: {
         type: "spring",
 
