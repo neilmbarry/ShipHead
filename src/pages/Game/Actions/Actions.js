@@ -23,7 +23,7 @@ const Actions = ({ className }) => {
   ) : (
     <>
       <Button text="Select" onClick={() => selectFaceCards(socket)} />
-      <Button text="Auto" onClick={() => autoSelectFaceCards(socket)} />
+      {/* <Button text="Auto" onClick={() => autoSelectFaceCards(socket)} /> */}
     </>
   );
 
@@ -32,7 +32,7 @@ const Actions = ({ className }) => {
       {playButton}
       <Button text="take" onClick={() => takeStack(socket)} />
       <Button text="sort" onClick={() => sortCards()} />
-      <Button text="valid" onClick={() => playValidMove(socket)} />
+      {/* <Button text="valid" onClick={() => playValidMove(socket)} /> */}
       <Link to="/">
         <Button text="exit" />
       </Link>
