@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./GameOver.module.css";
 
 import Button from "../../../components/UI/Button";
+import PlayerInfo from "../../../components/UI/PlayerInfo";
 
 import { useSocket } from "../../../context/SocketProvider";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ const GameOver = ({ className }) => {
   const socket = useSocket();
   const classesList = `${classes.main} ${className}`;
   const room = useSelector((state) => state.game.value.room);
+  const shipHead = useSelector((state) => state.game.value.shipHead);
   const playAgainHandler = () => {
     socket.emit("newGame", {
       room,
@@ -20,7 +22,9 @@ const GameOver = ({ className }) => {
   };
   return (
     <div className={classesList}>
-      <h3>Game Over</h3>
+      <h2>Game Over</h2>
+      <PlayerInfo name={shipHead.name} avatar={shipHead.avatar} />
+      <h4>is the ShipHead!</h4>
       <Button text="Play Again" onClick={playAgainHandler} />
     </div>
   );
