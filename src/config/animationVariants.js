@@ -181,16 +181,22 @@ export const stackVariants = (rotate) => ({
 export const homePageVariants = {
   hidden: {
     opacity: 0,
+    y: -50,
     //   scale: 1.2,
   },
   visible: {
     opacity: 1,
-    // y: -30,
-    //   scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+    },
   },
   exit: {
-    x: -130,
+    x: -200,
     opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
   },
   hover: {},
 };
@@ -198,16 +204,48 @@ export const homePageVariants = {
 export const gamePageVariants = {
   hidden: {
     opacity: 0,
-    x: 200,
+    x: 300,
   },
   visible: {
     opacity: 1,
     x: 0,
+    transition: {
+      duration: 0.3,
+    },
     //   scale: 1,
   },
   exit: {
-    x: 200,
+    x: 300,
     opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  hover: {},
+};
+
+export const notificationVariants = {
+  hidden: {
+    opacity: 0,
+    y: 15,
+    x: "-50%",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    x: "-50%",
+    transition: {
+      duration: 0.3,
+    },
+    //   scale: 1,
+  },
+  exit: {
+    y: -15,
+    x: "-50%",
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
   },
   hover: {},
 };

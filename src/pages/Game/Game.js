@@ -52,6 +52,8 @@ const Game = ({ className }) => {
   return (
     <motion.div
       variants={gamePageVariants}
+      initial="hidden"
+      animate="visible"
       exit={gamePageVariants.exit}
       className={classesList}
     >

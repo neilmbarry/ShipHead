@@ -1,6 +1,6 @@
 .main {
   position: fixed;
-  top: 20px;
+  top: 20%;
   padding: 0.5rem 1rem;
   padding-right: 2.5rem;
   border-radius: 5px;
@@ -38,6 +38,7 @@
 
 .alert {
   background-color: rgb(139, 101, 39);
+  background-color: white;
 }
 
 .info {
