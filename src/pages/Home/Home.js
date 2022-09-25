@@ -18,6 +18,9 @@ import { Link } from "react-router-dom";
 
 import { generateDeck } from "../../gameLogic/gameUtils";
 
+import { motion } from "framer-motion";
+import { homePageVariants } from "../../config/animationVariants";
+
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const [modal, setModal] = useState(false);
@@ -82,7 +85,7 @@ const Home = ({ className }) => {
 
   const createComputerGame = (quantity) => {
     const player = {
-      name: name.current.value,
+      name: name.current.value || "Anon",
       avatar: avatar || "avatar3",
       id: user.id,
     };
@@ -139,7 +142,13 @@ const Home = ({ className }) => {
   );
 
   return (
-    <div className={classesList}>
+    <motion.div
+      variants={homePageVariants}
+      initial="hidden"
+      animate="visible"
+      exit={homePageVariants.exit}
+      className={classesList}
+    >
       <h1 className={classes.title}>SHiP-HEAD!</h1>
       <div className={classes.nameBox}>
         <h4>Player Name</h4>
@@ -178,7 +187,7 @@ const Home = ({ className }) => {
       {showCreateGameModal}
       {showPlayComputerModal}
       {showContactModal}
-    </div>
+    </motion.div>
   );
 };
 

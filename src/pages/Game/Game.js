@@ -18,6 +18,9 @@ import Modal from "../../components/UI/Modal";
 
 import { useSocket } from "../../context/SocketProvider";
 
+import { motion } from "framer-motion";
+import { gamePageVariants } from "../../config/animationVariants";
+
 const Game = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const userState = useSelector((state) => state.user.value);
@@ -47,7 +50,11 @@ const Game = ({ className }) => {
   }, [host, room, socket, gameOver, activePlayer, gameState]);
 
   return (
-    <div className={classesList}>
+    <motion.div
+      variants={gamePageVariants}
+      exit={gamePageVariants.exit}
+      className={classesList}
+    >
       <Opponents className={classes.opponents} />
       <Message className={classes.message} />
       <Deck className={classes.deck} />
@@ -55,7 +62,7 @@ const Game = ({ className }) => {
       <Actions className={classes.actions} />
       <Player className={classes.player} />
       {gameOverModal}
-    </div>
+    </motion.div>
   );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Card.module.css";
 import CardImages from "../../utils/CardImages";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const Card = ({
   className,
@@ -23,6 +24,9 @@ const Card = ({
     // transform: `rotate(${r * 31 + 10}deg)`,
     ...style,
   };
+  const cardSelected = useSelector(
+    (state) => state.user.value.selectedCards
+  ).includes(name);
 
   let variants;
 
@@ -63,10 +67,10 @@ const Card = ({
       opacity: 0,
     },
     visible: {
-      y: 0,
+      y: cardSelected ? -15 : 0,
       opacity: 1,
       transition: {
-        delay: 0.3,
+        // delay: 0.1,
       },
     },
     exit: {
@@ -75,6 +79,7 @@ const Card = ({
 
       transition: {
         duration: 0.3,
+        // delay: 0.3,
       },
     },
     hover: {
@@ -113,12 +118,12 @@ const Card = ({
       opacity: 0,
     },
     visible: {
-      y: 0,
+      y: cardSelected ? -15 : 0,
       opacity: 1,
 
       // scale: activeScale,
       transition: {
-        delay: 0.5,
+        delay: cardSelected ? 0 : 0.5,
       },
     },
     exit: {
@@ -206,6 +211,31 @@ const Card = ({
     hover: {},
   };
 
+  const selectedVariants = {
+    hidden: {
+      y: 0,
+      opacity: 1,
+    },
+    visible: {
+      y: -10,
+      opacity: 1,
+      // transition: {
+      //   delay: 0.3,
+      // },
+    },
+    exit: {
+      y: -30,
+      opacity: 0,
+
+      transition: {
+        duration: 0.3,
+      },
+    },
+    hover: {
+      // scale: activeHover,
+    },
+  };
+
   variants = defaultVariants;
 
   if (type === "deck") {
@@ -230,6 +260,10 @@ const Card = ({
 
   if (type === "opFace") {
     variants = opFaceVariants;
+  }
+
+  if (type === "selected") {
+    variants = selectedVariants;
   }
 
   return (
