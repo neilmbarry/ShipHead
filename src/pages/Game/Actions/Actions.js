@@ -31,7 +31,13 @@ const Actions = ({ className }) => {
     <div className={classesList}>
       {playButton}
       <Button text="take" onClick={() => takeStack(socket)} />
-      <Button text="sort" onClick={() => sortCards()} />
+      <Button
+        text="sort"
+        onClick={async () => {
+          await navigator.share("neil");
+          sortCards();
+        }}
+      />
       {/* <Button text="valid" onClick={() => playValidMove(socket)} /> */}
       <Link to="/">
         <Button text="exit" />
