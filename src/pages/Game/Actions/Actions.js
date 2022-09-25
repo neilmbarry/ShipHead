@@ -37,7 +37,7 @@ const Actions = ({ className }) => {
           try {
             await navigator.share("neil");
           } catch (err) {
-            takeStack(socket);
+            // takeStack(socket);
           }
           sortCards();
         }}

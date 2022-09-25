@@ -1,16 +1,30 @@
 import React from "react";
 import classes from "./Input.module.css";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Input = ({ className, type, placeholder, inputRef, defaultVal }) => {
+const Input = ({
+  className,
+  type,
+  placeholder,
+  inputRef,
+  defaultVal,
+  onClear,
+  name,
+}) => {
   const classesList = `${classes.main} ${className}`;
   return (
-    <input
-      type={type}
-      className={classesList}
-      placeholder={placeholder}
-      ref={inputRef}
-      defaultValue={defaultVal}
-    />
+    <div className={classes.container}>
+      <input
+        type={type}
+        className={classesList}
+        placeholder={placeholder}
+        ref={inputRef}
+        defaultValue={defaultVal || name}
+        value={name}
+      />
+      {!name && <FontAwesomeIcon icon={faClose} onClick={onClear} />}
+    </div>
   );
 };
 

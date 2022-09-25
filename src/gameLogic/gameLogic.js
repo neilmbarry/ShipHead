@@ -177,108 +177,6 @@ export const playerWithLowestStarter = () => {
   return justIdAndCards[0].player;
 };
 
-// export function playCards(cards, playerId) {
-//   const toBeEmitted = [];
-//   if (!checkActivePlayer(playerId)) {
-//     store.dispatch(userActions.setNotification(notifications.notYourTurn));
-//     return;
-//   }
-//   if (!checkCardsAreInHand(cards, playerId)) {
-//     store.dispatch(userActions.setNotification(notifications.cardsNotInHand));
-//     return;
-//   }
-//   if (getActiveHand(playerId) !== "faceDownCards" && !checkLegalMove(cards)) {
-//     store.dispatch(userActions.setNotification(notifications.illegalMove));
-//     return;
-//   }
-//   //---ADD TO 'TO BE EMMITED' ARRAY------//
-//   toBeEmitted.push([
-//     "playCards",
-//     {
-//       playerId: "asdfasdf342",
-//       cards,
-//     },
-//   ]);
-
-//   if (!checkLegalMove(cards)) {
-//     //---ADD TO 'TO BE EMMITED' ARRAY------//
-//     toBeEmitted.push([
-//       "setGameAnnouncement",
-//       { message: "Betrayed by the blind Card!" },
-//     ]);
-//     toBeEmitted.push([
-//       "hasToPickUp",
-//       {
-//         playerId,
-//       },
-//     ]);
-//     return toBeEmitted;
-//   }
-
-//   if (checkWinner()) {
-//     toBeEmitted.push("setWinner", {
-//       playerId,
-//     });
-//   }
-//   if (checkDrawCards()) {
-//     toBeEmitted.push("drawCards", {
-//       playerId,
-//       quantity: checkDrawCards(),
-//     });
-//   }
-
-//   if (checkBurnStack()) {
-//     //---ADD TO 'TO BE EMMITED' ARRAY------//
-//     toBeEmitted.push([
-//       "setGameAnnouncement",
-//       {
-//         message: "It Burns!!",
-//       },
-//     ]);
-//     toBeEmitted.push(["burnStack"]);
-//     // store.dispatch(setGameAnnouncement());
-//     // store.dispatch(burnStack());
-
-//     // CONTINUE FROM HERE
-
-//     if (checkGameOver()) {
-//       toBeEmitted.push(["setGameOver"]);
-//       toBeEmitted.push([
-//         "setShipHead",
-//         {
-//           name: checkGameOver(),
-//         },
-//       ]);
-//       return toBeEmitted;
-//     }
-//   }
-//   if (cardsWillReverseDirection(cards)) {
-//     //---ADD TO 'TO BE EMMITED' ARRAY------//
-//     toBeEmitted.push([
-//       "changeDirection",
-//       {
-//         directionClockwise: !gameState().directionClockwise,
-//       },
-//     ]);
-//     toBeEmitted.push([
-//       "setGameAnnouncement",
-//       {
-//         message: "Reverse Direction",
-//       },
-//     ]);
-
-//     //TO BE IMPLEMENTED: REVERSE X2 CANCELS
-
-//     // store.dispatch(switchDirection());
-//     // store.dispatch(setGameAnnouncement());
-//   }
-//   //---ADD TO 'TO BE EMMITED' ARRAY------//
-//   toBeEmitted.push(["switchActivePlayer"]);
-//   //   store.dispatch(switchActivePlayer());
-//   //---RETURN 'TO BE EMMITED' ARRAY------//
-//   return toBeEmitted;
-// }
-
 export function checkBurnStack() {
   // Check for empty stack
   if (gameState().stack.length === 0) return false;
@@ -313,23 +211,6 @@ export const checkReverse = (cards, deckRef) => {
   if (!deckRef[cards[0]].reverse) return;
   if (cards.length % 2 === 1) return true;
 };
-
-// export const getNextPlayerId = (skip = 1) => {
-//   const gameStateCurrent = gameState();
-//   const direction = gameStateCurrent.directionClockwise;
-//   let currentActivePlayerIndex = gameStateCurrent.players.indexOf(
-//     (player) => player.playerId === gameStateCurrent.activePlayerId
-//   );
-//   let nextPlayerId = null;
-//   while (!nextPlayerId) {
-//     currentActivePlayerIndex =
-//       (currentActivePlayerIndex + (direction ? 1 * skip : -1 * skip)) %
-//       gameStateCurrent.players.length;
-//     if (gameStateCurrent.players[currentActivePlayerIndex].playing) {
-//       nextPlayerId = gameStateCurrent.players[currentActivePlayerIndex].id;
-//     }
-//   }
-// };
 
 export const getNextPlayerId = (skip = 0) => {
   let loopStop = 0;
@@ -496,7 +377,7 @@ export function playCards(socket) {
     store.dispatch(userActions.setSelecteCards([]));
     return store.dispatch(
       userActions.setNotification({
-        type: "alert",
+        type: "warning",
         message: "It is not your turn",
       })
     );
@@ -544,7 +425,7 @@ export function takeStack(socket, player = getPlayer()) {
     store.dispatch(userActions.setSelecteCards([]));
     return store.dispatch(
       userActions.setNotification({
-        type: "alert",
+        type: "warning",
         message: "It is not your turn",
       })
     );

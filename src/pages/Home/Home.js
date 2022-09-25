@@ -46,6 +46,7 @@ const Home = ({ className }) => {
       avatar: avatar || "avatar1",
       id: user.id,
     };
+    setModal(false);
     store.dispatch(userActions.setInfo(player));
 
     store.dispatch(gameActions.resetGame());
@@ -121,16 +122,16 @@ const Home = ({ className }) => {
     }, 2000);
   };
 
-  const showCreateGameModal = modal.createGame && (
-    <Modal onClose={() => setModal(false)}>
+  const showCreateGameModal = (
+    <Modal onClose={() => setModal(false)} show={modal.createGame}>
       <CreateGameModal
         onClose={() => setModal(false)}
         onStart={createRoomHandler}
       />
     </Modal>
   );
-  const showPlayComputerModal = modal.playComputer && (
-    <Modal onClose={() => setModal(false)}>
+  const showPlayComputerModal = (
+    <Modal onClose={() => setModal(false)} show={modal.playComputer}>
       <PlayComputerModal
         onClose={() => setModal(false)}
         onPlayComputer={createComputerGame}

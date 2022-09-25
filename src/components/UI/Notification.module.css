@@ -1,6 +1,6 @@
 .main {
   position: fixed;
-  top: 20%;
+  bottom: 5%;
   padding: 0.5rem 1rem;
   padding-right: 2.5rem;
   border-radius: 5px;
@@ -13,6 +13,9 @@
   gap: 1rem;
   align-items: center;
   min-width: 80%;
+  border: 2px solid rgb(155, 182, 149);
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.123),
+    -2px -4px 6px rgba(0, 0, 0, 0.123);
 }
 
 .notificationIcon {

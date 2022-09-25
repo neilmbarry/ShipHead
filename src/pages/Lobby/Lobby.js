@@ -15,6 +15,9 @@ import { useSelector } from "react-redux";
 import { useSocket } from "../../context/SocketProvider";
 import { generateDeck } from "../../gameLogic/gameUtils";
 
+import { motion } from "framer-motion";
+import { lobbyPageVariants } from "../../config/animationVariants";
+
 const Lobby = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
   const [notification, setNotification] = useState(false);
@@ -76,7 +79,13 @@ const Lobby = ({ className }) => {
   }, [gameState, navigate]);
 
   return (
-    <div className={classesList}>
+    <motion.div
+      variants={lobbyPageVariants}
+      initial="hidden"
+      animate="visible"
+      exit={lobbyPageVariants.exit}
+      className={classesList}
+    >
       <Tile className={classes.firstTile}>
         <h4>Waiting for other players...</h4>
         <a href={`http://localhost:3000/${room}`} target="_blank">
@@ -121,7 +130,7 @@ const Lobby = ({ className }) => {
       </Tile>
       {showCopyNotification}
       {showFewPeopleNotification}
-    </div>
+    </motion.div>
   );
 };
 

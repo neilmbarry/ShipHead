@@ -224,6 +224,29 @@ export const gamePageVariants = {
   hover: {},
 };
 
+export const lobbyPageVariants = {
+  hidden: {
+    opacity: 0,
+    y: -100,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+    },
+    //   scale: 1,
+  },
+  exit: {
+    y: -100,
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  hover: {},
+};
+
 export const notificationVariants = {
   hidden: {
     opacity: 0,
@@ -240,8 +263,55 @@ export const notificationVariants = {
     //   scale: 1,
   },
   exit: {
-    y: -15,
+    y: 15,
     x: "-50%",
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  hover: {},
+};
+
+export const modalVariants = {
+  hidden: {
+    opacity: 0,
+    y: "-40%",
+    x: "-50%",
+  },
+  visible: {
+    opacity: 1,
+    y: "-50%",
+    x: "-50%",
+    transition: {
+      duration: 0.3,
+    },
+    //   scale: 1,
+  },
+  exit: {
+    y: "-40%",
+    x: "-50%",
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  hover: {},
+};
+
+export const overlayVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+
+    transition: {
+      duration: 0.3,
+    },
+    //   scale: 1,
+  },
+  exit: {
     opacity: 0,
     transition: {
       duration: 0.3,

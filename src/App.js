@@ -29,9 +29,10 @@ function App() {
     };
   }, [socket]);
 
-  const showNotification = notification && (
+  const showNotification = (
     <Notification
       notification={notification}
+      show={notification}
       onClose={() => store.dispatch(userActions.setNotification(null))}
     />
   );

@@ -20,39 +20,41 @@ const notificationIcons = {
   success: faCheck,
 };
 
-const Notification = ({ className, notification, onClose }) => {
+const Notification = ({ className, notification, onClose, show }) => {
   const classesList = `${classes.main} ${
-    classes[notification.type]
+    classes[notification?.type]
   } ${className}`;
 
-  const notificationIcon = notificationIcons[notification.type];
+  const notificationIcon = notificationIcons[notification?.type];
 
   useEffect(() => {
     const autoClose = setTimeout(() => {
       onClose();
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(autoClose);
   }, [onClose]);
   return ReactDOM.createPortal(
     <AnimatePresence exitBeforeEnter>
-      <motion.div
-        variants={notificationVariants}
-        initial="hidden"
-        animate="visible"
-        exit={notificationVariants.exit}
-        className={classesList}
-      >
-        <div className={classes.notificationIcon}>
-          <FontAwesomeIcon icon={notificationIcon} />
-        </div>
-        <div className={classes.text}>
-          {/* <h5>{notification.type}</h5> */}
-          <p>{notification.message}</p>
-        </div>
-        <div className={classes.closeIcon} onClick={onClose}>
-          <FontAwesomeIcon icon={faClose} />
-        </div>
-      </motion.div>
+      {show && (
+        <motion.div
+          variants={notificationVariants}
+          initial="hidden"
+          animate="visible"
+          exit={notificationVariants.exit}
+          className={classesList}
+        >
+          <div className={classes.notificationIcon}>
+            <FontAwesomeIcon icon={notificationIcon} />
+          </div>
+          <div className={classes.text}>
+            {/* <h5>{notification.type}</h5> */}
+            <p>{notification?.message}</p>
+          </div>
+          <div className={classes.closeIcon} onClick={onClose}>
+            <FontAwesomeIcon icon={faClose} />
+          </div>
+        </motion.div>
+      )}
     </AnimatePresence>,
     document.getElementById("portal")
   );

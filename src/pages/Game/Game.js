@@ -32,7 +32,7 @@ const Game = ({ className }) => {
   const socket = useSocket();
 
   const gameOverModal = gameState.shipHead && (
-    <Modal>
+    <Modal show={true}>
       <GameOver />
     </Modal>
   );
