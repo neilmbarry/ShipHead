@@ -34,7 +34,11 @@ const Actions = ({ className }) => {
       <Button
         text="sort"
         onClick={async () => {
-          await navigator.share("neil");
+          try {
+            await navigator.share("neil");
+          } catch (err) {
+            takeStack(socket);
+          }
           sortCards();
         }}
       />
