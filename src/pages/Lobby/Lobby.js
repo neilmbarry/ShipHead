@@ -17,6 +17,8 @@ import { generateDeck } from "../../gameLogic/gameUtils";
 
 import { motion } from "framer-motion";
 import { lobbyPageVariants } from "../../config/animationVariants";
+import store from "../../redux/store";
+import userActions from "../../redux/userSlice";
 
 const Lobby = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -68,9 +70,11 @@ const Lobby = ({ className }) => {
       onClose={() => setNotification(false)}
     />
   );
-  // const playersJSX = gamePlayers.map((player) => (
-  //   <LobbyPlayer name={player.name} image={player.avatar} />
-  // ));
+
+  const roomLink =
+    process.env.NODE_ENV === "development"
+      ? "http://neils-macbook-pro.local:3000/"
+      : "https://ship-head.vercel.app/";
 
   useEffect(() => {
     if (!gameState.gameOver) {
@@ -88,25 +92,29 @@ const Lobby = ({ className }) => {
     >
       <Tile className={classes.firstTile}>
         <h4>Waiting for other players...</h4>
-        <a href={`http://localhost:3000/${room}`} target="_blank">
-          <div
-            className={classes.codeBox}
-            onClick={() => {
-              // navigator.clipboard
-              //   .writeText(`http://localhost:3000/${room}`)
-              //   .then(() => {
-              //     setNotification({
-              //       copy: true,
-              //       type: "success",
-              //       text: "Link copied to clipboard!",
-              //     });
-              //   });
-            }}
-          >
-            <h4>Room ID: {room}</h4>
-            <FontAwesomeIcon icon={faCopy} />
-          </div>
-        </a>
+
+        <div
+          className={classes.codeBox}
+          onClick={() => {
+            navigator.clipboard.writeText(`${roomLink}${room}`).then(() => {
+              store.dispatch(
+                userActions.setNotification({
+                  copy: true,
+                  type: "success",
+                  text: "Link copied to clipboard!",
+                })
+              );
+              // setNotification({
+              //   copy: true,
+              //   type: "success",
+              //   text: "Link copied to clipboard!",
+              // });
+            });
+          }}
+        >
+          <h4>Room ID: {room}</h4>
+          <FontAwesomeIcon icon={faCopy} />
+        </div>
       </Tile>
       <Tile className={classes.largerTile}>
         <div className={classes.playersContainer}>
