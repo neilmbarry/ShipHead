@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   allPlayersHaveSetFaceCards,
   playerWithLowestStarter,
 } from "../../gameLogic/gameLogic";
+
+import userActions from "../../redux/userSlice";
 
 import classes from "./Game.module.css";
 
@@ -20,6 +23,7 @@ import { useSocket } from "../../context/SocketProvider";
 
 import { motion } from "framer-motion";
 import { gamePageVariants } from "../../config/animationVariants";
+import store from "../../redux/store";
 
 const Game = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -30,6 +34,7 @@ const Game = ({ className }) => {
   const activePlayer = useSelector((state) => state.game.value.activePlayerId);
   const host = userState.id === gameState.hostId;
   const socket = useSocket();
+  const navigate = useNavigate();
 
   const gameOverModal = gameState.shipHead && (
     <Modal show={true}>
@@ -38,6 +43,17 @@ const Game = ({ className }) => {
   );
 
   useEffect(() => {
+    if (!userState.id) {
+      store.dispatch(
+        userActions.setNotification({
+          type: "warning",
+          message: "You were disconnected",
+          duration: 3000,
+        })
+      );
+
+      return navigate("/");
+    }
     if (gameOver || !host) return;
     if (!activePlayer && allPlayersHaveSetFaceCards()) {
       const startingPlayer = playerWithLowestStarter();

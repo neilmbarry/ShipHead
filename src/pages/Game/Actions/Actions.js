@@ -35,26 +35,26 @@ const Actions = ({ className }) => {
       <Button text="take" onClick={() => takeStack(socket)} />
       <Button
         text="sort"
-        onClick={async () => {
-          try {
-            console.log(navigator);
-            await navigator.share("neil");
-            store.dispatch(
-              userActions.setNotification({
-                type: "success",
-                message: "Worked",
-              })
-            );
-          } catch (err) {
-            console.warn("not work");
-            store.dispatch(
-              userActions.setNotification({
-                type: "warning",
-                message: "No worked",
-              })
-            );
-            // takeStack(socket);
-          }
+        onClick={() => {
+          // try {
+          //   console.log(navigator);
+          //   await navigator.share("neil");
+          //   store.dispatch(
+          //     userActions.setNotification({
+          //       type: "success",
+          //       message: "Worked",
+          //     })
+          //   );
+          // } catch (err) {
+          //   console.warn("not work");
+          //   store.dispatch(
+          //     userActions.setNotification({
+          //       type: "warning",
+          //       message: "No worked",
+          //     })
+          //   );
+          //   // takeStack(socket);
+          // }
           sortCards();
         }}
       />

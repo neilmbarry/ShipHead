@@ -25,6 +25,7 @@ const Lobby = ({ className }) => {
   const [notification, setNotification] = useState(false);
   const socket = useSocket();
   const gameState = useSelector((state) => state.game.value);
+  const userState = useSelector((state) => state.user.value);
   const navigate = useNavigate();
 
   const players = gameState.players;
@@ -80,7 +81,18 @@ const Lobby = ({ className }) => {
     if (!gameState.gameOver) {
       return navigate("/game");
     }
-  }, [gameState, navigate]);
+    if (!userState.id) {
+      store.dispatch(
+        userActions.setNotification({
+          type: "warning",
+          message: "You were disconnected",
+          duration: 3000,
+        })
+      );
+
+      return navigate("/");
+    }
+  }, [gameState, navigate, userState.id]);
 
   return (
     <motion.div

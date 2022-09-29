@@ -10,6 +10,12 @@ const CreateGameModal = ({ className, onClose, onStart }) => {
   return (
     <div className={classesList}>
       <h3 className={classes.title}>Create Game Room</h3>
+      <h4>Room name</h4>
+      <Input
+        hideToggle={true}
+        placeholder="neil's room"
+        className={classes.input}
+      />
       <div className={classes.passwordBox}>
         <h4>Enable Password</h4>
         <Switch />
@@ -21,6 +27,7 @@ const CreateGameModal = ({ className, onClose, onStart }) => {
         placeholder="enter password"
         className={classes.input}
       />
+
       <div className={classes.buttonsContainer}>
         <Button text="cancel" type="secondary" onClick={onClose} />
         <Link to="/lobby">

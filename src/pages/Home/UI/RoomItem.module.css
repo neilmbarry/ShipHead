@@ -1,0 +1,23 @@
+.main {
+  padding: 0.2rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.main:nth-child(2n) {
+  background-color: rgb(49, 49, 49);
+}
+.main:nth-child(2n-1) {
+  background-color: rgb(59, 59, 59);
+}
+
+.main:hover {
+  background-color: rgb(90, 90, 90);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

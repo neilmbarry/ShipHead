@@ -20,6 +20,7 @@ import { generateDeck } from "../../gameLogic/gameUtils";
 
 import { motion } from "framer-motion";
 import { homePageVariants } from "../../config/animationVariants";
+import JoinGameModal from "./JoinGameModal";
 
 const Home = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -27,9 +28,7 @@ const Home = ({ className }) => {
   const [avatar, setAvatar] = useState(null);
   const name = useRef();
   const socket = useSocket();
-
   const params = useParams();
-
   const user = useSelector((state) => state.user.value);
 
   const setAvatarHandler = (avatar) => {
@@ -38,6 +37,14 @@ const Home = ({ className }) => {
 
   const showNewGameModal = () => {
     setModal({ createGame: true });
+  };
+
+  const showJoinRoomModal = () => {
+    setModal({ joinRoom: true });
+  };
+
+  const showComputerModal = () => {
+    setModal({ playComputer: true });
   };
 
   const createRoomHandler = () => {
@@ -80,10 +87,6 @@ const Home = ({ className }) => {
     socket.emit("joinRoom", { roomId, player });
   };
 
-  const showComputerModal = () => {
-    setModal({ playComputer: true });
-  };
-
   const createComputerGame = (quantity) => {
     const player = {
       name: name.current.value || "Anon",
@@ -122,7 +125,7 @@ const Home = ({ className }) => {
     }, 2000);
   };
 
-  const showCreateGameModal = (
+  const CreateGameModalJsx = (
     <Modal onClose={() => setModal(false)} show={modal.createGame}>
       <CreateGameModal
         onClose={() => setModal(false)}
@@ -130,7 +133,7 @@ const Home = ({ className }) => {
       />
     </Modal>
   );
-  const showPlayComputerModal = (
+  const PlayComputerModalJsx = (
     <Modal onClose={() => setModal(false)} show={modal.playComputer}>
       <PlayComputerModal
         onClose={() => setModal(false)}
@@ -138,6 +141,13 @@ const Home = ({ className }) => {
       />
     </Modal>
   );
+
+  const JoinGameModalJsx = (
+    <Modal onClose={() => setModal(false)} show={modal.joinRoom}>
+      <JoinGameModal />
+    </Modal>
+  );
+
   const showContactModal = modal.contact && (
     <Modal onClose={() => setModal(false)}></Modal>
   );
@@ -174,6 +184,7 @@ const Home = ({ className }) => {
           </Link>
         )}
         <Button text={"Create new game"} onClick={showNewGameModal} />
+        <Button text={"Join game"} onClick={showJoinRoomModal} />
         <Button text={"Play against computer"} onClick={showComputerModal} />
       </div>
       <div className={classes.footerBtns}>
@@ -185,8 +196,9 @@ const Home = ({ className }) => {
         />
         <Button text={"Changelog"} type="small" />
       </div>
-      {showCreateGameModal}
-      {showPlayComputerModal}
+      {CreateGameModalJsx}
+      {PlayComputerModalJsx}
+      {JoinGameModalJsx}
       {showContactModal}
     </motion.div>
   );

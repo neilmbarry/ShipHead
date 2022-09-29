@@ -30,9 +30,9 @@ const Notification = ({ className, notification, onClose, show }) => {
   useEffect(() => {
     const autoClose = setTimeout(() => {
       onClose();
-    }, 1000);
+    }, notification?.duration || 1000);
     return () => clearTimeout(autoClose);
-  }, [onClose]);
+  }, [notification?.duration, onClose]);
   return ReactDOM.createPortal(
     <AnimatePresence exitBeforeEnter>
       {show && (
