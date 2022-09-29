@@ -14,3 +14,12 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.password {
+  margin-top: 1rem;
+}
+.passwordInput {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

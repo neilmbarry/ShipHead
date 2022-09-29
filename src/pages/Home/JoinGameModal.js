@@ -12,8 +12,12 @@ const JoinGameModal = ({ className, onClose }) => {
   const classesList = `${classes.main} ${className}`;
   const [loading, setLoading] = useState(true);
   const [roomList, setRoomList] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
+  console.log("joingamemodal rerendered");
   const fetchRooms = useCallback(async () => {
+    setLoading(true);
+    setRoomList([]);
     setTimeout(() => {
       setRoomList([
         { password: true },
@@ -28,15 +32,22 @@ const JoinGameModal = ({ className, onClose }) => {
   }, []);
 
   const roomListJSX = roomList.map((room, i) => {
-    return <RoomItem password={room.password} key={i} />;
+    return (
+      <RoomItem
+        password={room.password}
+        key={i}
+        selected={i === selectedRoom}
+        onClick={() => {
+          console.log("here", i);
+          setSelectedRoom(i);
+        }}
+      />
+    );
   });
 
-  //   useEffect(() => {
-  //     fetchRooms()
-  //       .then(console.log("here"))
-  //       .finally(() => setLoading(false));
-  //     return () => {};
-  //   }, [fetchRooms]);
+  useEffect(() => {
+    fetchRooms();
+  }, []);
 
   return (
     <div className={classesList}>
@@ -52,11 +63,18 @@ const JoinGameModal = ({ className, onClose }) => {
         {loading && <Spinner />}
         {roomListJSX}
       </RoomsContainer>
+      <div className={classes.password}>
+        <h4>password</h4>
+        <div className={classes.passwordInput}>
+          <Input placeholder="enter password" type="password" />
+          <Button text="join" />
+        </div>
+      </div>
 
       <div className={classes.buttonsContainer}>
         <Button text="cancel" type="secondary" onClick={onClose} />
 
-        <Button text="Create room!" onClick={null} />
+        <Button text="Create new room" onClick={null} />
       </div>
     </div>
   );
