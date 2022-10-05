@@ -9,6 +9,7 @@ const PlayComputerModal = ({ className, onClose, onPlayComputer }) => {
   const [selected, setSelected] = useState(null);
   const playComputerHandler = () => {
     onClose();
+
     onPlayComputer(selected);
   };
   return (

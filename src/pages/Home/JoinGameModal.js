@@ -14,7 +14,6 @@ const JoinGameModal = ({ className, onClose }) => {
   const [roomList, setRoomList] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
-  console.log("joingamemodal rerendered");
   const fetchRooms = useCallback(async () => {
     setLoading(true);
     setRoomList([]);

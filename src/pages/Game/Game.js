@@ -42,6 +42,14 @@ const Game = ({ className }) => {
     </Modal>
   );
 
+  if (gameState.shipHead) {
+    store.dispatch(
+      userActions.setModal({
+        type: "gameOver",
+      })
+    );
+  }
+
   useEffect(() => {
     if (!userState.id) {
       store.dispatch(
@@ -79,7 +87,7 @@ const Game = ({ className }) => {
       <Stack className={classes.stack} />
       <Actions className={classes.actions} />
       <Player className={classes.player} />
-      {gameOverModal}
+      {/* {gameOverModal} */}
     </motion.div>
   );
 };

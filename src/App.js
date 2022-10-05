@@ -13,12 +13,29 @@ import { useSelector } from "react-redux";
 import store from "./redux/store";
 import userActions from "./redux/userSlice";
 import { AnimatePresence } from "framer-motion";
+import Modal from "./components/UI/Modal";
 
 function App() {
   const socket = useSocket();
-  console.log("App has rendered.");
   const notification = useSelector((state) => state.user.value.notification);
+  const modal = useSelector((state) => state.user.value.modal);
   const location = useLocation();
+
+  const modalJSX = (
+    <Modal
+      type={modal?.type}
+      show={modal}
+      onClose={() => store.dispatch(userActions.setModal(null))}
+    />
+  );
+
+  const notificationJSX = (
+    <Notification
+      notification={notification}
+      show={notification}
+      onClose={() => store.dispatch(userActions.setNotification(null))}
+    />
+  );
 
   useEffect(() => {
     if (!socket) return;
@@ -29,21 +46,14 @@ function App() {
     };
   }, [socket]);
 
-  const showNotification = (
-    <Notification
-      notification={notification}
-      show={notification}
-      onClose={() => store.dispatch(userActions.setNotification(null))}
-    />
-  );
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (
     <div className={classes.app}>
-      {showNotification}
+      {notificationJSX}
+      {modalJSX}
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.pathname}>
           <Route path="/">

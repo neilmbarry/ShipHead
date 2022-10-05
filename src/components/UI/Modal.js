@@ -5,8 +5,19 @@ import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { modalVariants, overlayVariants } from "../../config/animationVariants";
 
-const Modal = ({ className, children, onClose, show }) => {
+import PlayComputerModal from "../../pages/Home/PlayComputerModal";
+import CreateGameModal from "../../pages/Home/CreateGameModal";
+import GameOver from "../../pages/Game/GameOver/GameOver";
+import JoinGameModal from "../../pages/Home/JoinGameModal";
+
+const Modal = ({ className, onClose, show, type, user }) => {
   const classesList = `${classes.main} ${className}`;
+  const modalMap = {
+    playComputer: <PlayComputerModal onClose={onClose} />,
+    createGame: <CreateGameModal onClose={onClose} />,
+    gameOver: <GameOver onClose={onClose} />,
+    joinGame: <JoinGameModal onClose={onClose} />,
+  };
   return ReactDOM.createPortal(
     <AnimatePresence exitBeforeEnter>
       {show && (
@@ -26,7 +37,7 @@ const Modal = ({ className, children, onClose, show }) => {
             exit={modalVariants.exit}
             className={classesList}
           >
-            {children}
+            {modalMap[type]}
           </motion.div>
         </>
       )}

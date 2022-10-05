@@ -16,6 +16,7 @@ const initialState = {
   id: "",
   avatar: null,
   notification: null,
+  modal: null,
   selectedCards: [],
 };
 
@@ -26,6 +27,10 @@ const userSlice = createSlice({
     setNotification: (state, action) => {
       state.value.notification = action.payload;
     },
+    setModal: (state, action) => {
+      state.value.modal = action.payload;
+    },
+
     setSelecteCards: (state, action) => {
       state.value.selectedCards = action.payload;
     },

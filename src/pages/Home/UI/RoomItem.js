@@ -7,7 +7,6 @@ const RoomItem = ({ className, password, selected, onClick }) => {
   const classesList = `${classes.main} ${className} ${
     selected && classes.selected
   }`;
-  console.log(selected);
   return (
     <div className={classesList} onClick={onClick}>
       <h4>Neil's room</h4>
