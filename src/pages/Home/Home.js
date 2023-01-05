@@ -5,9 +5,6 @@ import Button from "../../components/UI/Button";
 import Input from "../../components/UI/Input";
 import AvatarContainer from "../../components/Avatars/AvatarContainer";
 
-import Modal from "../../components/UI/Modal";
-import CreateGameModal from "./CreateGameModal";
-import PlayComputerModal from "./PlayComputerModal";
 import { useSelector } from "react-redux";
 import userActions from "../../redux/userSlice";
 import gameActions from "../../redux/gameSlice";
