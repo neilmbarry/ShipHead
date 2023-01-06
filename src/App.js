@@ -1,18 +1,20 @@
 import { useEffect } from "react";
-import classes from "./App.module.css";
-import Home from "./pages/Home/Home";
-import Lobby from "./pages/Lobby/Lobby";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useSocket } from "./context/SocketProvider";
-import Game from "./pages/Game/Game";
-import Notification from "./components/UI/Notification";
 import { useLocation } from "react-router-dom";
-
-import { socketFunctions } from "./context/SocketFunctions";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+import { useSocket } from "./context/SocketProvider";
+import { socketFunctions } from "./context/SocketFunctions";
 import store from "./redux/store";
 import userActions from "./redux/userSlice";
+
+import classes from "./App.module.css";
 import { AnimatePresence } from "framer-motion";
+
+import Home from "./pages/Home/Home";
+import Game from "./pages/Game/Game";
+import Lobby from "./pages/Lobby/Lobby";
+import Notification from "./components/UI/Notification";
 import Modal from "./components/UI/Modal";
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
     <Modal
       type={modal?.type}
       show={modal}
+      modal={modal}
       onClose={() => store.dispatch(userActions.setModal(null))}
     />
   );
@@ -48,14 +51,13 @@ function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
- 
   }, [location.pathname]);
 
   return (
     <div className={classes.app}>
       {notificationJSX}
       {modalJSX}
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/">
             <Route path="/" element={<Home />} />

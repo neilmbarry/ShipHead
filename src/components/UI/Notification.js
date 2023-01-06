@@ -34,7 +34,7 @@ const Notification = ({ className, notification, onClose, show }) => {
     return () => clearTimeout(autoClose);
   }, [notification?.duration, onClose]);
   return ReactDOM.createPortal(
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence mode="wait">
       {show && (
         <motion.div
           variants={notificationVariants}

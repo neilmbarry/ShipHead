@@ -10,17 +10,17 @@ import CreateGameModal from "../../pages/Home/CreateGameModal";
 import GameOver from "../../pages/Game/GameOver/GameOver";
 import JoinGameModal from "../../pages/Home/JoinGameModal";
 
-const Modal = ({ className, onClose, show, type, user }) => {
+const Modal = ({ className, onClose, show, type, modal, user }) => {
   const classesList = `${classes.main} ${className}`;
   const modalMap = {
-    playComputer: <PlayComputerModal onClose={onClose} />,
+    playComputer: <PlayComputerModal onClose={onClose} onPlayComputer={null} />,
     createGame: <CreateGameModal onClose={onClose} />,
     gameOver: <GameOver onClose={onClose} />,
     joinGame: <JoinGameModal onClose={onClose} />,
   };
   return ReactDOM.createPortal(
-    <AnimatePresence exitBeforeEnter>
-      {show && (
+    <AnimatePresence mode="wait">
+      {modal && (
         <>
           <motion.div
             variants={overlayVariants}
@@ -37,7 +37,7 @@ const Modal = ({ className, onClose, show, type, user }) => {
             exit={modalVariants.exit}
             className={classesList}
           >
-            {modalMap[type]}
+            {modalMap[modal?.type]}
           </motion.div>
         </>
       )}
