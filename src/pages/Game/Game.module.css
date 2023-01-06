@@ -36,21 +36,6 @@
   grid-area: opponents;
 }
 
-.opponent1 {
-  grid-area: opponent1;
-  /* border: 2px dashed yellow; */
-}
-
-.opponent2 {
-  grid-area: opponent2;
-  /* border: 2px dashed yellowgreen; */
-}
-
-.opponent3 {
-  grid-area: opponent3;
-  /* border: 2px dashed lightblue; */
-}
-
 .deck {
   grid-area: deck;
   /* border: 2px solid grey; */
@@ -79,19 +64,10 @@
   display: flex;
   width: 50%;
   justify-content: center;
-  /* animation: spin 3s linear infinite; */
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .main button {
   font-size: 1rem;
   color: white;
+  width: 100%;
 }

@@ -1,11 +1,18 @@
+// Main imports
 import React from "react";
-import classes from "./CreateGameModal.module.css";
-import Input from "../../components/UI/Input";
-import Button from "../../components/UI/Button";
-import Switch from "../../components/UI/Switch";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
+
+// Styles
+import classes from "./CreateGameModal.module.css";
+
+// Components
+import Input from "../../components/UI/Input";
+import Button from "../../components/UI/Button";
+import Switch from "../../components/UI/Switch";
+
+// Context
 import store from "../../redux/store";
 import gameActions from "../../redux/gameSlice";
 import userActions from "../../redux/userSlice";
@@ -30,7 +37,7 @@ const CreateGameModal = ({ className, onClose, onStart, name }) => {
     store.dispatch(gameActions.resetGame());
 
     // const roomId = user.id;
-    const roomId = roomName.current.value || `${user.name}'s room`;
+    const roomId = user.id;
 
     socket.emit("joinRoom", { roomId, player: user });
 
@@ -59,8 +66,6 @@ const CreateGameModal = ({ className, onClose, onStart, name }) => {
       <div className={classes.passwordBox}>
         <h4>Enable Password</h4>
         <Switch />
-
-        {/* <div className={classes.switch}></div> */}
       </div>
       <Input
         hideToggle={true}

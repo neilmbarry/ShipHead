@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./Lobby.module.css";
 import Tile from "../../components/UI/Tile";
 import LobbyPlayer from "./LobbyPlayer";
@@ -27,6 +27,7 @@ const Lobby = ({ className }) => {
   const gameState = useSelector((state) => state.game.value);
   const userState = useSelector((state) => state.user.value);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const players = gameState.players;
   const room = gameState.room;
@@ -72,10 +73,7 @@ const Lobby = ({ className }) => {
     />
   );
 
-  const roomLink =
-    process.env.NODE_ENV === "development"
-      ? "http://neils-macbook-pro.local:3000/"
-      : "https://ship-head.vercel.app/";
+  const roomLink = window.location.origin;
 
   useEffect(() => {
     if (!gameState.gameOver) {
@@ -108,12 +106,12 @@ const Lobby = ({ className }) => {
         <div
           className={classes.codeBox}
           onClick={() => {
-            navigator.clipboard.writeText(`${roomLink}${room}`).then(() => {
+            navigator.clipboard.writeText(`${roomLink}/${room}`).then(() => {
               store.dispatch(
                 userActions.setNotification({
                   copy: true,
                   type: "success",
-                  text: "Link copied to clipboard!",
+                  message: "Link copied to clipboard!",
                 })
               );
               // setNotification({

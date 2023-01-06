@@ -15,7 +15,7 @@ const Opponents = ({ className }) => {
   players.shift();
   const opponentsJSX = players.map((opponent) => (
     <Opponent
-      key={opponent.id}
+      opKey={opponent.id}
       handCards={opponent.handCards}
       faceUpCards={opponent.faceUpCards}
       faceDownCards={opponent.faceDownCards}

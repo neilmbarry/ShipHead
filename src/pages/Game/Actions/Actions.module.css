@@ -4,4 +4,8 @@
   flex-direction: column-reverse;
   justify-content: space-around;
   align-content: center;
+  align-items: stretch;
+}
+.exit {
+  background-color: rgba(255, 0, 0, 0.2);
 }

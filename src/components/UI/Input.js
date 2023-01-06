@@ -9,7 +9,7 @@ const Input = ({
   placeholder,
   inputRef,
   defaultVal,
-  onClear,
+  onReset,
   name,
 }) => {
   const classesList = `${classes.main} ${className}`;
@@ -23,7 +23,11 @@ const Input = ({
         defaultValue={defaultVal || name}
         value={name}
       />
-      {!name && <FontAwesomeIcon icon={faClose} onClick={onClear} />}
+      <FontAwesomeIcon
+        icon={faClose}
+        className={classes.reset}
+        onClick={onReset}
+      />
     </div>
   );
 };

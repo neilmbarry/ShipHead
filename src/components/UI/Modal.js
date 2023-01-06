@@ -9,15 +9,24 @@ import PlayComputerModal from "../../pages/Home/PlayComputerModal";
 import CreateGameModal from "../../pages/Home/CreateGameModal";
 import GameOver from "../../pages/Game/GameOver/GameOver";
 import JoinGameModal from "../../pages/Home/JoinGameModal";
+import store from "../../redux/store";
+import userActions from "../../redux/userSlice";
+import { useSelector } from "react-redux";
 
-const Modal = ({ className, onClose, show, type, modal, user }) => {
+const Modal = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
+  const closeModal = () => store.dispatch(userActions.setModal(null));
+  const modal = useSelector((state) => state.user.value.modal);
+
   const modalMap = {
-    playComputer: <PlayComputerModal onClose={onClose} onPlayComputer={null} />,
-    createGame: <CreateGameModal onClose={onClose} />,
-    gameOver: <GameOver onClose={onClose} />,
-    joinGame: <JoinGameModal onClose={onClose} />,
+    playComputer: (
+      <PlayComputerModal onClose={closeModal} onPlayComputer={null} />
+    ),
+    createGame: <CreateGameModal onClose={closeModal} />,
+    gameOver: <GameOver onClose={closeModal} />,
+    joinGame: <JoinGameModal onClose={closeModal} />,
   };
+
   return ReactDOM.createPortal(
     <AnimatePresence mode="wait">
       {modal && (
@@ -28,7 +37,7 @@ const Modal = ({ className, onClose, show, type, modal, user }) => {
             animate="visible"
             exit={overlayVariants.exit}
             className={classes.overlay}
-            onClick={onClose}
+            onClick={closeModal}
           ></motion.div>
           <motion.div
             variants={modalVariants}

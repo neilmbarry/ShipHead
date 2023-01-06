@@ -36,31 +36,12 @@ const Actions = ({ className }) => {
       <Button
         text="sort"
         onClick={() => {
-          // try {
-          //   console.log(navigator);
-          //   await navigator.share("neil");
-          //   store.dispatch(
-          //     userActions.setNotification({
-          //       type: "success",
-          //       message: "Worked",
-          //     })
-          //   );
-          // } catch (err) {
-          //   console.warn("not work");
-          //   store.dispatch(
-          //     userActions.setNotification({
-          //       type: "warning",
-          //       message: "No worked",
-          //     })
-          //   );
-          //   // takeStack(socket);
-          // }
           sortCards();
         }}
       />
       {/* <Button text="valid" onClick={() => playValidMove(socket)} /> */}
       <Link to="/">
-        <Button text="exit" />
+        <Button text="exit" className={classes.exit} />
       </Link>
     </div>
   );

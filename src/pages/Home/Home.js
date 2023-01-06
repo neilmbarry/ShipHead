@@ -1,38 +1,42 @@
+// Main imports
 import React, { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+// State Management
+import userActions from "../../redux/userSlice";
+import gameActions from "../../redux/gameSlice";
+import { useSocket } from "../../context/SocketProvider";
+import store from "../../redux/store";
+
+// Styles
 import classes from "./Home.module.css";
+import { motion } from "framer-motion";
+import { homePageVariants } from "../../config/animationVariants";
+
+// Components
 import Button from "../../components/UI/Button";
 import Input from "../../components/UI/Input";
 import AvatarContainer from "../../components/Avatars/AvatarContainer";
 
-import { useSelector } from "react-redux";
-import userActions from "../../redux/userSlice";
-import gameActions from "../../redux/gameSlice";
-
-import store from "../../redux/store";
-import { useSocket } from "../../context/SocketProvider";
-import { Link } from "react-router-dom";
-
-import { generateDeck } from "../../gameLogic/gameUtils";
-
-import { motion } from "framer-motion";
-import { homePageVariants } from "../../config/animationVariants";
-import JoinGameModal from "./JoinGameModal";
-
-const Home = ({ className }) => {
-  const classesList = `${classes.main} ${className}`;
-
+const Home = () => {
   const [avatar, setAvatar] = useState(null);
   const name = useRef();
   const socket = useSocket();
   const params = useParams();
+
+  const resetName = () => {
+    name.current.value = "";
+  };
+
   const user = useSelector((state) => state.user.value);
 
   const setAvatarHandler = (avatar) => {
     setAvatar(avatar);
   };
 
-  const showModal = (type) => {
+  const confirmModal = (type) => {
     if (!name.current.value) {
       return store.dispatch(
         userActions.setNotification({
@@ -43,9 +47,9 @@ const Home = ({ className }) => {
     }
     const player = {
       name: name.current.value,
-      avatar: avatar || "avatar6",
-      id: user.id,
+      avatar: avatar || `avatar${Math.ceil(Math.random() * 8)}`,
     };
+
     store.dispatch(userActions.setInfo(player));
     store.dispatch(
       userActions.setModal({
@@ -58,7 +62,6 @@ const Home = ({ className }) => {
     const player = {
       name: name.current.value,
       avatar: avatar || "avatar6",
-      id: user.id,
     };
     // setModal(false);
     store.dispatch(userActions.setInfo(player));
@@ -96,79 +99,13 @@ const Home = ({ className }) => {
     socket.emit("joinRoom", { roomId, player });
   };
 
-  const createComputerGame = (quantity) => {
-    const player = {
-      name: name.current.value || "Anon",
-      avatar: avatar || "avatar3",
-      id: user.id,
-    };
-    store.dispatch(userActions.setInfo(player));
-
-    store.dispatch(gameActions.resetGame());
-
-    const roomId = user.id;
-
-    socket.emit("joinRoom", { roomId, player });
-
-    store.dispatch(
-      gameActions.createRoom({
-        playerInfo: player,
-        room: roomId,
-        hostId: player.id,
-      })
-    );
-
-    for (let i = 1; i < quantity; i++) {
-      store.dispatch(
-        gameActions.addPlayer({
-          name: `bot ${i}`,
-          avatar: `avatar${Math.floor(Math.random() * 8) + 1}`,
-          bot: true,
-          id: i,
-        })
-      );
-    }
-    store.dispatch(gameActions.startGame(generateDeck()));
-    setTimeout(() => {
-      store.dispatch(gameActions.dealCards());
-    }, 2000);
-  };
-
-  // const CreateGameModalJsx = (
-  //   <Modal onClose={() => setModal(false)} show={modal.createGame}>
-  //     <CreateGameModal
-  //       onClose={() => setModal(false)}
-  //       onStart={createRoomHandler}
-  //       name={name.current?.value || "anon"}
-  //     />
-  //   </Modal>
-  // );
-  // const PlayComputerModalJsx = (
-  //   <Modal onClose={() => setModal(false)} show={modal.playComputer}>
-  //     <PlayComputerModal
-  //       onClose={() => setModal(false)}
-  //       onPlayComputer={createComputerGame}
-  //     />
-  //   </Modal>
-  // );
-
-  // const JoinGameModalJsx = (
-  //   <Modal onClose={() => setModal(false)} show={modal.joinRoom}>
-  //     <JoinGameModal />
-  //   </Modal>
-  // );
-
-  // const showContactModal = modal.contact && (
-  //   <Modal onClose={() => setModal(false)}></Modal>
-  // );
-
   return (
     <motion.div
       variants={homePageVariants}
       initial="hidden"
       animate="visible"
       exit={homePageVariants.exit}
-      className={classesList}
+      className={classes.main}
     >
       <h1 className={classes.title}>SHiP-HEAD!</h1>
       <div className={classes.nameBox}>
@@ -178,12 +115,14 @@ const Home = ({ className }) => {
           placeholder="e.g tom hanks"
           defaultVal={user.name}
           inputRef={name}
+          onReset={resetName}
         />
       </div>
       <div className={classes.avatarBox}>
         <h4>Choose your Avatar</h4>
         <AvatarContainer
           onAvatarClick={setAvatarHandler}
+          defaultVal={user.avatar}
           selectedAvatar={avatar}
         ></AvatarContainer>
       </div>
@@ -195,12 +134,12 @@ const Home = ({ className }) => {
         )}
         <Button
           text={"Create new game"}
-          onClick={() => showModal("createGame")}
+          onClick={() => confirmModal("createGame")}
         />
-        <Button text={"Join game"} onClick={() => showModal("joinGame")} />
+        {/* <Button text={"Join game"} onClick={() => confirmModal("joinGame")} /> */}
         <Button
           text={"Play against computer"}
-          onClick={() => showModal("playComputer")}
+          onClick={() => confirmModal("playComputer")}
         />
       </div>
       <div className={classes.footerBtns}>
@@ -208,14 +147,10 @@ const Home = ({ className }) => {
         <Button
           text={"Contact"}
           type="small"
-          onClick={() => showModal("contact")}
+          onClick={() => confirmModal("contact")}
         />
         <Button text={"Changelog"} type="small" />
       </div>
-      {/* {CreateGameModalJsx}
-      {PlayComputerModalJsx}
-      {JoinGameModalJsx}
-      {showContactModal} */}
     </motion.div>
   );
 };

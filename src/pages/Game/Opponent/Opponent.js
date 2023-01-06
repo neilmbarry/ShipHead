@@ -22,6 +22,7 @@ const Opponent = ({
   bot,
   hasSetFaceCards,
   room,
+  opKey,
   player,
 }) => {
   const activePlayerId = useSelector(
@@ -62,7 +63,7 @@ const Opponent = ({
   }, [active, bot, player, socket, gameOver, stack]);
 
   return (
-    <div className={classesList}>
+    <div className={classesList} key={opKey}>
       <OpponentFaceCards
         faceUpCards={faceUpCards}
         faceDownCards={faceDownCards}

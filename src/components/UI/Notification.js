@@ -12,6 +12,9 @@ import {
 import { motion } from "framer-motion";
 import { notificationVariants } from "../../config/animationVariants";
 import { AnimatePresence } from "framer-motion";
+import store from "../../redux/store";
+import userActions from "../../redux/userSlice";
+import { useSelector } from "react-redux";
 
 const notificationIcons = {
   warning: faWarning,
@@ -20,22 +23,28 @@ const notificationIcons = {
   success: faCheck,
 };
 
-const Notification = ({ className, notification, onClose, show }) => {
+const Notification = ({ className }) => {
+  const notification = useSelector((state) => state.user.value.notification);
+
   const classesList = `${classes.main} ${
     classes[notification?.type]
   } ${className}`;
+
+  const closeNotification = () =>
+    store.dispatch(userActions.setNotification(null));
 
   const notificationIcon = notificationIcons[notification?.type];
 
   useEffect(() => {
     const autoClose = setTimeout(() => {
-      onClose();
+      console.log();
+      closeNotification();
     }, notification?.duration || 1000);
     return () => clearTimeout(autoClose);
-  }, [notification?.duration, onClose]);
+  }, [notification]);
   return ReactDOM.createPortal(
     <AnimatePresence mode="wait">
-      {show && (
+      {notification && (
         <motion.div
           variants={notificationVariants}
           initial="hidden"
@@ -50,7 +59,7 @@ const Notification = ({ className, notification, onClose, show }) => {
             {/* <h5>{notification.type}</h5> */}
             <p>{notification?.message}</p>
           </div>
-          <div className={classes.closeIcon} onClick={onClose}>
+          <div className={classes.closeIcon} onClick={closeNotification}>
             <FontAwesomeIcon icon={faClose} />
           </div>
         </motion.div>
