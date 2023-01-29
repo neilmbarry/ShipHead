@@ -9,6 +9,7 @@ import PlayComputerModal from "../../pages/Home/PlayComputerModal";
 import CreateGameModal from "../../pages/Home/CreateGameModal";
 import GameOver from "../../pages/Game/GameOver/GameOver";
 import JoinGameModal from "../../pages/Home/JoinGameModal";
+import ConnectingModal from "./ConnectingModal";
 import store from "../../redux/store";
 import userActions from "../../redux/userSlice";
 import { useSelector } from "react-redux";
@@ -25,6 +26,7 @@ const Modal = ({ className }) => {
     createGame: <CreateGameModal onClose={closeModal} />,
     gameOver: <GameOver onClose={closeModal} />,
     joinGame: <JoinGameModal onClose={closeModal} />,
+    connecting: <ConnectingModal onClose={null} />,
   };
 
   return ReactDOM.createPortal(

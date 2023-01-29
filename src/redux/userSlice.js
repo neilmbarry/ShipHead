@@ -16,7 +16,7 @@ const initialState = {
   id: "",
   avatar: null,
   notification: null,
-  modal: null,
+  modal: { type: "connecting" },
   selectedCards: [],
 };
 

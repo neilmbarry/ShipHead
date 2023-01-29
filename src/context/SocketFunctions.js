@@ -17,6 +17,17 @@ export const socketFunctions = (socket) => {
   socket.on("message", (message) => {
     console.warn(message);
   });
+  socket.on("connection", (response) => {
+    console.warn("connected", response);
+    store.dispatch(userActions.setModal(null));
+    store.dispatch(
+      userActions.setNotification({
+        type: "success",
+        message: "Connected to server",
+        duration: 3000,
+      })
+    );
+  });
 
   socket.on("userID", (userID) => {
     console.warn("GAME RESET!");

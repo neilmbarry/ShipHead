@@ -4,7 +4,7 @@ const server = require("http").createServer(app);
 
 let origin;
 
-console.log("testing");
+console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "development") {
   origin = "http://neils-macbook-pro.local:3000";
@@ -22,7 +22,9 @@ const io = require("socket.io")(server, {
 });
 
 app.get("/", function (req, res) {
-  res.send("<h1>Ship Head is Ready!</h1>");
+  res.json({
+    connected: true,
+  });
 });
 
 io.on("connection", (socket) => {
@@ -30,6 +32,7 @@ io.on("connection", (socket) => {
 
   // Just to 1 user
   socket.emit("message", `You have connected (${socket.id})`);
+  socket.emit("connection", true);
   socket.emit("userID", socket.id);
 
   socket.broadcast.emit(

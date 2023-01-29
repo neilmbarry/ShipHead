@@ -32,6 +32,12 @@ function App() {
   }, [socket]);
 
   useEffect(() => {
+    // fetch("http://localhost:4000/")
+    //   .then((res) => {
+    //     console.log(res);
+    //     res.json();
+    //   })
+    //   .then((data) => console.log(data));
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
