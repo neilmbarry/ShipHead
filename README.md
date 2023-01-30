@@ -16,32 +16,31 @@ Ship-Head! is a simple card game based of a popular game with a similar name. Yo
 - Helper messages to guide you through the game
 - Optimized to be played on mobile devices
 
-![User Features](https://i.imgur.com/OW8f9td.png)
+---
 
-![Admin Features](https://i.imgur.com/OW8f9td.png)
+## How the application works
 
-#### There are 3 admin levels:
+Upon opening this application, a user will be prompted to select an avatar and choose a name. The user can then either select to play against a number of opponents either human or computer.
 
-- **Helper:** Can delete chat messages
-- **Moderator:** The above plus the ability to kick and ban users
-- **Administrator:** All the above plus send global alerts and promote/demote users
+A game is created by the user and ....
+
+The rules for the game can be found in the application itself.
+
+During a game the flow of information is as follows:
+First a player selects the card(s) they wish to play. This choice is passed through a validator that checks:
+
+1. If it is the players turn.
+2. If the card selected is in the available array of cards.
+3. If the card selected is a valid move given the current state of the game in play.
+
+If these conditions are met, the client will emit that their move to the server, where it will then broadcast to everyone in the given room. This will update all clients local state. The updated state will then update to UI and set the next player to act as active. This flow will continue until the end of the game where players can either selected to play again or to exit to the main menu.
 
 ---
 
-## Setup
+## Code Structure
 
-Clone this repo to your desktop and run `npm install` to install all the dependencies.
+This application can be divided into three distinct parts: game logic, user interface, server connection. Below is a sample of each.
 
-You might want to look into `config.json` to make change the port you want to use and set up a SSL certificate.
-
----
-
-## Usage
-
-After you clone this repo to your desktop, go to its root directory and run `npm install` to install its dependencies.
-
-Once the dependencies are installed, you can run `npm start` to start the application. You will then be able to access it at localhost:3000
-
-To give yourself administrator permissions on the chat, you will have to type `/role [your-name]` in the app console.
-
----
+![Game Preview](https://i.imgur.com/OW8f9td.png)
+![Game Preview](https://i.imgur.com/OW8f9td.png)
+![Game Preview](https://i.imgur.com/OW8f9td.png)

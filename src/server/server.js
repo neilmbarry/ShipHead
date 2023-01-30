@@ -7,7 +7,6 @@ let origin;
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "development") {
-  origin = "http://neils-macbook-pro.local:3000";
   origin = "http://localhost:3000";
   console.log("Connecting to development project");
 } else {
