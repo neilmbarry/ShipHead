@@ -1,0 +1,55 @@
+.section {
+  border-bottom: 1px solid grey;
+  padding: 0.5rem 0;
+}
+
+.sectionTitle:hover {
+  filter: brightness(130%);
+}
+
+.sectionTitle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.sectionContent {
+  display: none;
+}
+
+.open {
+  display: block;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+
+.icon1 * {
+  color: red;
+}
+.icon2 * {
+  color: orange;
+}
+.icon3 * {
+  color: yellow;
+}
+.icon4 * {
+  color: yellowgreen;
+}
+.icon5 * {
+  color: turquoise;
+}
+.icon6 * {
+  color: rgb(32, 95, 241);
+}
+.icon7 * {
+  color: violet;
+}
+.icon8 * {
+  color: rgb(120, 31, 183);
+}
+.gold {
+  color: gold;
+}

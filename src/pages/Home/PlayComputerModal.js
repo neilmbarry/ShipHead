@@ -50,9 +50,13 @@ const PlayComputerModal = ({ className, onClose, onPlayComputer }) => {
     }
     store.dispatch(gameActions.startGame(generateDeck()));
     store.dispatch(userActions.setModal(null));
-    setTimeout(() => {
-      store.dispatch(gameActions.dealCards());
-    }, 2000);
+    socket.emit("startGame", {
+      ...generateDeck(),
+      room: roomId,
+    });
+    // setTimeout(() => {
+    //   store.dispatch(gameActions.dealCards());
+    // }, 2000);
   };
 
   const playComputerHandler = () => {

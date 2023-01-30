@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem 3rem;
+  text-align: center;
+}
+
+.title {
+  color: gold;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

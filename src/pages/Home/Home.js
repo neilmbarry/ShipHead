@@ -1,6 +1,6 @@
 // Main imports
 import React, { useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -25,6 +25,8 @@ const Home = () => {
   const name = useRef();
   const socket = useSocket();
   const params = useParams();
+
+  const navigate = useNavigate();
 
   const resetName = () => {
     name.current.value = "";
@@ -58,32 +60,57 @@ const Home = () => {
     );
   };
 
-  const createRoomHandler = ({ roomName, password }) => {
+  const createRoomHandler = () => {
+    if (!name.current.value) {
+      return store.dispatch(
+        userActions.setNotification({
+          type: "warning",
+          message: "Please enter a valid name",
+        })
+      );
+    }
     const player = {
       name: name.current.value,
-      avatar: avatar || "avatar6",
+      avatar: avatar || `avatar${Math.ceil(Math.random() * 8)}`,
     };
-    // setModal(false);
-    store.dispatch(userActions.setInfo(player));
 
+    store.dispatch(userActions.setInfo(player));
+    console.log("creating game");
     store.dispatch(gameActions.resetGame());
 
     // const roomId = user.id;
-    const roomId = roomName;
+    const roomId = user.id;
 
-    socket.emit("joinRoom", { roomId, player });
+    socket.emit("joinRoom", { roomId, player: user });
 
     store.dispatch(
       gameActions.createRoom({
-        playerInfo: player,
+        playerInfo: user,
         room: roomId,
-        hostId: player.id,
-        password,
+        hostId: user.id,
+      })
+    );
+    navigate("/lobby");
+  };
+
+  const showContact = () => {
+    console.log("showing contact");
+    store.dispatch(
+      userActions.setModal({
+        type: "contact",
       })
     );
   };
 
   const joinGameHandler = () => {
+    if (!name.current.value) {
+      return store.dispatch(
+        userActions.setNotification({
+          type: "warning",
+          message: "Please enter a valid name",
+        })
+      );
+    }
     const roomId = params.roomId;
     const player = {
       name: name.current.value,
@@ -97,6 +124,16 @@ const Home = () => {
     store.dispatch(gameActions.setRoom(roomId));
 
     socket.emit("joinRoom", { roomId, player });
+
+    navigate("/lobby");
+  };
+
+  const showRules = () => {
+    return store.dispatch(
+      userActions.setModal({
+        type: "rules",
+      })
+    );
   };
 
   return (
@@ -128,14 +165,11 @@ const Home = () => {
       </div>
       <div className={classes.createGameBox}>
         {params.roomId && (
-          <Link to="/lobby">
-            <Button text={"Join Neil's Game"} onClick={joinGameHandler} />
-          </Link>
+          <Button text={"Join Friend's Game"} onClick={joinGameHandler} />
         )}
-        <Button
-          text={"Create new game"}
-          onClick={() => confirmModal("createGame")}
-        />
+
+        <Button text={"Create new game"} onClick={createRoomHandler} />
+
         {/* <Button text={"Join game"} onClick={() => confirmModal("joinGame")} /> */}
         <Button
           text={"Play against computer"}
@@ -143,13 +177,8 @@ const Home = () => {
         />
       </div>
       <div className={classes.footerBtns}>
-        <Button text={"How to play"} type="small" onClick={null} />
-        <Button
-          text={"Contact"}
-          type="small"
-          onClick={() => confirmModal("contact")}
-        />
-        <Button text={"Changelog"} type="small" />
+        <Button text={"How to play"} type="small" onClick={showRules} />
+        <Button text={"Contact"} type="small" onClick={() => showContact()} />
       </div>
     </motion.div>
   );

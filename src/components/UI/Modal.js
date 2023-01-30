@@ -13,6 +13,8 @@ import ConnectingModal from "./ConnectingModal";
 import store from "../../redux/store";
 import userActions from "../../redux/userSlice";
 import { useSelector } from "react-redux";
+import RulesModal from "../../pages/Home/RulesModal";
+import ContactModal from "../../pages/Home/ContactModal";
 
 const Modal = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -27,6 +29,8 @@ const Modal = ({ className }) => {
     gameOver: <GameOver onClose={closeModal} />,
     joinGame: <JoinGameModal onClose={closeModal} />,
     connecting: <ConnectingModal onClose={null} />,
+    rules: <RulesModal />,
+    contact: <ContactModal />,
   };
 
   return ReactDOM.createPortal(

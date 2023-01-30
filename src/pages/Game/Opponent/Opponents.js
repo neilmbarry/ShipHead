@@ -13,9 +13,10 @@ const Opponents = ({ className }) => {
   const playersBeforeUser = players.splice(0, userIndex);
   players.push(...playersBeforeUser);
   players.shift();
-  const opponentsJSX = players.map((opponent) => (
+  const opponentsJSX = players.map((opponent, i) => (
     <Opponent
-      opKey={opponent.id}
+      opKey={opponent.id + i}
+      key={opponent.id + i}
       handCards={opponent.handCards}
       faceUpCards={opponent.faceUpCards}
       faceDownCards={opponent.faceDownCards}

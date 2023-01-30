@@ -9,11 +9,15 @@
   background-color: rgba(71, 71, 71, 0.404);
 }
 
+.main:hover {
+  filter: brightness(130%);
+}
+
 .secondary {
   background-color: transparent;
 }
 
 .small {
-  padding: 0.2rem 0.5rem;
+  padding: 0.5rem 0.8rem;
   font-size: 0.9rem;
 }
