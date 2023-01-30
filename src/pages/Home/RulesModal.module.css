@@ -95,6 +95,7 @@
 @media screen and (max-width: 768px) {
   .main {
     width: 80vw;
+    max-height: 70vh;
   }
   .card {
     width: 280px;
