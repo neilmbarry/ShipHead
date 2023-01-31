@@ -24,6 +24,9 @@ function App() {
 
   useEffect(() => {
     if (!socket) return;
+
+    // socketFunctions below handles all events received by the socket. In most cases it will update the local client state which in turn will update the client UI
+
     socketFunctions(socket);
     return () => {
       console.error("DISCONNECTED");
@@ -32,12 +35,6 @@ function App() {
   }, [socket]);
 
   useEffect(() => {
-    // fetch("http://localhost:4000/")
-    //   .then((res) => {
-    //     console.log(res);
-    //     res.json();
-    //   })
-    //   .then((data) => console.log(data));
     window.scrollTo(0, 0);
   }, [location.pathname]);
 

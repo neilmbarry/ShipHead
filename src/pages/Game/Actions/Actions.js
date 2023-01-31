@@ -7,13 +7,10 @@ import {
   selectFaceCards,
   autoSelectFaceCards,
   playCards,
-  playValidMove,
   takeStack,
   sortCards,
   getPlayer,
 } from "../../../gameLogic/gameLogic";
-import store from "../../../redux/store";
-import userActions from "../../../redux/userSlice";
 
 const Actions = ({ className }) => {
   const classesList = `${classes.main} ${className}`;
@@ -25,6 +22,9 @@ const Actions = ({ className }) => {
   ) : (
     <>
       <Button text="Select" onClick={() => selectFaceCards(socket)} />
+      {
+        // The Button below, when active, can automatically select the best cards for the face up selection
+      }
       {/* <Button text="Auto" onClick={() => autoSelectFaceCards(socket)} /> */}
     </>
   );
@@ -39,7 +39,6 @@ const Actions = ({ className }) => {
           sortCards();
         }}
       />
-      {/* <Button text="valid" onClick={() => playValidMove(socket)} /> */}
       <Link to="/">
         <Button text="exit" className={classes.exit} />
       </Link>

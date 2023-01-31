@@ -31,7 +31,7 @@ const userSlice = createSlice({
       state.value.modal = action.payload;
     },
 
-    setSelecteCards: (state, action) => {
+    setSelectedCards: (state, action) => {
       state.value.selectedCards = action.payload;
     },
     setInfo: (state, action) => {

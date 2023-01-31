@@ -26,13 +26,7 @@ const CreateGameModal = ({ className, onClose, onStart, name }) => {
   const socket = useSocket();
 
   const createRoomHandler = () => {
-    // const player = {
-    //   name: name.current.value,
-    //   avatar: user.avatar || "avatar6",
-    //   id: user.id,
-    // };
-    // // setModal(false);
-    // store.dispatch(userActions.setInfo(player));
+
 
     store.dispatch(gameActions.resetGame());
 

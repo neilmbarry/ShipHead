@@ -10,16 +10,13 @@ export function useSocket() {
 let server;
 
 if (process.env.NODE_ENV === "development") {
-  console.warn("Connecting to development server...");
-  // CHANGE TO LOCALHOST
-  server = "http://neils-macbook-pro.local:4000/";
+  console.log("Connecting to development server...");
   server = "http://localhost:4000/";
 } else {
-  console.warn("Connecting to production server...");
   server = "https://ship-head.herokuapp.com/";
 }
 
-export function SocketProvider({ id, children }) {
+export function SocketProvider({ children }) {
   const [socket, setSocket] = useState();
   useEffect(() => {
     console.log("CONNECTING...");

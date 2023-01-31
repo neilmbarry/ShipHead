@@ -28,18 +28,21 @@ import store from "../../redux/store";
 import userActions from "../../redux/userSlice";
 
 const Game = () => {
+  // Most of the children of this component are dumb components, only rendering changes to the UI with state updates. The only exceptions are the Actions and Player components which emit actions. Additionally, the Opponent component will emit actions if it is a computer.
+
   const socket = useSocket();
   const navigate = useNavigate();
 
+  // Redux State
   const userState = useSelector((state) => state.user.value);
   const gameState = useSelector((state) => state.game.value);
   const room = useSelector((state) => state.game.value.room);
   const gameOver = useSelector((state) => state.game.value.gameOver);
   const activePlayer = useSelector((state) => state.game.value.activePlayerId);
-
   const host = userState.id === gameState.hostId;
 
   useEffect(() => {
+    // This useEffect will run on every state change, it will check a few validators including to see if the game has concluded and determining who will begin play with the first move
     if (gameState.shipHead) {
       store.dispatch(
         userActions.setModal({

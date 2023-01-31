@@ -110,7 +110,7 @@ const RulesModal = ({ className }) => {
             </div>
             <p className={classes.paragraph}>
               Each player should have at least 3 cards in their hand at all
-              times and a
+              times and
               <span className={classes.gold}>
                 {" "}
                 after placing a card down draws another card from the deck -
@@ -131,6 +131,13 @@ const RulesModal = ({ className }) => {
               Aces are the highest card in the deck, trumped only by a{" "}
               <span className={classes.gold}>power card.</span> power cards can
               be played on any card.
+            </p>
+            <p className={classes.paragraph}>
+              Players can{" "}
+              <span className={classes.gold}>
+                play multiple same value cards
+              </span>{" "}
+              together.
             </p>
             <p className={classes.paragraph}>
               When a ten is played, the discard pile is immediately{" "}

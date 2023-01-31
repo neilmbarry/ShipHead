@@ -1,85 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const gameStateTemplate = {
-  deck: [
-    "1",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "10",
-    "123",
-    "134",
-    "145",
-    "156",
-    "167",
-    "178",
-    "189",
-  ],
-  stack: ["KingSpades", "QueenHearts", "3Diamonds"].reverse(),
-  activePlayerId: "4mfljfad9",
-  gameOver: false,
-  shipHead: null,
-  directionClockwise: true,
-  hostId: "sfji4jije34i3",
-  room: "xxuehfidfjdfk",
-  message: {
-    gameEvent: "Rupert has played a King!",
-    gameAnnouncement: "such savagery!!",
-  },
-  players: [
-    {
-      id: "ir3jojfir",
-      name: "Rupert",
-      avatar: "avatar3",
-      handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["8Spades", "8Clubs", "10Clubs"],
-      faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      playing: true,
-      hasSetFaceUpCards: true,
-      hasToPickUp: false,
-    },
-    {
-      id: "4mfljfad9",
-      name: "Sam",
-      avatar: "avatar6",
-      handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["2Hearts", "5Hearts", "5Diamonds"],
-      faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      playing: true,
-      hasSetFaceUpCards: true,
-      hasToPickUp: false,
-    },
-    {
-      id: "sfji4jije34i3",
-      name: "Neil",
-      avatar: "avatar1",
-      handCards: ["4Spades", "9Hearts", "2Diamonds"],
-      faceUpCards: ["5Clubs", "10Diamonds", "AceHearts"],
-      faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      playing: true,
-      hasSetFaceUpCards: true,
-      hasToPickUp: false,
-    },
-    {
-      id: "dei3309de",
-      name: "Regina",
-      avatar: "avatar2",
-      handCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      faceUpCards: ["AceSpades", "KingClubs", "QueenClubs"],
-      faceDownCards: ["KingSpades", "QueenHearts", "3Diamonds"],
-      playing: true,
-      connected: true,
-      hasSetFaceUpCards: true,
-      hasToPickUp: false,
-    },
-  ],
-};
-
 const initialState = {
   deck: [],
   deckRef: {},
@@ -100,20 +20,15 @@ const initialState = {
 // ADD CONNECTION STATUS
 
 const setPlayersNewGame = (players) => {
-  return (
-    players
-      // .filter((player) => player.playing)
-      .map((player) => ({
-        ...player,
-        hasSetFaceUpCards: false,
-        hasToPickUp: false,
-        // remove
-        playing: true,
-        handCards: [],
-        faceUpCards: [],
-        faceDownCards: [],
-      }))
-  );
+  return players.map((player) => ({
+    ...player,
+    hasSetFaceUpCards: false,
+    hasToPickUp: false,
+    playing: true,
+    handCards: [],
+    faceUpCards: [],
+    faceDownCards: [],
+  }));
 };
 
 const gameSlice = createSlice({

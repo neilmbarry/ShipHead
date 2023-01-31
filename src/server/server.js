@@ -31,13 +31,10 @@ io.on("connection", (socket) => {
 
   // Just to 1 user
   socket.emit("message", `You have connected (${socket.id})`);
-  socket.emit("connection", true);
+  socket.emit("connection", socket.id);
   socket.emit("userID", socket.id);
 
-  socket.broadcast.emit(
-    "message",
-    `[SERVER] A user NEW has joined: ${socket.handshake.query.t}`
-  );
+  socket.broadcast.emit("message", `A new user has joined: ${socket.id}`);
 
   socket.on("disconnecting", () => {
     console.log(socket.id, " is disconnecting. Rooms are: ", socket.rooms);
@@ -46,7 +43,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", (info) => {
-    console.log("A User DISCONNECT XXXXXXXXXXXXXXXXX");
+    console.log("A user disconnected");
   });
 
   socket.on("groupChat", (message) => {
@@ -112,34 +109,7 @@ io.on("connection", (socket) => {
   socket.on("newGame", ({ room, info }) => {
     io.in(room).emit("newGame", info);
   });
-
-  //--------- BELOW IS SHITE -----------//
-
-  // socket.on("dealCards", (info) => {
-  //   io.in(info.room).emit("dealCards", info.deck);
-  // });
-
-  // socket.on("pickUpStack", (info) => {
-  //   io.in(info.room).emit("pickUpStack", info.playerNumber);
-  // });
-
-  // socket.on("sortCards", (player) => {
-  //   io.emit("sortCards", player);
-  // });
-  // socket.on("drawCardsFromDeck", (info) => {
-  //   io.in(info.room).emit("drawCardsFromDeck", info.playerNumber);
-  // });
-  // socket.on("reset", () => {
-  //   io.emit("reset");
-  // });
-  // socket.on("newGame", () => {
-  //   io.emit("newGame");
-  // });
 });
-
-// io.on("message", (message) => {
-//   console.log(message);
-// });
 
 server.listen(process.env.PORT || 4000, function () {
   console.log("listening on port 4000");

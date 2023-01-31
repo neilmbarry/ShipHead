@@ -17,7 +17,7 @@ const PlayerHand = ({ className, handCards, player, activeHand }) => {
   const selectCardHandler = (name) => {
     if (selectedCards.includes(name)) {
       return store.dispatch(
-        userActions.setSelecteCards(
+        userActions.setSelectedCards(
           selectedCards.filter((card) => card !== name)
         )
       );
@@ -25,7 +25,7 @@ const PlayerHand = ({ className, handCards, player, activeHand }) => {
     if (!player.hasSetFaceUpCards) {
       if (selectedCards.length === 3) {
         return store.dispatch(
-          userActions.setSelecteCards([...selectedCards.slice(1, 3), name])
+          userActions.setSelectedCards([...selectedCards.slice(1, 3), name])
         );
       }
     }
@@ -35,12 +35,12 @@ const PlayerHand = ({ className, handCards, player, activeHand }) => {
         selectedCards.length > 0 &&
         deckRef[name].worth !== deckRef[selectedCards[0]].worth
       ) {
-        return store.dispatch(userActions.setSelecteCards([name]));
+        return store.dispatch(userActions.setSelectedCards([name]));
       }
     }
 
     return store.dispatch(
-      userActions.setSelecteCards([...selectedCards, name])
+      userActions.setSelectedCards([...selectedCards, name])
     );
   };
 

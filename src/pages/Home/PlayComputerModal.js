@@ -1,28 +1,37 @@
+// Main imports
 import React, { useState } from "react";
-import classes from "./PlayComputerModal.module.css";
-import Input from "../../components/UI/Input";
-import Button from "../../components/UI/Button";
 import { Link, useNavigate } from "react-router-dom";
+
+// Styles
+import classes from "./PlayComputerModal.module.css";
+
+// State management
 import store from "../../redux/store";
 import { useSelector } from "react-redux";
+import { useSocket } from "../../context/SocketProvider";
 import gameActions from "../../redux/gameSlice";
 import userActions from "../../redux/userSlice";
-import { useSocket } from "../../context/SocketProvider";
+
+// Utils
 import { generateDeck } from "../../gameLogic/gameUtils";
+
+// Components
+import Button from "../../components/UI/Button";
 
 const PlayComputerModal = ({ className, onClose, onPlayComputer }) => {
   const classesList = `${classes.main} ${className}`;
   const socket = useSocket();
   const [selected, setSelected] = useState(null);
   const playerInfo = useSelector((state) => state.user.value);
+  const navigate = useNavigate();
 
   const createComputerGame = (quantity) => {
+    if (!selected) return;
     const player = {
       name: playerInfo.name || "Anon",
       avatar: playerInfo.avatar || "avatar3",
       id: playerInfo.id,
     };
-    // store.dispatch(userActions.setInfo(player));
 
     store.dispatch(gameActions.resetGame());
 
@@ -54,16 +63,9 @@ const PlayComputerModal = ({ className, onClose, onPlayComputer }) => {
       ...generateDeck(),
       room: roomId,
     });
-    // setTimeout(() => {
-    //   store.dispatch(gameActions.dealCards());
-    // }, 2000);
+    navigate("/game");
   };
 
-  const playComputerHandler = () => {
-    onClose();
-
-    onPlayComputer(selected);
-  };
   return (
     <div className={classesList}>
       <h3>vs. computer</h3>
@@ -98,9 +100,8 @@ const PlayComputerModal = ({ className, onClose, onPlayComputer }) => {
 
       <div className={classes.buttonsContainer}>
         <Button text="Cancel" type="secondary" onClick={onClose} />
-        <Link to="/game">
-          <Button text="Play!" onClick={() => createComputerGame(selected)} />
-        </Link>
+
+        <Button text="Play!" onClick={() => createComputerGame(selected)} />
       </div>
     </div>
   );

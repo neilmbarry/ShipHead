@@ -1,15 +1,19 @@
+// Main imports
 import React, { useEffect } from "react";
 import classes from "./Opponent.module.css";
-import OpponentInfo from "./OpponentInfo";
+
+// Components
 import OpponentFaceCards from "./OpponentFaceCards";
 import OpponentHandCards from "./OpponentHandCards";
+import PlayerInfo from "../../../components/UI/PlayerInfo";
+
+// State Management
 import { useSelector } from "react-redux";
 import { useSocket } from "../../../context/SocketProvider";
 import {
   playValidMove,
   autoSelectFaceCards,
 } from "../../../gameLogic/gameLogic";
-import PlayerInfo from "../../../components/UI/PlayerInfo";
 
 const Opponent = ({
   className,
@@ -36,6 +40,7 @@ const Opponent = ({
   const socket = useSocket();
 
   useEffect(() => {
+    // This useEffect will run if the opponent is a bot and has not set its face up cards. It will automatically select the best 3.
     if (gameOver) return;
     if (!bot) return;
     if (hasSetFaceCards) return;
@@ -49,6 +54,7 @@ const Opponent = ({
   }, [bot, hasSetFaceCards, socket, room, player, handCards, gameOver]);
 
   useEffect(() => {
+    // This useEffect will run if the opponent is a bot and is the active player. It will play the lowest value card(s) possible with a delay to imitate a human player
     if (gameOver) return;
     if (!active) return;
     if (!bot) return;
@@ -77,7 +83,6 @@ const Opponent = ({
         avatar={avatar}
         className={classes.info}
       />
-      {/* <OpponentInfo name={name} active={active} avatar={avatar} className={classes.info} /> */}
     </div>
   );
 };

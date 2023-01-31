@@ -27,7 +27,6 @@
   "scripts": {
     "start": "react-scripts start",
     "start:server": "node src/server/server.js",
-    "dev": "NODE_ENV=development react-scripts start",
     "dev:server": "NODE_ENV=development node src/server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

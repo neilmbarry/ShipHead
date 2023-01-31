@@ -1,6 +1,9 @@
+// Redux actions and reducers
 import store from "../redux/store";
 import userActions from "../redux/userSlice";
 import gameActions from "../redux/gameSlice";
+
+// These are the game login functions that are fired when a move is received from the socket
 import {
   gameState,
   checkLegalMove,
@@ -11,14 +14,14 @@ import {
   checkShipHead,
   checkReverse,
 } from "../gameLogic/gameLogic";
+
+// Util functions
 import { cardsToText } from "../gameLogic/gameUtils";
 
 export const socketFunctions = (socket) => {
-  socket.on("message", (message) => {
-    console.warn(message);
-  });
-  socket.on("connection", (response) => {
-    console.warn("connected", response);
+  // This initializes the game state on successful connection to the server
+  socket.on("connection", (socketId) => {
+    store.dispatch(gameActions.resetGame());
     store.dispatch(userActions.setModal(null));
     store.dispatch(
       userActions.setNotification({
@@ -27,14 +30,10 @@ export const socketFunctions = (socket) => {
         duration: 3000,
       })
     );
+    store.dispatch(userActions.setId(socketId));
   });
 
-  socket.on("userID", (userID) => {
-    console.warn("GAME RESET!");
-    store.dispatch(gameActions.resetGame());
-    store.dispatch(userActions.setId(userID));
-  });
-
+  // When a new player joins a room they emit shareGameState with their information, connected clients will share the current state and add the new user (player) to their local state
   socket.on("shareGameState", (newPlayer) => {
     socket.emit("setGameState", {
       state: gameState(),
@@ -69,6 +68,8 @@ export const socketFunctions = (socket) => {
     }, 500);
   });
 
+  // All the functions below are how the application reacts to receiving new information from each of the clients during game play.
+
   socket.on("setFaceUpCards", ({ cards, playerId }) => {
     store.dispatch(gameActions.selectFaceUpCards({ cards, playerId }));
   });
@@ -83,6 +84,8 @@ export const socketFunctions = (socket) => {
     );
   });
 
+  // The function below is the beefiest of them all. Not only is it the most commonly called function but it also requires the most validation
+
   socket.on("playCards", async ({ cards, player, hand, deckRef }) => {
     const legalMove = checkLegalMove(cards);
 
@@ -95,6 +98,7 @@ export const socketFunctions = (socket) => {
       );
     }, 750);
     store.dispatch(gameActions.setGameAnnouncement(``));
+
     // Check legal move
     if (!legalMove) {
       setTimeout(() => {
@@ -104,7 +108,8 @@ export const socketFunctions = (socket) => {
       }, 1500);
       return store.dispatch(gameActions.hasToPickUp(player.id));
     }
-    // // Check draw cards
+
+    // Check draw cards
     if (checkDrawCards(player.id)) {
       await new Promise((r) => setTimeout(r, 1000));
       store.dispatch(
@@ -188,33 +193,4 @@ export const socketFunctions = (socket) => {
       store.dispatch(gameActions.setGameAnnouncement("(pick three)"));
     }, 1000);
   });
-
-  // socket.on("setFaceUpCards", ({ cards, player }) => {
-  //   console.log("called");
-  //   setFaceUpCards(cards, player);
-  // });
-  // socket.on("pickUpStack", (player) => {
-  //   console.log("picking up stack");
-  //   pickUpStack(player);
-  // });
-  // socket.on("playCards", (data) => {
-  //   console.log("Received playCards data: ", data);
-  //   playCards(data.selected, data.hand, data.playerNumber);
-  // });
-  // socket.on("sortCards", (player) => {
-  //   sortCards(player);
-  // });
-  // socket.on("drawCardsFromDeck", (player) => {
-  //   drawCardsFromDeck(player);
-  // });
-  // socket.on("reset", () => {
-  //   initializeNewGame();
-  // });
-  // socket.on("newGame", () => {
-  //   console.log("starting new game");
-  //   startNewGame();
-  // });
-  // socket.on("readyPlayer", (player) => {
-  //   readyUp(player);
-  // });
 };

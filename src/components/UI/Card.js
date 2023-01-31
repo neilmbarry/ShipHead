@@ -20,8 +20,6 @@ const Card = ({
   }`;
   const image = CardImages[back ? "back" : name];
   const inlineStyle = {
-    // zIndex: z,
-    // transform: `rotate(${r * 31 + 10}deg)`,
     ...style,
   };
   const cardSelected = useSelector(

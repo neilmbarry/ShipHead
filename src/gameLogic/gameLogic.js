@@ -1,9 +1,10 @@
-import { allCardsHaveEqualValue, cardsWillReverseDirection } from "./gameUtils";
+// State management
 import store from "../redux/store";
-
 import userActions from "../redux/userSlice";
 import gameActions from "../redux/gameSlice";
 
+// Utils
+import { allCardsHaveEqualValue } from "./gameUtils";
 import { notifications } from "../config/notificationMessages";
 
 export function gameState() {
@@ -86,11 +87,6 @@ export function checkLegalMove(cards) {
   return false;
 }
 
-const checkActivePlayer = (id) => {
-  if (gameState().activePlayerId === id) return true;
-  return false;
-};
-
 export const getActiveHand = (playerId) => {
   const player = gameState().players.find((player) => player.id === playerId);
   if (player?.handCards?.length > 0) return "handCards";
@@ -102,7 +98,6 @@ export const getActiveHand = (playerId) => {
 const checkCardsAreInHand = (cards, playerId) => {
   const activeHand = getActiveHand(playerId);
   const player = gameState().players.find((player) => player.id === playerId);
-  //MIGHT NOT WORK
   if (player[activeHand].includes(cards)) return true;
   return false;
 };
@@ -121,16 +116,6 @@ export const checkDrawCards = (playerId) => {
   const cardsToPickUp = 3 - player.handCards.length;
   const actualCardsToPickUp = Math.min(gameState().stack.length, cardsToPickUp);
   return actualCardsToPickUp;
-};
-
-const checkGameOver = () => {
-  const activePlayers = gameState().players.filter(
-    (player) => player.playing === true
-  );
-  if (activePlayers.length === 1) {
-    return activePlayers[0].name;
-  }
-  return false;
 };
 
 export function setFaceCards(cards, playerId) {
@@ -300,13 +285,10 @@ export const getPlayerInfo = (id) => {
   return gameState().players.find((player) => player.id === id);
 };
 
-//-----------------------------------//
-// NEW AND IMPROVED FUNCTIONS BELOW  //
-//-----------------------------------//
 export function selectFaceCards(socket) {
   const [gameState, userState] = getState();
   if (userState.selectedCards.length !== 3) {
-    store.dispatch(userActions.setSelecteCards([]));
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "info",
@@ -319,7 +301,7 @@ export function selectFaceCards(socket) {
     cards: userState.selectedCards,
     room: gameState.room,
   });
-  store.dispatch(userActions.setSelecteCards([]));
+  store.dispatch(userActions.setSelectedCards([]));
 }
 
 export function autoSelectFaceCards(socket, player = getPlayer()) {
@@ -335,7 +317,7 @@ export function autoSelectFaceCards(socket, player = getPlayer()) {
 export function playValidMove(socket, player = getPlayer()) {
   const gameState = getState()[0];
   if (!isActive(player)) {
-    store.dispatch(userActions.setSelecteCards([]));
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "alert",
@@ -345,7 +327,6 @@ export function playValidMove(socket, player = getPlayer()) {
   }
   const activeHand = getActiveHand(player.id);
   if (hasValidMove(player) && !player.hasToPickUp) {
-    // store.dispatch(userActions.setSelecteCards([]));
     return socket.emit("playCards", {
       player,
       hand: activeHand,
@@ -367,14 +348,14 @@ export function playValidMove(socket, player = getPlayer()) {
     player,
     room: gameState.room,
   });
-  // store.dispatch(userActions.setSelecteCards([]));
 }
 
 export function playCards(socket) {
   const [gameState, userState] = getState();
   const player = getPlayer();
+  // Check player is active
   if (!isActive(player)) {
-    store.dispatch(userActions.setSelecteCards([]));
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "warning",
@@ -382,8 +363,9 @@ export function playCards(socket) {
       })
     );
   }
+  // Check if player MUST pick up
   if (player.hasToPickUp) {
-    store.dispatch(userActions.setSelecteCards([]));
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "alert",
@@ -391,6 +373,7 @@ export function playCards(socket) {
       })
     );
   }
+  // Check player has selected cards
   if (userState.selectedCards.length === 0) {
     return store.dispatch(
       userActions.setNotification({
@@ -399,9 +382,11 @@ export function playCards(socket) {
       })
     );
   }
+  // Check move is legal
   const legalMove = checkLegalMove(userState.selectedCards);
   if (!legalMove && getActiveHand(player.id) !== "faceDownCards") {
-    store.dispatch(userActions.setSelecteCards([]));
+    // The conditional above checks the active hand is not face down because in this instance a player may make an illegal move only if it is a blind card. They will then have to pick up the stack.
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "alert",
@@ -409,6 +394,7 @@ export function playCards(socket) {
       })
     );
   }
+  // Plays the selected card(s)
   socket.emit("playCards", {
     player: userState,
     hand: getActiveHand(player.id),
@@ -416,13 +402,13 @@ export function playCards(socket) {
     room: gameState.room,
     deckRef: gameState.deckRef,
   });
-  store.dispatch(userActions.setSelecteCards([]));
+  store.dispatch(userActions.setSelectedCards([]));
 }
 
 export function takeStack(socket, player = getPlayer()) {
   const gameState = getState()[0];
   if (!isActive(player)) {
-    store.dispatch(userActions.setSelecteCards([]));
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "warning",
@@ -435,10 +421,10 @@ export function takeStack(socket, player = getPlayer()) {
       player,
       room: gameState.room,
     });
-    return store.dispatch(userActions.setSelecteCards([]));
+    return store.dispatch(userActions.setSelectedCards([]));
   }
   if (hasValidMove(player)) {
-    store.dispatch(userActions.setSelecteCards([]));
+    store.dispatch(userActions.setSelectedCards([]));
     return store.dispatch(
       userActions.setNotification({
         type: "alert",
@@ -459,7 +445,7 @@ export function takeStack(socket, player = getPlayer()) {
     player,
     room: gameState.room,
   });
-  store.dispatch(userActions.setSelecteCards([]));
+  store.dispatch(userActions.setSelectedCards([]));
 }
 
 export function sortCards() {

@@ -1,7 +1,6 @@
 // Main imports
 import React, { useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // State Management
@@ -20,33 +19,41 @@ import Button from "../../components/UI/Button";
 import Input from "../../components/UI/Input";
 import AvatarContainer from "../../components/Avatars/AvatarContainer";
 
+// Checks user has entered valid name
+function nameCheck(ref) {
+  if (!ref.current.value) {
+    store.dispatch(
+      userActions.setNotification({
+        type: "warning",
+        message: "Please enter a valid name",
+      })
+    );
+    return false;
+  }
+  return true;
+}
+
+// Function Component
 const Home = () => {
-  const [avatar, setAvatar] = useState(null);
-  const name = useRef();
-  const socket = useSocket();
   const params = useParams();
-
   const navigate = useNavigate();
-
-  const resetName = () => {
-    name.current.value = "";
-  };
+  const socket = useSocket();
 
   const user = useSelector((state) => state.user.value);
 
+  // Component level state
+  const name = useRef();
+  const [avatar, setAvatar] = useState(user.avatar);
+  const resetName = () => {
+    name.current.value = "";
+  };
   const setAvatarHandler = (avatar) => {
     setAvatar(avatar);
   };
 
-  const confirmModal = (type) => {
-    if (!name.current.value) {
-      return store.dispatch(
-        userActions.setNotification({
-          type: "warning",
-          message: "Please enter a valid name",
-        })
-      );
-    }
+  const computerModal = () => {
+    // Validates name and show computer modal to selected number of opponents
+    if (!nameCheck(name)) return;
     const player = {
       name: name.current.value,
       avatar: avatar || `avatar${Math.ceil(Math.random() * 8)}`,
@@ -55,37 +62,31 @@ const Home = () => {
     store.dispatch(userActions.setInfo(player));
     store.dispatch(
       userActions.setModal({
-        type,
+        type: "playComputer",
       })
     );
   };
 
   const createRoomHandler = () => {
-    if (!name.current.value) {
-      return store.dispatch(
-        userActions.setNotification({
-          type: "warning",
-          message: "Please enter a valid name",
-        })
-      );
-    }
+    // Validates name and joins room with user's id. Navigates to lobby where a link is provider for other users to join room
+    if (!nameCheck(name)) return;
     const player = {
       name: name.current.value,
       avatar: avatar || `avatar${Math.ceil(Math.random() * 8)}`,
+      id: user.id,
     };
 
     store.dispatch(userActions.setInfo(player));
     console.log("creating game");
     store.dispatch(gameActions.resetGame());
 
-    // const roomId = user.id;
     const roomId = user.id;
 
     socket.emit("joinRoom", { roomId, player: user });
 
     store.dispatch(
       gameActions.createRoom({
-        playerInfo: user,
+        playerInfo: player,
         room: roomId,
         hostId: user.id,
       })
@@ -93,16 +94,8 @@ const Home = () => {
     navigate("/lobby");
   };
 
-  const showContact = () => {
-    console.log("showing contact");
-    store.dispatch(
-      userActions.setModal({
-        type: "contact",
-      })
-    );
-  };
-
   const joinGameHandler = () => {
+    // If the id parameter exists in the url a 'Join Game' button will be rendered allowing the user to join the room given by the id
     if (!name.current.value) {
       return store.dispatch(
         userActions.setNotification({
@@ -118,20 +111,26 @@ const Home = () => {
       id: user.id,
     };
     store.dispatch(userActions.setInfo(player));
-
     store.dispatch(gameActions.resetGame());
-
     store.dispatch(gameActions.setRoom(roomId));
-
     socket.emit("joinRoom", { roomId, player });
-
     navigate("/lobby");
   };
 
+  // Below are functions that show the rules and contact modals
   const showRules = () => {
     return store.dispatch(
       userActions.setModal({
         type: "rules",
+      })
+    );
+  };
+
+  const showContact = () => {
+    console.log("showing contact");
+    store.dispatch(
+      userActions.setModal({
+        type: "contact",
       })
     );
   };
@@ -169,16 +168,11 @@ const Home = () => {
         )}
 
         <Button text={"Create new game"} onClick={createRoomHandler} />
-
-        {/* <Button text={"Join game"} onClick={() => confirmModal("joinGame")} /> */}
-        <Button
-          text={"Play against computer"}
-          onClick={() => confirmModal("playComputer")}
-        />
+        <Button text={"Play against computer"} onClick={computerModal} />
       </div>
       <div className={classes.footerBtns}>
         <Button text={"How to play"} type="small" onClick={showRules} />
-        <Button text={"Contact"} type="small" onClick={() => showContact()} />
+        <Button text={"Contact"} type="small" onClick={showContact} />
       </div>
     </motion.div>
   );
