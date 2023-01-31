@@ -44,3 +44,15 @@ This application can be divided into three distinct parts: game logic, user inte
 ![Game Logic Preview](https://i.imgur.com/A0zXhvp.png)
 ![User Interface Preview](https://i.imgur.com/W9j6KYE.png)
 ![Socket Function Preview](https://i.imgur.com/9w8tDJE.png)
+
+---
+
+## To run locally
+
+- Clone repository to your local device
+- Navigate to the ship-head folder
+- Run npm install to install all the dependencies
+- Run npm run dev:server to run the development server that the main application will connect to.
+- Run npm start to start the React project, this will open in a new browser window.
+
+---
