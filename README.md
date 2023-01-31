@@ -2,6 +2,8 @@
 
 Ship-Head is a live card game utilizing React.js on the front end, and an Express server with socket.io on the back end. Users can play games against up to three other players, or against the computer.
 
+A live demo can be played [here](https://ship-head.vercel.app/)
+
 ![Game Preview](https://i.imgur.com/OW8f9td.png)
 
 ---
