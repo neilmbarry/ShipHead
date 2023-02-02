@@ -52,7 +52,7 @@ This application can be divided into three distinct parts: game logic, user inte
 - Clone repository to your local device
 - Navigate to the ship-head folder
 - Run npm install to install all the dependencies
-- Run npm run dev:server to run the development server that the main application will connect to.
-- Run npm start to start the React project, this will open in a new browser window.
+- Run 'npm run dev:server' to run the development server that the main application will connect to.
+- Run 'npm start' to start the React project, this will open in a new browser window.
 
 ---

@@ -64,7 +64,6 @@ const Game = () => {
     if (gameOver || !host) return;
     if (!activePlayer && allPlayersHaveSetFaceCards()) {
       const startingPlayer = playerWithLowestStarter();
-      console.log(startingPlayer, room);
       socket.emit("setActivePlayer", {
         player: startingPlayer,
         roomId: room,
