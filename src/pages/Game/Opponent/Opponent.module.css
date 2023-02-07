@@ -1,11 +1,9 @@
 .main {
   display: grid;
   flex: 1;
-  /* max-width: 250px; */
   margin: auto;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  /* transform: rotate(180deg); */
   grid-template-areas:
     "info info info"
     "info info info"
@@ -20,19 +18,12 @@
   will-change: opacity;
 }
 
-/* .active {
-  border: 2px solid gold;
-  border-radius: 15px;
-} */
-
 .face {
   grid-area: face;
-  /* background-color: cadetblue; */
 }
 
 .hand {
   grid-area: hand;
-  /* background-color: rgb(95, 129, 160); */
 }
 
 .info {

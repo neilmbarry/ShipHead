@@ -3,17 +3,13 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  /* justify-content: center; */
-  /* transform: rotate(180deg); */
   width: 90%;
   margin: 0 auto;
-  /* margin-bottom: 10px; */
   border-radius: 10px;
   color: white;
   max-width: 100px;
   margin-top: 5px;
   will-change: border;
-  /* background-color: rgb(53, 53, 53); */
 }
 
 .avatarContainer {
@@ -44,6 +40,5 @@
 
 .active {
   border: 2px solid gold;
-  /* color: gold; */
   transition: border linear 0.5s;
 }

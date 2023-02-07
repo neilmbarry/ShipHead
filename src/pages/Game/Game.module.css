@@ -1,13 +1,10 @@
 .main {
   display: grid;
   height: 86vh;
-  /* REMOVE */
-  /* overflow: hidden; */
-  /**/
+
   width: 100%;
   max-width: 700px;
   margin: auto;
-  /* border: 2px dashed red; */
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(12, 1fr);
   grid-template-areas:
@@ -27,9 +24,6 @@
 
 .player {
   grid-area: player;
-
-  /* border: 2px solid grey; */
-  /* border: 2px dashed orange; */
 }
 
 .opponents {
@@ -38,13 +32,10 @@
 
 .deck {
   grid-area: deck;
-  /* border: 2px solid grey; */
   flex: 6;
 }
 .stack {
   grid-area: stack;
-
-  /* flex: 3; */
 }
 .actions {
   grid-area: actions;

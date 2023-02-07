@@ -38,7 +38,3 @@
   transform: translateX(-100%);
   transition: 0.3s;
 }
-
-.label:active:after {
-  /* width: 10px; */
-}

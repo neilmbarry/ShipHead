@@ -7,7 +7,6 @@
   width: 100%;
   width: 750px;
   max-height: 90vh;
-  /* position: relative; */
 }
 
 .close {
@@ -21,9 +20,8 @@
 
 .title {
   text-align: center;
-  /* text-decoration: underline; */
+
   color: gold;
-  /* padding: 1rem; */
 }
 
 .intro {
@@ -41,7 +39,6 @@
 
 .sectionsContainer {
   border-top: 1px solid grey;
-  /* background-color: red; */
 }
 
 .show {
@@ -76,13 +73,6 @@
 .card {
   width: 80px;
 }
-
-/* .stack {
-  width: 300px;
-  height: 300px;
-  transition: none;
-  position: relative;
-} */
 
 .gold {
   color: gold;

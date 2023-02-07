@@ -4,9 +4,6 @@
   padding: 0 0.5rem;
   margin-top: -2rem;
   z-index: 3;
-  /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(28px, max-content));
-  grid-template-rows: 1fr 1fr 1fr; */
 
   display: flex;
   align-items: center;
@@ -20,10 +17,6 @@
 
 .card {
   margin: -4rem -0.68rem;
-  /* margin: -4rem -1rem; */
   border-radius: 4px;
-
   flex: 0 1 80px;
-
-  /* max-width: 80px; */
 }

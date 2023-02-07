@@ -7,8 +7,6 @@ export const defaultVariants = {
     y: 0,
     opacity: 1,
 
-    // scale: activeScale,
-
     transition: {
       type: "spring",
 
@@ -25,7 +23,7 @@ export const defaultVariants = {
     },
   },
   hover: {
-    // scale: activeHover,
+   
   },
 };
 
@@ -50,7 +48,6 @@ export const playerHandCardVariants = {
     },
   },
   hover: {
-    // scale: activeHover,
   },
 };
 
@@ -75,7 +72,6 @@ export const opponentHandCardVariants = {
     },
   },
   hover: {
-    // scale: activeHover,
   },
 };
 
@@ -87,8 +83,6 @@ export const playerFaceCardVariants = {
   visible: {
     y: 0,
     opacity: 1,
-
-    // scale: activeScale,
     transition: {
       delay: 0.5,
     },
@@ -102,7 +96,6 @@ export const playerFaceCardVariants = {
     },
   },
   hover: {
-    // scale: activeHover,
   },
 };
 
@@ -115,7 +108,6 @@ export const opponentFaceCardVariants = {
     y: 0,
     opacity: 1,
 
-    // scale: activeScale,
     transition: {
       delay: 0.5,
     },
@@ -129,7 +121,6 @@ export const opponentFaceCardVariants = {
     },
   },
   hover: {
-    // scale: activeHover,
   },
 };
 
@@ -140,7 +131,6 @@ export const deckVariants = {
   },
   visible: {
     opacity: 1,
-    // y: -30,
     scale: 1,
   },
   exit: {
@@ -154,7 +144,6 @@ export const stackVariants = (rotate) => ({
   hidden: {
     opacity: 0,
     scale: 1.2,
-    // rotateZ: r * 24 - 220,
   },
   visible: {
     opacity: 1,
@@ -182,7 +171,6 @@ export const homePageVariants = {
   hidden: {
     opacity: 0,
     y: -50,
-    //   scale: 1.2,
   },
   visible: {
     opacity: 1,
@@ -212,7 +200,7 @@ export const gamePageVariants = {
     transition: {
       duration: 0.3,
     },
-    //   scale: 1,
+
   },
   exit: {
     x: 300,
@@ -235,7 +223,7 @@ export const lobbyPageVariants = {
     transition: {
       duration: 0.3,
     },
-    //   scale: 1,
+
   },
   exit: {
     y: -100,
@@ -260,7 +248,7 @@ export const notificationVariants = {
     transition: {
       duration: 0.3,
     },
-    //   scale: 1,
+ 
   },
   exit: {
     y: 15,
@@ -286,7 +274,7 @@ export const modalVariants = {
     transition: {
       duration: 0.3,
     },
-    //   scale: 1,
+
   },
   exit: {
     y: "-40%",
@@ -309,7 +297,7 @@ export const overlayVariants = {
     transition: {
       duration: 0.3,
     },
-    //   scale: 1,
+
   },
   exit: {
     opacity: 0,

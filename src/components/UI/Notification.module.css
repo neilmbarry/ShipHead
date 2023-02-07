@@ -12,20 +12,13 @@
   text-align: center;
   gap: 1rem;
   align-items: center;
-  /* min-width: 80%; */
-  /* max-width: 400px; */
   border: 2px solid rgb(155, 182, 149);
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.123),
     -2px -4px 6px rgba(0, 0, 0, 0.123);
 }
 
 .notificationIcon {
-  /* position: absolute;
-  top: 5px;
-  left: 10px; */
   font-size: 1.5rem;
-
-  /* padding: 0rem 0.5rem; */
 }
 
 .closeIcon {

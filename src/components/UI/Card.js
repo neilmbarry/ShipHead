@@ -36,9 +36,6 @@ const Card = ({
     visible: {
       y: 0,
       opacity: 1,
-
-      // scale: activeScale,
-
       transition: {
         type: "spring",
 
@@ -55,7 +52,6 @@ const Card = ({
       },
     },
     hover: {
-      // scale: activeHover,
     },
   };
 
@@ -68,7 +64,6 @@ const Card = ({
       y: cardSelected ? -15 : 0,
       opacity: 1,
       transition: {
-        // delay: 0.1,
       },
     },
     exit: {
@@ -77,11 +72,9 @@ const Card = ({
 
       transition: {
         duration: 0.3,
-        // delay: 0.3,
       },
     },
     hover: {
-      // scale: activeHover,
     },
   };
 
@@ -106,7 +99,7 @@ const Card = ({
       },
     },
     hover: {
-      // scale: activeHover,
+ 
     },
   };
 
@@ -119,7 +112,6 @@ const Card = ({
       y: cardSelected ? -15 : 0,
       opacity: 1,
 
-      // scale: activeScale,
       transition: {
         delay: cardSelected ? 0 : 0.5,
       },
@@ -133,7 +125,7 @@ const Card = ({
       },
     },
     hover: {
-      // scale: activeHover,
+
     },
   };
 
@@ -146,7 +138,7 @@ const Card = ({
       y: 0,
       opacity: 1,
 
-      // scale: activeScale,
+ 
       transition: {
         delay: 0.5,
       },
@@ -160,7 +152,7 @@ const Card = ({
       },
     },
     hover: {
-      // scale: activeHover,
+   
     },
   };
 
@@ -171,7 +163,6 @@ const Card = ({
     },
     visible: {
       opacity: 1,
-      // y: -30,
       scale: 1,
     },
     exit: {
@@ -185,7 +176,6 @@ const Card = ({
     hidden: {
       opacity: 0,
       scale: 1.2,
-      // rotateZ: r * 24 - 220,
     },
     visible: {
       opacity: 1,
@@ -217,9 +207,6 @@ const Card = ({
     visible: {
       y: -10,
       opacity: 1,
-      // transition: {
-      //   delay: 0.3,
-      // },
     },
     exit: {
       y: -30,
@@ -230,7 +217,7 @@ const Card = ({
       },
     },
     hover: {
-      // scale: activeHover,
+ 
     },
   };
 
@@ -271,7 +258,6 @@ const Card = ({
       animate="visible"
       exit={variants.exit}
       className={classesList}
-      // style={inlineStyle}
       onClick={onClick}
       layout
     >

@@ -4,14 +4,11 @@
   align-items: center;
   gap: 0.5rem;
   justify-content: center;
-  /* transform: rotate(180deg); */
   width: 90%;
   margin: 0 auto;
-  /* margin-bottom: 10px; */
   border-radius: 10px;
   color: white;
   max-width: 100px;
-  /* background-color: rgb(53, 53, 53); */
   position: relative;
 }
 

@@ -4,12 +4,9 @@
   border-radius: 500px;
   overflow: hidden;
   border: 3px solid rgb(102, 102, 102);
-  /* background-color: grey; */
   cursor: pointer;
   border: 3px solid gold;
-  /* animation: loading infinite linear 1.5s; */
-  /* transition: all ease 0.2s; */
-  /* justify-self: center; */
+
   opacity: 1;
 }
 

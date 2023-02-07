@@ -19,7 +19,6 @@ const OpponentHandCards = ({ className, handCards }) => {
   return (
     <div className={classesList}>
       <div className={classes.cardContainer}>
-        {/* <AnimatePresence layout>{fullDeck}</AnimatePresence> */}
         <AnimatePresence layout>{handCardsJSX}</AnimatePresence>
       </div>
     </div>

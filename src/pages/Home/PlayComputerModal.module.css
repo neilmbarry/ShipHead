@@ -20,7 +20,6 @@
 
 .opponent {
   border: 2px solid rgb(93, 93, 93);
-  /* padding: 2rem; */
   width: 4rem;
   height: 4rem;
   display: flex;

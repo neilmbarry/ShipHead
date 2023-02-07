@@ -1,15 +1,12 @@
 .main {
-  /* border: 2px solid gold; */
-  /* width: 150%; */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* animation: spin 14s linear infinite; */
 }
 
 .card {
   max-width: 90px;
-  /* animation: spin 3s linear infinite; */
+
   border-radius: 6px;
   position: absolute;
 }

@@ -236,7 +236,6 @@ const RulesModal = ({ className }) => {
           sectionNumber={6}
         >
           <div className={classes.sectionContent}>
-            {/* <h3 className={classes.subtitle}>Four of a kind</h3> */}
             <p>
               When a player has no power cards and no single card that is equal
               or higher in value than the card on top of the play pile,{" "}

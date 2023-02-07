@@ -20,11 +20,6 @@ const io = require("socket.io")(server, {
   },
 });
 
-// var http = require("http");
-// setInterval(function () {
-//   http.get("https://ship-head.herokuapp.com/");
-// }, 2700000);
-
 app.get("/", function (req, res) {
   res.json({
     connected: true,

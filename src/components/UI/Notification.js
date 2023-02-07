@@ -56,7 +56,6 @@ const Notification = ({ className }) => {
             <FontAwesomeIcon icon={notificationIcon} />
           </div>
           <div className={classes.text}>
-            {/* <h5>{notification.type}</h5> */}
             <p>{notification?.message}</p>
           </div>
           <div className={classes.closeIcon} onClick={closeNotification}>

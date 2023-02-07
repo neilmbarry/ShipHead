@@ -15,24 +15,19 @@
 
 .face {
   grid-area: face;
-  /* background-color: pink; */
 }
 
 .info {
   grid-area: info;
-  /* border: 1px dashed red; */
 }
 
 .hand {
   grid-area: hand;
-  /* background-color: rosybrown; */
 }
 
 .active {
-  /* border: 2px solid gold; */
   opacity: 1;
   transition: opacity ease 0.5s;
-  /* animation: pulse 1s linear infinite; */
 }
 
 @keyframes pulse {

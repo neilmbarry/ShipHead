@@ -26,11 +26,7 @@ const CreateGameModal = ({ className, onClose, onStart, name }) => {
   const socket = useSocket();
 
   const createRoomHandler = () => {
-
-
     store.dispatch(gameActions.resetGame());
-
-    // const roomId = user.id;
     const roomId = user.id;
 
     socket.emit("joinRoom", { roomId, player: user });
