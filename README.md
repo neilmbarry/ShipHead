@@ -4,9 +4,29 @@ Ship-Head is a live card game utilizing React.js on the front end, and an Expres
 
 A live demo can be played [here](https://ship-head.vercel.app/)
 
-![Game Preview](https://i.imgur.com/OW8f9td.png)
+![Game Preview](https://i.imgur.com/jP6ZeDx.png)
 
 ---
+
+## Table of Contents
+
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Code Structure](#code-structure)
+- [Setup](#setup)
+- [Project Status](#project-status)
+- [Acknowledgements](#acknowledgements)
+- [Contact](#contact)
+
+## Technologies Used
+
+- React
+- Redux
+- Node.js
+- Mongo DB
+- Mongoose
+- Express
 
 ## Features
 
@@ -17,6 +37,11 @@ A live demo can be played [here](https://ship-head.vercel.app/)
 - Optimized to be played on mobile devices
 
 ---
+
+## Screenshots
+
+![Game Preview](https://i.imgur.com/Dxj8RiA.png)
+![Game Preview](https://i.imgur.com/OW8f9td.png)
 
 ## How the application works
 
