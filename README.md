@@ -13,10 +13,9 @@ A live demo can be played [here](https://ship-head.vercel.app/)
 - [Technologies Used](#technologies-used)
 - [Features](#features)
 - [Screenshots](#screenshots)
+- [How the application runs](#how-the-application-runs)
 - [Code Structure](#code-structure)
 - [Setup](#setup)
-- [Project Status](#project-status)
-- [Acknowledgements](#acknowledgements)
 - [Contact](#contact)
 
 ## Technologies Used
@@ -41,9 +40,9 @@ A live demo can be played [here](https://ship-head.vercel.app/)
 ## Screenshots
 
 ![Game Preview](https://i.imgur.com/Dxj8RiA.png)
-![Game Preview](https://i.imgur.com/OW8f9td.png)
+![Game Preview](https://i.imgur.com/rXum1FE.png)
 
-## How the application works
+## How the application runs
 
 The rules for the game can be found in the application itself.
 
@@ -72,7 +71,7 @@ This application can be divided into three distinct parts: game logic, user inte
 
 ---
 
-## To run locally
+## Setup
 
 - Clone repository to your local device
 - Navigate to the ship-head folder
@@ -81,3 +80,7 @@ This application can be divided into three distinct parts: game logic, user inte
 - Run 'npm start' to start the React project, this will open in a new browser window.
 
 ---
+
+## Contact
+
+Created by [@neilbarry](https://www.neilbarry.com/) - feel free to contact me!
